@@ -258,7 +258,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V38</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V39</div>
 </div>
 </div>
 
@@ -555,30 +555,25 @@ function rowsFromCsv(text){
 }
 
 async function load(){
-  let rows = null, why = '';
-  try { rows = rowsFromGviz(await loadGviz(5000)); }
-  catch(e){
-    why = e.message;
-    try {
-      const txt = await Promise.race([
-        fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now(), {cache:'no-store'})
-          .then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.text(); }),
-        new Promise((_, rj) => setTimeout(() => rj(new Error('CSV_TIMEOUT')), 5000))
-      ]);
-      rows = rowsFromCsv(txt);
-    } catch(e2){ why += ' / ' + e2.message; }
-  }
+  let rows = null, why = [];
+
+  // 1. Опубликованный CSV — работает при закрытой таблице, это основной канал
+  try {
+    const txt = await Promise.race([
+      fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now(), {cache:'no-store'})
+        .then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.text(); }),
+      new Promise((_, rj) => setTimeout(() => rj(new Error('нет ответа за 20 с')), 20000))
+    ]);
+    rows = rowsFromCsv(txt);
+  } catch(e){ why.push('CSV: ' + (e.message || e.name)); }
+
+  // 2. Запасной канал — gviz, требует доступа к самой таблице
   if(!rows){
-    if(/GVIZ:/.test(why) && /access|permission|доступ/i.test(why))
-      throw new Error('Нет доступа к таблице для этого гугл-аккаунта');
-    if(/GVIZ:/.test(why))
-      throw new Error(why.replace(/.*GVIZ:/, 'Таблица ответила ошибкой: ').split(' / ')[0]);
-    if(/NO_ACCESS/.test(why))
-      throw new Error('Нет доступа к таблице. Войдите в гугл-аккаунт, у которого есть доступ к ней');
-    if(/TIMEOUT/.test(why))
-      throw new Error('Таблица не ответила за 5 секунд ни через gviz, ни через CSV');
-    throw new Error('Данные не получены: ' + why);
+    try { rows = rowsFromGviz(await loadGviz(10000)); }
+    catch(e){ why.push('gviz: ' + String(e.message || e.name).replace('GVIZ:','')); }
   }
+
+  if(!rows) throw new Error('Данные не получены. ' + why.join(' · '));
   if(!rows.length) throw new Error('Во вкладке ' + SHEET_TAB + ' нет строк данных');
   ROWS = rows;
 }
@@ -697,7 +692,7 @@ function applyChrome(){
   set('lg_tcm','TCM'); set('lg_tut','Tutors');
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v38 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v39 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
