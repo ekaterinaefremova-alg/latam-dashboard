@@ -387,7 +387,7 @@ function applyChrome(){
   set('h_role',t.role); set('h_done',t.done); set('h_stream',t.stream);
   set('h_spend',t.spend); set('h_hires',t.hires); set('h_cph',t.cphh);
   set('n_attr',t.nattr); set('n_line',t.nline); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', t.foot + '   ·   build v6 · 03.09.2026');
+  set('foot', t.foot + '   ·   build v7 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -449,9 +449,6 @@ function render(){
     (isClosed ? t.closed : t.live) + ' ' + t.noteNow;
 
   /* --- зона 2: воронки --- */
-  document.getElementById('n_hp').textContent =
-    hiddenCount ? t.z3 + t.hidden + hiddenCount : '';
-
   funnel('ftcm', pick('funnel_tcm', m));
   funnel('ftut', pick('funnel_tutor', m, dir));
 
@@ -468,6 +465,8 @@ function render(){
     return '<tr><td>' + T(r.key) + '</td><td class="n">' + num(r.plan) + '</td><td class="n">' +
       num(r.fact) + '</td><td>' + cell + '</td></tr>';
   }).join('') : '<tr><td colspan="4" class="empty">' + t.nodata + '</td></tr>';
+  document.getElementById('n_hp').textContent =
+    hiddenCount ? t.z3 + t.hidden + hiddenCount : '';
 
   /* --- зона 4: динамика --- */
   const lineMonths = pick('line').filter(r => r.key === 'in_line' && (isNum(r.fact) || isNum(r.plan)));
