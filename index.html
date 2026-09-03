@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Recruitment LatAm</title>
+<title>Algonova · Recruitment LatAm</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,17 +11,23 @@
   :root{
     --bg:#E9E7F1; --panel:#FFFFFF; --fg:#14131A; --fg-2:#4A4954; --mute:#8A8996;
     --line:#D9D6E6; --line-soft:#EDEBF4;
-    --accent:#6B4BC9; --accent-2:#A57BEA; --accent-soft:#EDE7F8; --cap-bg:#F5F2FB; --fill:#B9A3E0; --fill-2:#E6DDF4;
+    --accent:#5B1FD9; --accent-2:#9B6BF0; --accent-soft:#EDE7F8; --cap-bg:#F5F2FB;
+    --t1:#F2EEFD; --t2:#E3D9FA; --t3:#CDBBF5; --t4:#B49AEF; --fill:#B9A3E0; --fill-2:#E6DDF4;
     --track:#F2F1F7; --ok:#1F7A4D; --bad:#C0342B; --field:#FFFFFF;
     --shadow:0 1px 2px rgba(28,24,48,.06), 0 6px 20px rgba(28,24,48,.07);
+    --glow:rgba(91,31,217,.10); --hover:rgba(91,31,217,.04);
   }
   body[data-theme="dark"]{
     --bg:#0C0E17; --panel:#1B1F2E; --fg:#F2F2F7; --fg-2:#C2C1CE; --mute:#8B8A9B;
     --line:#31364C; --line-soft:#252939;
-    --accent:#A78BFA; --accent-2:#7DD3FC; --accent-soft:#262A3D; --cap-bg:#22273A; --fill:#8B7BC7; --fill-2:#333A54;
+    --accent:#A78BFA; --accent-2:#7DD3FC; --accent-soft:#262A3D; --cap-bg:#22273A;
+    --t1:#241F38; --t2:#2E2650; --t3:#3E3170; --t4:#523F97; --fill:#8A6FE0; --fill-2:#37305C;
     --track:#232739; --ok:#5FD69A; --bad:#F58C86; --field:#1E2130;
-    --shadow:none;
+    --shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 8px 24px rgba(0,0,0,.35);
+    --glow:rgba(124,77,238,.22); --hover:rgba(167,139,250,.07);
   }
+  body::before{content:"";position:fixed;inset:0 0 auto;height:340px;pointer-events:none;z-index:0;
+    background:radial-gradient(900px 300px at 18% -60px, var(--glow), transparent 70%)}
   *{box-sizing:border-box}
   body{margin:0;padding:26px 28px 48px;background:var(--bg);color:var(--fg);
     font-family:Montserrat,Arial,Helvetica,sans-serif;font-size:13px;line-height:1.45;
@@ -37,28 +43,59 @@
     border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
   .cap::before{content:"";width:3px;height:13px;border-radius:2px;background:var(--accent);flex:none}
 
-  #gate{max-width:320px;margin:16vh auto 0}
-  #gate h1{margin-bottom:6px}
-  #gate input{width:100%;font-family:inherit;font-size:14px;padding:11px 13px;color:var(--fg);
-    background:var(--field);border:1px solid var(--line);border-radius:8px;margin-bottom:9px}
-  #gate button{width:100%;font-family:inherit;font-size:14px;font-weight:600;padding:11px;
-    color:#fff;border:none;background:var(--accent);cursor:pointer;border-radius:8px}
-  #gate .err{color:var(--bad);font-size:12px;min-height:16px;margin-top:8px}
+  /* ——— фирменный экран входа ——— */
+  .logo{display:inline-flex;align-items:center;background:#5B1FD9;color:#fff;font-weight:700;
+    font-size:15px;letter-spacing:-.2px;padding:3px 10px 4px;border-radius:3px;position:relative;
+    font-family:Montserrat,Arial,sans-serif}
+  .logo::after{content:"";position:absolute;left:10px;bottom:-6px;
+    border-left:7px solid #5B1FD9;border-bottom:7px solid transparent}
+  body[data-theme="dark"] .logo{background:#7C4DEE}
+  body[data-theme="dark"] .logo::after{border-left-color:#7C4DEE}
+  .logo.sm{font-size:12px;padding:2px 8px 3px}
+  .logo.sm::after{left:8px;bottom:-5px;border-left-width:6px;border-bottom-width:6px}
+  #gate{position:fixed;inset:0;z-index:50;margin:0;padding:28px;background:#12172A;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+  #gate .deco{position:absolute;inset:0;pointer-events:none;opacity:.5}
+  #gate .box{position:relative;width:100%;max-width:340px}
+  #gate h1{color:#fff;font-size:31px;line-height:1.1;letter-spacing:-1px;margin:20px 0 9px}
+  #gate h1 em{font-style:normal;color:#A78BFA}
+  #gate .sub{color:#8E96AE;font-size:13px;margin-bottom:20px}
+  #gate input{width:100%;font-family:inherit;font-size:14px;padding:12px 14px;color:#fff;
+    background:#1B2138;border:1px solid #2C3350;border-radius:9px;margin-bottom:10px}
+  #gate input::placeholder{color:#5D6580}
+  #gate button{width:100%;font-family:inherit;font-size:14px;font-weight:700;padding:12px;
+    color:#fff;border:none;background:#5B1FD9;cursor:pointer;border-radius:9px}
+  #gate button:hover{background:#6D33E8}
+  #gate .err{color:#F58C86;font-size:12px;min-height:16px;margin-top:10px}
+  #gate .foot{position:absolute;bottom:24px;color:#4E566E;font-size:11px;letter-spacing:.4px}
+  .brand{display:flex;align-items:center;gap:11px}
+  #gate-old{max-width:320px;margin:16vh auto 0}
 
   header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;
-    flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--line)}
+    flex-wrap:wrap;padding:18px 28px 15px;border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:20;margin:-26px -28px 0;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:saturate(1.6) blur(12px);-webkit-backdrop-filter:saturate(1.6) blur(12px)}
+  @supports not (backdrop-filter:blur(1px)){ header{background:var(--bg)} }
   .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   select,.btn{font-family:inherit;font-size:13px;font-weight:500;padding:8px 12px;
     border:1px solid var(--line);background:var(--field);color:var(--fg);border-radius:8px}
   .btn{cursor:pointer;min-width:38px;font-size:14px}
-  select:hover,.btn:hover{border-color:var(--accent)}
+  select:hover,.btn:hover{border-color:var(--accent);color:var(--accent)}
   select:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
+  .zone,.grid,section,.kpis,footer{position:relative;z-index:1}
   .grid{display:grid;gap:16px;align-items:start}
   .g2{grid-template-columns:1fr 1fr}
-  section{border:1px solid var(--line);border-radius:12px;background:var(--panel);
-    overflow:hidden;box-shadow:var(--shadow)}
-  .body{padding:0 16px 16px}
+  section{border:1px solid var(--line);border-radius:14px;background:var(--panel);
+    overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .18s ease, transform .18s ease}
+  section:hover{box-shadow:0 2px 4px rgba(28,24,48,.07), 0 12px 32px rgba(28,24,48,.10);
+    transform:translateY(-1px)}
+  body[data-theme="dark"] section:hover{box-shadow:0 12px 34px rgba(0,0,0,.5)}
+  .body{padding:0 16px 16px;overflow-x:auto}
+  .body::-webkit-scrollbar{height:8px}
+  .body::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+  .body::-webkit-scrollbar-track{background:transparent}
   .body table{margin:0 -16px;width:calc(100% + 32px)}
   .body th:first-child,.body td:first-child{padding-left:16px}
   .body th:last-child,.body td:last-child{padding-right:16px}
@@ -66,8 +103,13 @@
 
   /* ---- KPI ---- */
   .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
-  .kpi{border:1px solid var(--line);border-radius:12px;padding:17px 18px 16px;
-    background:var(--panel);box-shadow:var(--shadow)}
+  .kpi{border:1px solid var(--line);border-radius:14px;padding:17px 18px 16px;
+    background:var(--panel);box-shadow:var(--shadow);position:relative;overflow:hidden;
+    transition:transform .18s ease}
+  .kpi:hover{transform:translateY(-1px)}
+  .kpi:first-child::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;
+    background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+  .kpi:first-child{background:linear-gradient(180deg,var(--accent-soft) 0%,var(--panel) 65%)}
   .kpi b{display:block;font-size:36px;font-weight:700;line-height:1;letter-spacing:-1.4px;
     font-variant-numeric:tabular-nums}
   .kpi span{display:block;font-size:12px;font-weight:500;color:var(--mute);margin-top:8px}
@@ -77,12 +119,27 @@
   table{width:100%;border-collapse:collapse;font-size:13px}
   th{font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--mute);
     text-align:left;padding:8px;background:var(--cap-bg);border-bottom:1px solid var(--line);white-space:nowrap}
-  td{padding:9px 8px;border-bottom:1px solid var(--line-soft);color:var(--fg-2)}
+  tbody tr{transition:background .12s ease}
+  tbody tr:hover{background:var(--hover)}
+  td{padding:9px 8px;border-bottom:1px solid var(--line-soft);color:var(--fg-2);
+    font-variant-numeric:tabular-nums}
   td:first-child{color:var(--fg);font-weight:500}
   td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
   tbody tr:last-child td{border-bottom:none}
   tr.total td{font-weight:700;color:var(--fg);border-top:1px solid var(--line)}
 
+  table.mx{font-size:11.5px}
+  table.mx th{padding:7px 5px;text-align:center;font-size:10px}
+  table.mx th:first-child{text-align:left;padding-left:16px}
+  table.mx td{padding:6px 5px;text-align:center;border-bottom:1px solid var(--line-soft)}
+  table.mx td:first-child{text-align:left;white-space:nowrap;padding-left:16px;font-weight:500}
+  table.mx td.c{font-variant-numeric:tabular-nums;line-height:1.25;border-radius:3px}
+  table.mx td.c b{font-weight:700;font-size:12px}
+  table.mx td.c i{font-style:normal;display:block;font-size:9.5px;color:var(--mute)}
+  table.mx td.t1{background:var(--t1)} table.mx td.t2{background:var(--t2)}
+  table.mx td.t3{background:var(--t3)} table.mx td.t4{background:var(--t4)}
+  table.mx col.sum{background:var(--cap-bg)}
+  table.mx td.tot{font-weight:700;color:var(--fg)}
   .barwrap{background:var(--track);height:6px;width:100%;border-radius:3px;overflow:hidden}
   .bar{height:6px;display:block;border-radius:3px;
     background:linear-gradient(90deg,var(--accent) 0%,var(--accent-2) 100%)}
@@ -145,18 +202,32 @@
 <body data-theme="light">
 
 <div id="gate">
-  <h1>Recruitment LatAm</h1>
-  <div class="sub" style="margin-bottom:10px" id="g_hint"></div>
-  <input id="pw" type="password" autocomplete="current-password">
-  <button id="go"></button>
-  <div class="err" id="err"></div>
+  <svg class="deco" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M-40 600 C 220 470, 240 250, 430 210 S 700 330, 900 190 S 1180 120, 1260 60"
+          fill="none" stroke="#2A3150" stroke-width="2" stroke-linecap="round"/>
+    <path d="M-40 680 C 240 560, 280 330, 470 290 S 730 400, 930 265 S 1190 200, 1270 145"
+          fill="none" stroke="#222840" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <div class="box">
+    <span class="logo">Algonova</span>
+    <h1>Recruitment <em>LatAm</em></h1>
+    <div class="sub" id="g_hint"></div>
+    <input id="pw" type="password" autocomplete="current-password">
+    <button id="go"></button>
+    <div class="err" id="err"></div>
+  </div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS</div>
+</div>
 </div>
 
 <div id="app" hidden>
   <header>
-    <div>
-      <h1>Recruitment LatAm</h1>
-      <div class="sub"><span id="l_upd"></span> <span id="upd">—</span></div>
+    <div class="brand">
+      <span class="logo sm">Algonova</span>
+      <div>
+        <h1>Recruitment LatAm</h1>
+        <div class="sub"><span id="l_upd"></span> <span id="upd">—</span></div>
+      </div>
     </div>
     <div class="controls">
       <select id="month"></select>
@@ -280,7 +351,7 @@ const UI = {
   closed:"Линия — зафиксированный итог месяца.",
   noteNow:"Испытательный и онбординг — текущий срез.",
   foot:"Источник — вкладка DASH_export рабочей таблицы.",
-  months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+  year:"Весь год",totalw:"Год",mxnote:"Сверху факт, под ним план. Насыщенность заливки — выполнение плана.",snap:"· на конец последнего закрытого месяца",yearNote:"Итоги года: план и факт просуммированы по закрытым месяцам. Линия — последний зафиксированный месяц.",cphYear:"Стоимость найма за год = расход за год / наймы за год.",months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
   short:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"]},
  en:{hint:"Enter password",ok:"Log in",wrong:"Wrong password",loading:"Loading…",upd:"Updated:",
   z1:"Month summary",z2:"Recruitment funnels",z3:"Hiring by role",z4:"Line attrition",z5:"Cost per hire",z6:"Line forecast",fc:"Line forecast to year end",lgfc:"Forecast",lgfcplan:"Plan",leadfc:"By year end the forecast is ",leadfc2:" against a plan of ",nfc:"Weekly intake and attrition model",
@@ -298,7 +369,7 @@ const UI = {
   closed:"Line is the frozen month-end figure.",
   noteNow:"Probation and onboarding are a current snapshot.",
   foot:"Source — DASH_export tab of the working spreadsheet.",
-  months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  year:"Full year",totalw:"Year",mxnote:"Fact on top, plan below. Fill intensity — plan achievement.",snap:"· at the end of the last closed month",yearNote:"Year to date: plan and fact summed over closed months. Line is the last frozen month.",cphYear:"Cost per hire for the year = year spend / year hires.",months:["January","February","March","April","May","June","July","August","September","October","November","December"],
   short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
  es:{hint:"Introduce la contraseña",ok:"Entrar",wrong:"Contraseña incorrecta",loading:"Cargando…",upd:"Actualizado:",
   z1:"Resumen del mes",z2:"Embudos de selección",z3:"Contratación por rol",z4:"Rotación de la línea",z5:"Coste por contratación",z6:"Previsión de la línea",fc:"Previsión de la línea hasta fin de año",lgfc:"Previsión",lgfcplan:"Plan",leadfc:"A cierre de año la previsión es ",leadfc2:" frente a un plan de ",nfc:"Modelo semanal de incorporaciones y salidas",
@@ -316,7 +387,7 @@ const UI = {
   closed:"La línea es la cifra congelada de cierre de mes.",
   noteNow:"Periodo de prueba y onboarding son una foto actual.",
   foot:"Fuente — pestaña DASH_export de la hoja de trabajo.",
-  months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
+  year:"Año completo",totalw:"Año",mxnote:"Real arriba, plan debajo. La intensidad del relleno — cumplimiento.",snap:"· al cierre del último mes cerrado",yearNote:"Resumen del año: plan y real sumados por meses cerrados. La línea es el último mes congelado.",cphYear:"Coste por contratación del año = gasto anual / contrataciones anuales.",months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
   short:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]}
 };
 
@@ -487,7 +558,7 @@ function applyChrome(){
   set('n_attr',t.nattr); set('n_line',t.nline);
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', t.foot + '   ·   build v15 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v22 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -506,7 +577,8 @@ function boot(){
 
   const months = [...new Set(ROWS.filter(r => r.month > 0).map(r => r.month))].sort((a,b) => a-b);
   const sel = document.getElementById('month'), cur = sel.value;
-  sel.innerHTML = months.map(m => '<option value="' + m + '">' + L().months[m-1] + '</option>').join('');
+  sel.innerHTML = '<option value="0">' + L().year + '</option>' +
+    months.map(m => '<option value="' + m + '">' + L().months[m-1] + '</option>').join('');
   const nowM = new Date().getMonth() + 1;
   sel.value = cur || (months.includes(nowM) ? nowM : months[months.length-1]);
 
@@ -520,40 +592,137 @@ function boot(){
   render();
 }
 
+// численность на конец месяца — состояние, а не поток: складывать нельзя,
+// берём последний месяц, где есть факт
+const SNAPSHOT = new Set(['TCM — line']);
+
+function monthsWithData(block, dim){
+  return [...new Set(pick(block, undefined, dim)
+    .filter(r => isNum(r.plan) || isNum(r.fact)).map(r => r.month))].sort((a,b)=>a-b);
+}
+
+function tint(v){
+  if(!isNum(v)) return '';
+  if(v >= 1)   return ' t4';
+  if(v >= 0.7) return ' t3';
+  if(v >= 0.4) return ' t2';
+  if(v > 0)    return ' t1';
+  return '';
+}
+
+// матрица: строки — роли или потоки, колонки — месяцы, справа итог
+function matrix(tableEl, keys, months, cellFn, totalFn, t){
+  const head = '<thead><tr><th>' + keys.head + '</th>' +
+    months.map(mo => '<th>' + t.short[mo-1] + '</th>').join('') +
+    '<th>' + keys.total + '</th></tr></thead>';
+  const body = '<tbody>' + keys.rows.map(row =>
+    '<tr><td>' + row.label + '</td>' +
+    months.map(mo => cellFn(row, mo)).join('') +
+    totalFn(row) + '</tr>').join('') + '</tbody>';
+  tableEl.className = 'mx';
+  tableEl.innerHTML = head + body;
+}
+
+function agg(block, dim){
+  const src = pick(block, undefined, dim);
+  const by = new Map();
+  src.forEach(r => {
+    const k = r.key + '||' + r.dim;
+    const cur = by.get(k) || {block:r.block, key:r.key, dim:r.dim, order:r.order,
+                             plan:null, fact:null, extra:null, snapshot:SNAPSHOT.has(r.key)};
+    if(cur.snapshot){
+      if(isNum(r.fact)){ cur.fact = r.fact; cur.plan = isNum(r.plan) ? r.plan : cur.plan; }
+    } else {
+      if(isNum(r.plan)) cur.plan = (cur.plan||0) + r.plan;
+      if(isNum(r.fact)) cur.fact = (cur.fact||0) + r.fact;
+    }
+    by.set(k, cur);
+  });
+  return [...by.values()].sort((a,b) => (a.order||0) - (b.order||0));
+}
+
 function render(){
   const t = L();
   const m = +document.getElementById('month').value;
+  const isYear = m === 0;
+  const rowsFor = (block, dim) => isYear ? agg(block, dim) : pick(block, m, dim);
   const dsel = document.getElementById('dir');
   const dir = dsel.selectedOptions.length ? dsel.selectedOptions[0].dataset.raw : undefined;
   const g = (arr,k) => (arr.find(r => r.key === k) || {});
 
   /* --- зона 1: сводка --- */
-  const line = pick('line', m), now = pick('now', 0);
-  const onLine = g(line,'in_line').fact, planLine = g(line,'in_line').plan;
-  const attrRow = pick('attrition', m)[0] || {};
-  const totalCost = pick('cost', m, 'Total')[0] || {};
+  const now = pick('now', 0);
+  const lineMonthsAll = ROWS.filter(r => r.block === 'line' && r.key === 'in_line' && isNum(r.fact));
+  const lastLine = lineMonthsAll.slice(-1)[0] || {};
+  const line = isYear ? [] : pick('line', m);
+  const onLine   = isYear ? lastLine.fact : g(line,'in_line').fact;
+  const planLine = isYear ? lastLine.plan : g(line,'in_line').plan;
+  const leftSum  = isYear
+    ? ROWS.filter(r => r.block === 'line' && r.key === 'left_month' && isNum(r.fact))
+          .reduce((a,r) => a + r.fact, 0)
+    : g(line,'left_month').fact;
+  const costRows = rowsFor('cost', 'Total');
+  const totalCost = isYear
+    ? (() => { const c = costRows[0] || {};
+               return {plan:c.plan, fact:c.fact, extra: (isNum(c.plan) && c.fact) ? c.plan/c.fact : null}; })()
+    : (pick('cost', m, 'Total')[0] || {});
   document.getElementById('k1').textContent = num(onLine);
   document.getElementById('k2').textContent = num(g(now,'probation').fact);
   document.getElementById('k3').textContent = num(g(now,'onboarding').fact);
-  document.getElementById('k4').textContent = num(g(line,'left_month').fact);
+  document.getElementById('k4').textContent = num(leftSum);
   document.getElementById('k5').textContent = money(totalCost.extra);
   const d1 = document.getElementById('d1');
   if(isNum(onLine) && isNum(planLine) && planLine){
     const v = onLine/planLine;
     d1.className = v >= 1 ? 'good' : (v < 0.9 ? 'warn' : '');
-    d1.textContent = pct(v) + ' ' + t.toplan;
+    d1.textContent = (v >= 1 ? '\u2191 ' : '\u2193 ') + pct(v) + ' ' + t.toplan;
   } else { d1.textContent = ''; d1.className = ''; }
   const isClosed = g(line,'closed').fact === 1;
-  document.getElementById('linenote').textContent =
-    (isNum(planLine) ? t.notePlan + planLine + '. ' : '') +
-    (isClosed ? t.closed : t.live) + ' ' + t.noteNow;
+  document.getElementById('linenote').textContent = isYear
+    ? t.yearNote
+    : (isNum(planLine) ? t.notePlan + planLine + '. ' : '') +
+      (isClosed ? t.closed : t.live) + ' ' + t.noteNow;
 
   /* --- зона 2: воронки --- */
-  funnel('ftcm', pick('funnel_tcm', m));
-  funnel('ftut', pick('funnel_tutor', m, dir));
+  funnel('ftcm', rowsFor('funnel_tcm'));
+  funnel('ftut', rowsFor('funnel_tutor', dir));
 
   /* --- зона 3: наём по ролям --- */
-  const hpAll = pick('hiring', m);
+  const hpTable = document.querySelector('#hp');
+  const hpNote = document.getElementById('n_hp');
+  if(isYear){
+    const mos = monthsWithData('hiring');
+    const names = [...new Set(pick('hiring', undefined).map(r => r.key))];
+    const ordOf = k => (pick('hiring', undefined).find(r => r.key === k) || {}).order || 0;
+    names.sort((a,b) => ordOf(a) - ordOf(b));
+    const cellsOf = k => { const o = {}; pick('hiring', undefined)
+      .filter(r => r.key === k).forEach(r => o[r.month] = r); return o; };
+    const data = names.map(k => ({label:T(k), key:k, cells:cellsOf(k), snap:SNAPSHOT.has(k)}));
+    const shown = hideZero ? data.filter(r => mos.some(mo => {
+      const c = r.cells[mo] || {}; return (isNum(c.plan) && c.plan>0) || (isNum(c.fact) && c.fact>0); })) : data;
+    matrix(hpTable, {head:t.role, total:t.totalw, rows:shown}, mos, (row, mo) => {
+      const c = row.cells[mo] || {};
+      const v = (isNum(c.plan) && c.plan) ? c.fact/c.plan : null;
+      if(!isNum(c.plan) && !isNum(c.fact)) return '<td class="c"><span class="empty">—</span></td>';
+      return '<td class="c' + tint(v) + '"><b>' + (isNum(c.fact)?c.fact:'—') + '</b>' +
+             '<i>' + (isNum(c.plan) && c.plan>0 ? c.plan : '—') + '</i></td>';
+    }, row => {
+      let p=0, f=0;
+      if(row.snap){ const last = mos.filter(mo => isNum((row.cells[mo]||{}).fact)).slice(-1)[0];
+        const c = row.cells[last] || {}; p = c.plan||0; f = c.fact||0; }
+      else mos.forEach(mo => { const c = row.cells[mo]||{};
+        if(isNum(c.plan)) p += c.plan; if(isNum(c.fact)) f += c.fact; });
+      const v = p ? f/p : null;
+      return '<td class="c tot' + tint(v) + '"><b>' + f + '</b><i>' + (p||'—') + '</i></td>';
+    }, t);
+    hpNote.textContent = t.mxnote + (hideZero && data.length !== shown.length
+      ? ' · ' + t.hidden.replace(' · ','') + (data.length - shown.length) : '');
+  } else {
+  hpTable.className = '';
+  hpTable.innerHTML = '<thead><tr><th>' + t.role + '</th><th class="n">' + t.plan +
+    '</th><th class="n">' + t.fact + '</th><th style="width:150px">' + t.done +
+    '</th></tr></thead><tbody></tbody>';
+  const hpAll = rowsFor('hiring');
   const empty = r => !(isNum(r.plan) && r.plan > 0) && !(isNum(r.fact) && r.fact > 0);
   const hp = hideZero ? hpAll.filter(r => !empty(r)) : hpAll;
   const hiddenCount = hpAll.length - hp.length;
@@ -562,18 +731,19 @@ function render(){
     const cell = (v === null) ? '<span class="empty">' + t.noplan + '</span>'
       : '<div class="stage">' + bar(v) + '<span class="' + (v>=1?'good':(v<0.5?'warn':'')) +
         '" style="width:34px;text-align:right">' + pct(v) + '</span></div>';
-    return '<tr><td>' + T(r.key) + '</td><td class="n">' + num(r.plan) + '</td><td class="n">' +
+    return '<tr><td>' + T(r.key) + (r.snapshot && isYear ? ' <span class="empty">' + t.snap + '</span>' : '') +
+      '</td><td class="n">' + num(r.plan) + '</td><td class="n">' +
       num(r.fact) + '</td><td>' + cell + '</td></tr>';
   }).join('') : '<tr><td colspan="4" class="empty">' + t.nodata + '</td></tr>';
-  document.getElementById('n_hp').textContent =
-    hiddenCount ? t.z3 + t.hidden + hiddenCount : '';
+  hpNote.textContent = hiddenCount ? t.z3 + t.hidden + hiddenCount : '';
+  }
 
   /* --- зона 4: динамика --- */
   const attr = pick('attrition').filter(r => isNum(r.plan) && r.plan > 0);
   const attrAvg = attr.length
     ? attr.reduce((a,r) => a + (isNum(r.extra) ? r.extra : 0), 0) / attr.length : null;
   chart(document.getElementById('ch_attr'), attr.map(r => ({
-    label:t.short[r.month-1], v:r.extra, dim:r.month !== m,
+    label:t.short[r.month-1], v:r.extra, dim:isYear ? false : r.month !== m,
     top: isNum(r.extra) ? pct(r.extra) : '',
     sub: isNum(r.fact) ? String(r.fact) : ''
   })), isNum(attrAvg) ? {v:attrAvg, label:t.avgw + ' ' + pct(attrAvg)} : null);
@@ -597,9 +767,9 @@ function render(){
   for(let i=1;i<linePts.length;i++)
     if(linePts[i].fc !== null && linePts[i-1].fc === null && isNum(linePts[i-1].fact))
       linePts[i-1].fc = linePts[i-1].fact;
-  lineChart(document.getElementById('ch_line'), linePts, m);
+  lineChart(document.getElementById('ch_line'), linePts, isYear ? -1 : m);
 
-  const fc = pick('forecast').filter(r => r.month >= m && (isNum(r.fact) || (isNum(r.plan) && r.plan > 0)));
+  const fc = pick('forecast').filter(r => (isYear || r.month >= m) && (isNum(r.fact) || (isNum(r.plan) && r.plan > 0)));
   const lastFc = fc.filter(r => isNum(r.fact)).slice(-1)[0];
   document.getElementById('lead_fc').innerHTML = lastFc
     ? t.leadfc + '<b>' + Math.round(lastFc.fact) + '</b>' +
@@ -609,10 +779,41 @@ function render(){
     const v = r.plan ? r.fact/r.plan : null;
     return '<tr><td>' + t.months[r.month-1] + '</td><td class="n">' + num(r.fact) + '</td><td class="n">' +
       (isNum(r.plan) && r.plan > 0 ? r.plan : '—') + '</td><td class="n ' + (v!==null&&v>=1?'good':(v!==null&&v<0.9?'warn':'')) + '">' +
-      pct(v) + '</td><td>' + (v === null ? '' : bar(v, r.month !== m)) + '</td></tr>';
+      pct(v) + '</td><td>' + (v === null ? '' : bar(v, isYear ? false : r.month !== m)) + '</td></tr>';
   }).join('') : '<tr><td colspan="5" class="empty">' + t.nodata + '</td></tr>';
 
   /* --- зона 5: стоимость по потокам --- */
+  const costTable = document.querySelector('#cost');
+  if(isYear){
+    const mos = monthsWithData('cost');
+    const streams = [...new Set(pick('cost', undefined).map(r => r.dim))];
+    const cellsOf = d => { const o={}; pick('cost', undefined)
+      .filter(r => r.dim === d).forEach(r => o[r.month] = r); return o; };
+    const rows = streams.map(d => ({label:d, cells:cellsOf(d)}));
+    if(!mos.length){
+      costTable.className=''; costTable.innerHTML =
+        '<tbody><tr><td class="empty">' + t.nocost + '</td></tr></tbody>';
+    } else {
+      matrix(costTable, {head:t.stream, total:t.totalw, rows:rows}, mos, (row, mo) => {
+        const c = row.cells[mo] || {};
+        if(!isNum(c.extra)) return '<td class="c"><span class="empty">—</span></td>';
+        return '<td class="c"><b>' + money(c.extra) + '</b><i>' +
+               (isNum(c.fact) ? c.fact + ' ' + t.ppl : '') + '</i></td>';
+      }, row => {
+        let sp=0, hr=0;
+        mos.forEach(mo => { const c=row.cells[mo]||{};
+          if(isNum(c.plan)) sp += c.plan; if(isNum(c.fact)) hr += c.fact; });
+        return '<td class="c tot"><b>' + (hr ? money(sp/hr) : '—') + '</b><i>' +
+               (hr ? hr + ' ' + t.ppl : '') + '</i></td>';
+      }, t);
+    }
+    document.getElementById('n_cost').textContent = t.cphYear;
+    document.getElementById('ch_cph') && (document.getElementById('ch_cph').innerHTML = '');
+  } else {
+  costTable.className='';
+  costTable.innerHTML = '<thead><tr><th>' + t.stream + '</th><th class="n">' + t.spend +
+    '</th><th class="n">' + t.hires + '</th><th class="n">' + t.cphh +
+    '</th><th style="width:110px"></th></tr></thead><tbody></tbody>';
   const cost = pick('cost', m).filter(r => isNum(r.plan) || isNum(r.fact) || isNum(r.extra));
   const maxC = Math.max(...cost.map(r => isNum(r.extra) ? r.extra : 0), 0.0001);
   document.querySelector('#cost tbody').innerHTML = cost.length ? cost.map(r =>
@@ -620,6 +821,8 @@ function render(){
     money(r.plan) + '</td><td class="n">' + num(r.fact) + '</td><td class="n">' + money(r.extra) +
     '</td><td>' + (isNum(r.extra) ? bar(r.extra/maxC*1.2, r.dim === 'Total') : '') + '</td></tr>'
   ).join('') : '<tr><td colspan="5" class="empty">' + t.nocost + '</td></tr>';
+  document.getElementById('n_cost').textContent = t.ncost;
+  }
 }
 
 async function enter(pw, silent){
