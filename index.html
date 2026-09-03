@@ -62,15 +62,16 @@
   .stage{display:flex;align-items:center;gap:7px}
   .stage .barwrap{flex:1}
   .good{color:var(--ok)} .warn{color:var(--bad)} .empty{color:var(--mute)}
-  .chart{display:flex;align-items:flex-end;gap:5px;height:96px;padding-top:16px}
+  .chart{display:flex;align-items:flex-end;gap:5px;height:104px;padding-top:22px;margin-bottom:24px}
   .chart .col{flex:1;position:relative;height:100%;display:flex;align-items:flex-end}
-  .chart .col span.v{position:absolute;top:-15px;left:0;right:0;text-align:center;font-size:10px;color:var(--mute)}
+  .chart .col span.v{position:absolute;top:-19px;left:0;right:0;text-align:center;
+    font-size:10px;line-height:1.25;color:var(--mute);white-space:nowrap}
   .chart .col span.b{width:100%;background:var(--fill);border-radius:2px 2px 0 0;min-height:2px}
   .chart .col span.b.dim{background:var(--fill-2)}
   .chart .col u{position:absolute;bottom:-17px;left:0;right:0;text-align:center;
     text-decoration:none;font-size:10px;color:var(--mute)}
   .chart .col i.plan{position:absolute;left:0;right:0;border-top:1px dashed var(--mute);font-style:normal}
-  .chartbox{padding-bottom:26px}
+  .chartbox{padding-bottom:4px}
   .note{font-size:11px;color:var(--mute);margin-top:8px;line-height:1.45}
   footer{margin-top:20px;font-size:11px;color:var(--mute);border-top:1px solid var(--line-soft);padding-top:9px}
   @media(max-width:900px){.g2,.g3{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
@@ -113,6 +114,15 @@
   </div>
   <div class="note" id="linenote"></div>
 
+  <div class="zone" id="z3"></div>
+  <section>
+    <div class="cap" id="c_hiring"></div>
+    <div class="body"><table id="hp"><thead><tr>
+      <th id="h_role"></th><th class="n h_plan"></th><th class="n h_fact"></th>
+      <th style="width:150px" id="h_done"></th>
+    </tr></thead><tbody></tbody></table></div>
+  </section>
+
   <div class="zone" id="z2"></div>
   <div class="grid g2">
     <section>
@@ -131,17 +141,8 @@
     </section>
   </div>
 
-  <div class="zone" id="z3"></div>
-  <section>
-    <div class="cap" id="c_hiring"></div>
-    <div class="body"><table id="hp"><thead><tr>
-      <th id="h_role"></th><th class="n h_plan"></th><th class="n h_fact"></th>
-      <th style="width:150px" id="h_done"></th>
-    </tr></thead><tbody></tbody></table></div>
-  </section>
-
   <div class="zone" id="z4"></div>
-  <div class="grid g3">
+  <div class="grid g2">
     <section>
       <div class="cap" id="c_lined"></div>
       <div class="body chartbox"><div class="chart" id="ch_line"></div>
@@ -152,21 +153,22 @@
       <div class="body chartbox"><div class="chart" id="ch_attr"></div>
         <div class="note" id="n_attr"></div></div>
     </section>
-    <section>
-      <div class="cap" id="c_cph"></div>
-      <div class="body chartbox"><div class="chart" id="ch_cph"></div>
-        <div class="note" id="n_cph"></div></div>
-    </section>
   </div>
 
   <div class="zone" id="z5"></div>
   <section>
     <div class="cap" id="c_cost"></div>
-    <div class="body"><table id="cost"><thead><tr>
-      <th id="h_stream"></th><th class="n" id="h_spend"></th><th class="n" id="h_hires"></th>
-      <th class="n" id="h_cph"></th><th style="width:150px"></th>
-    </tr></thead><tbody></tbody></table>
-      <div class="note" id="n_cost"></div></div>
+    <div class="body">
+      <div class="grid g2">
+        <div class="chartbox"><div class="chart" id="ch_cph"></div>
+          <div class="note" id="n_cph"></div></div>
+        <div><table id="cost"><thead><tr>
+          <th id="h_stream"></th><th class="n" id="h_spend"></th><th class="n" id="h_hires"></th>
+          <th class="n" id="h_cph"></th><th style="width:110px"></th>
+        </tr></thead><tbody></tbody></table>
+          <div class="note" id="n_cost"></div></div>
+      </div>
+    </div>
   </section>
 
   <footer id="foot"></footer>
@@ -192,7 +194,7 @@ const UI = {
   role:"Роль",stage:"Этап",plan:"План",fact:"Факт",conv:"Конв.",fromcv:"От CV",done:"Выполнение",
   stream:"Поток",spend:"Расход, $",hires:"Наняли",cphh:"За найм, $",
   noplan:"нет плана",nodata:"Нет данных за месяц",nocost:"Нет данных о стоимости за этот месяц",
-  nattr:"Ушло за месяц / средняя численность линии",
+  ppl:"чел.",nattr:"Верхняя цифра — сколько ушло, ниже — доля от средней численности линии.",
   nline:"Пунктир — план на конец месяца",ncph:"Стоимость одного найма, все потоки",
   ncost:"Источник — вкладка Cost LatAm.",
   toplan:"к плану",notePlan:"План на конец месяца: ",
@@ -210,7 +212,7 @@ const UI = {
   role:"Role",stage:"Stage",plan:"Plan",fact:"Fact",conv:"Conv.",fromcv:"From CV",done:"Achieved",
   stream:"Stream",spend:"Spend, $",hires:"Hires",cphh:"Per hire, $",
   noplan:"no plan",nodata:"No data for this month",nocost:"No cost data for this month",
-  nattr:"Left during month / average line headcount",
+  ppl:"ppl",nattr:"Top number — people who left, below — share of average line headcount.",
   nline:"Dashed line — plan at month end",ncph:"Cost of one hire, all streams",
   ncost:"Source — Cost LatAm tab.",
   toplan:"vs plan",notePlan:"Plan for month end: ",
@@ -228,7 +230,7 @@ const UI = {
   role:"Rol",stage:"Etapa",plan:"Plan",fact:"Real",conv:"Conv.",fromcv:"Desde CV",done:"Cumplimiento",
   stream:"Flujo",spend:"Gasto, $",hires:"Contrataciones",cphh:"Por contrat., $",
   noplan:"sin plan",nodata:"Sin datos para este mes",nocost:"Sin datos de coste para este mes",
-  nattr:"Salidas del mes / plantilla media de la línea",
+  ppl:"pers.",nattr:"Cifra superior — personas que salieron, debajo — cuota de la plantilla media.",
   nline:"Línea discontinua — plan al cierre del mes",ncph:"Coste de una contratación, todos los flujos",
   ncost:"Fuente — pestaña Cost LatAm.",
   toplan:"vs plan",notePlan:"Plan al cierre del mes: ",
@@ -310,16 +312,16 @@ async function load(){
   }));
 }
 
-function chart(el, items, fmt, planKey){
-  const vals = items.map(i => isNum(i.v) ? i.v : 0);
+function chart(el, items){
+  const vals  = items.map(i => isNum(i.v) ? i.v : 0);
   const plans = items.map(i => isNum(i.p) ? i.p : 0);
   const max = Math.max(...vals, ...plans, 0.0001);
   el.innerHTML = items.map(i => {
-    const h = isNum(i.v) ? Math.max(i.v/max*100, 2) : 0;
+    const h  = isNum(i.v) ? Math.max(i.v/max*100, 2) : 0;
     const ph = isNum(i.p) ? Math.min(i.p/max*100, 100) : null;
     return '<div class="col">' +
       (ph !== null ? '<i class="plan" style="bottom:' + ph + '%"></i>' : '') +
-      '<span class="v">' + (isNum(i.v) ? fmt(i.v) : '') + '</span>' +
+      '<span class="v">' + (i.top || '') + '</span>' +
       '<span class="b' + (i.dim ? ' dim' : '') + '" style="height:' + h + '%"></span>' +
       '<u>' + i.label + '</u></div>';
   }).join('');
@@ -429,20 +431,16 @@ function render(){
 
   /* --- зона 4: динамика --- */
   const lineMonths = pick('line').filter(r => r.key === 'in_line' && (isNum(r.fact) || isNum(r.plan)));
-  chart(document.getElementById('ch_line'),
-    lineMonths.map(r => ({label:t.short[r.month-1], v:r.fact, p:r.plan, dim:r.month === m ? false : true})),
-    v => Math.round(v));
+  chart(document.getElementById('ch_line'), lineMonths.map(r => ({
+    label:t.short[r.month-1], v:r.fact, p:r.plan, dim:r.month !== m,
+    top: isNum(r.fact) ? String(Math.round(r.fact)) : ''
+  })));
 
   const attr = pick('attrition').filter(r => isNum(r.plan) && r.plan > 0);
-  chart(document.getElementById('ch_attr'),
-    attr.map(r => ({label:t.short[r.month-1], v:r.extra, dim:r.month === m ? false : true})),
-    v => Math.round(v*100) + '%');
-
-  const cph = pick('cost', undefined, 'Total').filter(r => isNum(r.extra));
-  const chEl = document.getElementById('ch_cph');
-  if(cph.length) chart(chEl, cph.map(r => ({label:t.short[r.month-1], v:r.extra, dim:r.month === m ? false : true})),
-    v => Math.round(v));
-  else chEl.innerHTML = '<div class="empty" style="align-self:center">' + t.nocost + '</div>';
+  chart(document.getElementById('ch_attr'), attr.map(r => ({
+    label:t.short[r.month-1], v:r.extra, dim:r.month !== m,
+    top: (isNum(r.fact) ? r.fact + ' ' + t.ppl : '') + (isNum(r.extra) ? '<br>' + pct(r.extra) : '')
+  })));
 
   /* --- зона 5: стоимость по потокам --- */
   const cost = pick('cost', m).filter(r => isNum(r.plan) || isNum(r.fact) || isNum(r.extra));
