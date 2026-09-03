@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recruitment LatAm</title>
+<style>
+  :root{
+    --lilac:#D8C8E8; --lilac-soft:#F1EAF7;
+    --line:#D6D6DB; --line-soft:#EAEAEE;
+    --mute:#6B6B72; --ok:#2E7D4F; --bad:#B3261E;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 20px 40px;font-family:Arial,Helvetica,sans-serif;
+    font-size:12px;color:#000;background:#fff}
+  h1{font-size:15px;font-weight:bold;margin:0 0 2px}
+  .sub{font-size:11px;color:var(--mute)}
+  #gate{max-width:300px;margin:14vh auto 0}
+  #gate input{width:100%;font-family:Arial;font-size:13px;padding:7px 9px;
+    border:1px solid var(--line);border-radius:2px;margin-bottom:8px}
+  #gate button{width:100%;font-family:Arial;font-size:13px;padding:7px;
+    border:1px solid #000;background:var(--lilac);cursor:pointer;border-radius:2px}
+  #gate .err{color:var(--bad);font-size:11px;min-height:15px;margin-top:6px}
+  header{display:flex;justify-content:space-between;align-items:flex-end;
+    border-bottom:2px solid var(--lilac);padding-bottom:8px;margin-bottom:14px;flex-wrap:wrap;gap:12px}
+  .controls{display:flex;gap:8px;align-items:center}
+  select,.btn{font-family:Arial;font-size:12px;padding:4px 10px;border:1px solid var(--line);
+    background:#fff;color:#000;border-radius:2px}
+  .btn{cursor:pointer}
+  select:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #7A5EA8;outline-offset:1px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;align-items:start}
+  .wide{grid-column:1 / -1}
+  section{border:1px solid var(--line-soft)}
+  .cap{font-size:11px;font-weight:bold;background:var(--lilac);padding:5px 8px;border-bottom:1px solid var(--line)}
+  .body{padding:8px}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-size:11px;font-weight:bold;text-align:left;padding:3px 6px;
+    border-bottom:1px solid var(--line);background:var(--lilac-soft)}
+  td{padding:3px 6px;border-bottom:1px solid var(--line-soft)}
+  td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .kpi{border:1px solid var(--line-soft);padding:8px 10px}
+  .kpi b{display:block;font-size:26px;line-height:1.05}
+  .kpi span{font-size:11px;color:var(--mute)}
+  .kpi.acc{background:var(--lilac-soft)}
+  .barwrap{background:#F4F4F6;height:9px;width:100%}
+  .bar{height:9px;background:var(--lilac);display:block}
+  .good{color:var(--ok)} .warn{color:var(--bad)} .empty{color:var(--mute)}
+  .spark{display:flex;align-items:flex-end;gap:6px;height:70px;padding-top:14px}
+  .spark div{flex:1;background:var(--lilac);position:relative;min-height:2px}
+  .spark div i{position:absolute;top:-14px;left:0;right:0;text-align:center;font-style:normal;font-size:11px}
+  .spark div u{position:absolute;bottom:-16px;left:0;right:0;text-align:center;
+    text-decoration:none;font-size:11px;color:var(--mute)}
+  .sparkbox{padding-bottom:22px}
+  .note{font-size:11px;color:var(--mute);margin-top:6px}
+  footer{margin-top:16px;font-size:11px;color:var(--mute);border-top:1px solid var(--line-soft);padding-top:8px}
+  @media(max-width:800px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- ===================================================================
+     ЗАПОЛНИТЬ ДВЕ СТРОКИ НИЖЕ (ищи "НАСТРОЙКИ" в коде страницы)
+     =================================================================== -->
+
+<div id="gate">
+  <h1>Recruitment LatAm</h1>
+  <div class="sub" style="margin-bottom:10px">Введите пароль</div>
+  <input id="pw" type="password" autocomplete="current-password">
+  <button id="go">Войти</button>
+  <div class="err" id="err"></div>
+</div>
+
+<div id="app" hidden>
+  <header>
+    <div>
+      <h1>Recruitment LatAm</h1>
+      <div class="sub">Обновлено: <span id="upd">—</span></div>
+    </div>
+    <div class="controls">
+      <select id="month"></select>
+      <select id="dir"></select>
+      <button class="btn" id="reload">Обновить</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="wide">
+      <div class="cap">Линия TCM</div>
+      <div class="body">
+        <div class="kpis">
+          <div class="kpi acc"><b id="k1">—</b><span>На линии на конец месяца</span></div>
+          <div class="kpi"><b id="k2">—</b><span>На испытательном сейчас</span></div>
+          <div class="kpi"><b id="k3">—</b><span>В онбординге сейчас</span></div>
+          <div class="kpi"><b id="k4">—</b><span>Ушло с линии за месяц</span></div>
+        </div>
+        <div class="note" id="linenote"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="cap">План найма по ролям</div>
+      <div class="body"><table id="hp"><thead><tr>
+        <th>Роль</th><th class="n">План</th><th class="n">Факт</th><th style="width:90px">Выполнение</th>
+      </tr></thead><tbody></tbody></table></div>
+    </section>
+
+    <section>
+      <div class="cap">Воронка TCM</div>
+      <div class="body"><table id="ftcm"><thead><tr>
+        <th>Этап</th><th class="n">План</th><th class="n">Факт</th><th class="n">Конв.</th><th style="width:70px">От CV</th>
+      </tr></thead><tbody></tbody></table></div>
+    </section>
+
+    <section>
+      <div class="cap">Текучесть линии по месяцам</div>
+      <div class="body sparkbox">
+        <div class="spark" id="attr"></div>
+        <div class="note">Ушло за месяц / средняя численность линии</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="cap">Воронка тьюторов</div>
+      <div class="body"><table id="ftut"><thead><tr>
+        <th>Этап</th><th class="n">План</th><th class="n">Факт</th><th class="n">Конв.</th><th style="width:70px">От CV</th>
+      </tr></thead><tbody></tbody></table></div>
+    </section>
+
+    <section class="wide">
+      <div class="cap">Прогноз линии до конца года</div>
+      <div class="body"><table id="fc"><thead><tr>
+        <th>Месяц</th><th class="n">Прогноз</th><th class="n">План</th><th class="n">Выполнение</th><th style="width:200px"></th>
+      </tr></thead><tbody></tbody></table></div>
+    </section>
+  </div>
+
+  <footer>Источник — вкладка DASH_export рабочей таблицы.</footer>
+</div>
+
+<script>
+/* ====================== НАСТРОЙКИ ======================
+   1) CSV_URL — ссылка из Google Sheets:
+      Файл → Опубликовать в интернете → вкладка DASH_export → формат CSV → Опубликовать.
+      Скопированную ссылку вставить между кавычками.
+   2) PASSWORD — пароль для входа. Меняется здесь же.
+   ======================================================= */
+
+const CSV_URL  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3YaXHbL1oozm-mG8by4vCf4C5eyAE3kSsXPw67L4O8GhFJelMhGXJpyxq6iE4zLcYqrOZNuZ4uzdb/pub?gid=26648926&single=true&output=csv";
+const PASSWORD = "latam2026";
+
+/* ============ дальше ничего менять не нужно ============ */
+
+const MONTHS = ["Январь","Февраль","Март","Апрель","Май","Июнь",
+                "Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+let ROWS = [];
+
+const pct = v => (v === null || v === undefined || !isFinite(v)) ? "—" : Math.round(v*100) + "%";
+const num = v => (v === null || v === undefined || v === "") ? "—" : v;
+const bar = f => `<div class="barwrap"><span class="bar" style="width:${Math.max(0,Math.min(f,1.2))/1.2*100}%"></span></div>`;
+const pick = (block, month, dim) => ROWS
+  .filter(r => r.block === block && (month === undefined || r.month === month) && (dim === undefined || r.dim === dim))
+  .sort((a,b) => (a.order||0) - (b.order||0));
+
+function parseCSV(text) {
+  const rows = []; let row = [], cell = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"' && text[i+1] === '"') { cell += '"'; i++; }
+      else if (c === '"') q = false;
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ',') { row.push(cell); cell = ''; }
+    else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+    else if (c !== '\r') cell += c;
+  }
+  if (cell.length || row.length) { row.push(cell); rows.push(row); }
+  return rows;
+}
+
+async function load() {
+  const res = await fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now());
+  if (!res.ok) throw new Error('Не удалось загрузить данные (' + res.status + ')');
+  const table = parseCSV(await res.text());
+  const head = (table[0] || []).map(h => h.trim());
+  const at = name => head.indexOf(name);
+  const n = v => (v === undefined || v === '' ? null : (isNaN(Number(v)) ? v : Number(v)));
+  ROWS = table.slice(1).filter(r => r[at('block')]).map(r => ({
+    year: n(r[at('year')]), month: n(r[at('month')]),
+    block: r[at('block')], key: r[at('key')] || '', dim: r[at('dim')] || '',
+    plan: n(r[at('plan')]), fact: n(r[at('fact')]),
+    extra: n(r[at('extra')]), order: n(r[at('order')])
+  }));
+}
+
+function boot() {
+  document.getElementById('gate').hidden = true;
+  document.getElementById('app').hidden = false;
+  document.getElementById('upd').textContent =
+    new Date().toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' });
+
+  const months = [...new Set(ROWS.filter(r => r.month > 0).map(r => r.month))].sort((a,b) => a-b);
+  const sel = document.getElementById('month');
+  const cur = sel.value;
+  sel.innerHTML = months.map(m => `<option value="${m}">${MONTHS[m-1]}</option>`).join('');
+  const nowM = new Date().getMonth() + 1;
+  sel.value = cur || (months.includes(nowM) ? nowM : months[months.length-1]);
+
+  const dims = [...new Set(pick('funnel_tutor').map(r => r.dim))].filter(Boolean);
+  const dsel = document.getElementById('dir');
+  const curD = dsel.value;
+  dsel.innerHTML = dims.map(d => `<option>${d}</option>`).join('');
+  if (curD) dsel.value = curD;
+
+  sel.onchange = render;
+  dsel.onchange = render;
+  render();
+}
+
+function funnel(id, rows) {
+  const tb = document.querySelector('#' + id + ' tbody');
+  if (!rows.length) { tb.innerHTML = `<tr><td colspan="5" class="empty">Нет данных за месяц</td></tr>`; return; }
+  const top = rows[0].fact;
+  tb.innerHTML = rows.map((r,i) => {
+    const prev = i > 0 ? rows[i-1].fact : null;
+    const conv = i === 0 ? 1 : (r.fact !== null && prev) ? r.fact/prev : null;
+    const cum  = (r.fact !== null && top) ? r.fact/top : null;
+    return `<tr><td>${r.key}</td><td class="n">${num(r.plan)}</td><td class="n">${num(r.fact)}</td>
+      <td class="n">${pct(conv)}</td><td>${cum === null ? '<span class="empty">—</span>' : bar(cum)}</td></tr>`;
+  }).join('');
+}
+
+function render() {
+  const m = +document.getElementById('month').value;
+  const dir = document.getElementById('dir').value;
+  const g = (arr,k) => (arr.find(r => r.key === k) || {});
+
+  const line = pick('line', m), now = pick('now', 0);
+  document.getElementById('k1').textContent = num(g(line,'in_line').fact);
+  document.getElementById('k2').textContent = num(g(now,'probation').fact);
+  document.getElementById('k3').textContent = num(g(now,'onboarding').fact);
+  document.getElementById('k4').textContent = num(g(line,'left_month').fact);
+  const planLine = g(line,'in_line').plan;
+  document.getElementById('linenote').textContent =
+    (planLine ? `План на конец месяца: ${planLine}. ` : '') +
+    'Испытательный и онбординг — текущий срез, не история.';
+
+  const hp = pick('hiring', m);
+  document.querySelector('#hp tbody').innerHTML = hp.length ? hp.map(r => {
+    const v = r.plan ? r.fact/r.plan : null;
+    return `<tr><td>${r.key}</td><td class="n">${num(r.plan)}</td><td class="n">${num(r.fact)}</td>
+      <td>${v === null ? '<span class="empty">нет плана</span>'
+        : bar(v) + `<span class="note ${v>=1?'good':(v<0.5?'warn':'')}">${pct(v)}</span>`}</td></tr>`;
+  }).join('') : `<tr><td colspan="4" class="empty">Нет данных за месяц</td></tr>`;
+
+  funnel('ftcm', pick('funnel_tcm', m));
+  funnel('ftut', pick('funnel_tutor', m, dir));
+
+  const at = pick('attrition').filter(r => r.fact !== null);
+  const max = Math.max(...at.map(r => r.extra || 0), 0.01);
+  document.getElementById('attr').innerHTML = at.map(r =>
+    `<div style="height:${Math.max((r.extra||0)/max*100,2)}%"><i>${pct(r.extra)}</i><u>${MONTHS[r.month-1].slice(0,3)}</u></div>`
+  ).join('');
+
+  const fc = pick('forecast').filter(r => r.fact !== null || r.plan !== null);
+  document.querySelector('#fc tbody').innerHTML = fc.map(r => {
+    const v = r.plan ? r.fact/r.plan : null;
+    return `<tr><td>${MONTHS[r.month-1]}</td><td class="n">${num(r.fact)}</td><td class="n">${num(r.plan)}</td>
+      <td class="n ${v!==null&&v>=1?'good':(v!==null&&v<0.9?'warn':'')}">${pct(v)}</td>
+      <td>${v === null ? '' : bar(v)}</td></tr>`;
+  }).join('');
+}
+
+async function enter(pw, silent) {
+  const err = document.getElementById('err');
+  if (pw !== PASSWORD) { if (!silent) err.textContent = 'Неверный пароль'; sessionStorage.removeItem('dashpw'); return; }
+  err.textContent = 'Загрузка…';
+  try {
+    await load();
+    sessionStorage.setItem('dashpw', pw);
+    boot();
+  } catch (e) {
+    err.textContent = e.message;
+  }
+}
+
+document.getElementById('go').onclick = () => enter(document.getElementById('pw').value);
+document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('go').click(); });
+document.getElementById('reload').onclick = async () => { await load(); boot(); };
+
+const saved = sessionStorage.getItem('dashpw');
+if (saved) enter(saved, true); else document.getElementById('pw').focus();
+</script>
+</body>
+</html>
