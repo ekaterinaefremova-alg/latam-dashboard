@@ -258,7 +258,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V39</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V40</div>
 </div>
 </div>
 
@@ -392,12 +392,12 @@ const UI = {
   z1:"Сводка за месяц",z2:"Воронки подбора",z3:"Наём по ролям",z4:"Текучесть линии",z5:"Стоимость найма",z6:"Прогноз линии",fc:"Прогноз линии до конца года",lgfc:"Прогноз",lgfcplan:"План",leadfc:"К концу года прогноз ",leadfc2:" при плане ",nfc:"Модель по недельному набору и оттоку",
   tcm:"Воронка TCM",tut:"Воронка тьюторов",hiring:"План и факт по ролям",
   lined:"Линия на конец месяца",attr:"Текучесть линии",cph:"Стоимость найма, $",cost:"Стоимость найма по потокам",
-  k1:"На линии",k2:"На испытательном",k3:"В онбординге",k4:"Ушло за месяц",k5:"Стоимость найма, $",unit:"Юнит",
+  k1:"На линии",k2:"На испытательном",k3:"В онбординге",k4:"Ушло за месяц",k5:"Стоимость найма, $",unit:"Юнит",staleFrom:"Последний посчитанный месяц — ",staleNote:"%1 в файле стоимости ещё не посчитан, показан %2.",
   role:"Роль",stage:"Этап",plan:"План",fact:"Факт",conv:"Конв.",fromcv:"От CV",done:"Выполнение",
   stream:"Поток",spend:"Расход, $",cpo:"За онборд, $",cpoShort:"онборд",hires:"Наняли",cphh:"За найм, $",
   noplan:"нет плана",hide:"Скрыть без плана",showall:"Показать все",hidden:" · скрыто ролей без плана: ",nodata:"Нет данных за месяц",nocost:"Нет данных о стоимости за этот месяц",
   ppl:"чел.",nattr:"Сверху — % от средней численности, под ним — сколько человек",
-  nline:"Пунктир — план. Месяцы без столбика ещё не наступили.",lgfact:"Факт на линии",lgplan:"План",lgleft:"Ушло за месяц",lgavg:"Среднее за период",avgw:"среднее",planw:"план",leadline:"На конец месяца на линии ",leadline2:" при плане ",leadattr:"В среднем уходит ",leadattr2:" от численности линии в месяц",ncph:"Онборд — доведённый до онбординга. Найм — вышедший на линию.",leadcost:"Найм TCM в этом месяце стоит ",leadcost2:", тьютора — ",
+  nline:"Пунктир — план. Месяцы без столбика ещё не наступили.",lgfact:"Факт на линии",lgplan:"План",lgleft:"Ушло за месяц",lgavg:"Среднее за период",avgw:"среднее",planw:"план",leadline:"На конец месяца на линии ",leadline2:" при плане ",leadattr:"В среднем уходит ",leadattr2:" от численности линии в месяц",ncph:"Онборд — доведённый до онбординга. Найм — вышедший на линию.",leadcost:"Найм TCM стоит ",leadcost2:", тьютора — ",
   ncost:"Источник — вкладка Cost LatAm.",
   toplan:"к плану",notePlan:"План на конец месяца: ",
   live:"Линия — живая цифра на сегодня, фиксируется в конце месяца.",
@@ -410,12 +410,12 @@ const UI = {
   z1:"Month summary",z2:"Recruitment funnels",z3:"Hiring by role",z4:"Line attrition",z5:"Cost per hire",z6:"Line forecast",fc:"Line forecast to year end",lgfc:"Forecast",lgfcplan:"Plan",leadfc:"By year end the forecast is ",leadfc2:" against a plan of ",nfc:"Weekly intake and attrition model",
   tcm:"TCM funnel",tut:"Tutor funnel",hiring:"Plan vs fact by role",
   lined:"Line at month end",attr:"Line attrition",cph:"Cost per hire, $",cost:"Cost per hire by stream",
-  k1:"On line",k2:"On probation",k3:"In onboarding",k4:"Left this month",k5:"Cost per hire, $",unit:"Unit",
+  k1:"On line",k2:"On probation",k3:"In onboarding",k4:"Left this month",k5:"Cost per hire, $",unit:"Unit",staleFrom:"Last closed month — ",staleNote:"%1 is not costed yet, showing %2.",
   role:"Role",stage:"Stage",plan:"Plan",fact:"Fact",conv:"Conv.",fromcv:"From CV",done:"Achieved",
   stream:"Stream",spend:"Spend, $",cpo:"Per onboard, $",cpoShort:"onboard",hires:"Hires",cphh:"Per hire, $",
   noplan:"no plan",hide:"Hide no-plan",showall:"Show all",hidden:" · roles without a plan hidden: ",nodata:"No data for this month",nocost:"No cost data for this month",
   ppl:"ppl",nattr:"Top — % of average headcount, below — people",
-  nline:"Dashed line — plan. Months without a bar have not happened yet.",lgfact:"On line, fact",lgplan:"Plan",lgleft:"Left during month",lgavg:"Period average",avgw:"avg",planw:"plan",leadline:"At month end on line ",leadline2:" against a plan of ",leadattr:"On average ",leadattr2:" of the line leaves per month",ncph:"Onboard — reached onboarding. Hire — started on the line.",leadcost:"This month a TCM hire costs ",leadcost2:", a tutor — ",
+  nline:"Dashed line — plan. Months without a bar have not happened yet.",lgfact:"On line, fact",lgplan:"Plan",lgleft:"Left during month",lgavg:"Period average",avgw:"avg",planw:"plan",leadline:"At month end on line ",leadline2:" against a plan of ",leadattr:"On average ",leadattr2:" of the line leaves per month",ncph:"Onboard — reached onboarding. Hire — started on the line.",leadcost:"A TCM hire costs ",leadcost2:", a tutor — ",
   ncost:"Source — Cost LatAm tab.",
   toplan:"vs plan",notePlan:"Plan for month end: ",
   live:"Line is a live figure as of today, frozen at month end.",
@@ -428,12 +428,12 @@ const UI = {
   z1:"Resumen del mes",z2:"Embudos de selección",z3:"Contratación por rol",z4:"Rotación de la línea",z5:"Coste por contratación",z6:"Previsión de la línea",fc:"Previsión de la línea hasta fin de año",lgfc:"Previsión",lgfcplan:"Plan",leadfc:"A cierre de año la previsión es ",leadfc2:" frente a un plan de ",nfc:"Modelo semanal de incorporaciones y salidas",
   tcm:"Embudo TCM",tut:"Embudo de tutores",hiring:"Plan y real por rol",
   lined:"Línea al cierre del mes",attr:"Rotación de la línea",cph:"Coste por contratación, $",cost:"Coste por contratación por flujo",
-  k1:"En línea",k2:"En periodo de prueba",k3:"En onboarding",k4:"Salidas del mes",k5:"Coste por contratación, $",unit:"Unidad",
+  k1:"En línea",k2:"En periodo de prueba",k3:"En onboarding",k4:"Salidas del mes",k5:"Coste por contratación, $",unit:"Unidad",staleFrom:"Último mes cerrado — ",staleNote:"%1 aún no tiene coste, se muestra %2.",
   role:"Rol",stage:"Etapa",plan:"Plan",fact:"Real",conv:"Conv.",fromcv:"Desde CV",done:"Cumplimiento",
   stream:"Flujo",spend:"Gasto, $",cpo:"Por onboarding, $",cpoShort:"onboarding",hires:"Contrataciones",cphh:"Por contrat., $",
   noplan:"sin plan",hide:"Ocultar sin plan",showall:"Mostrar todo",hidden:" · roles sin plan ocultos: ",nodata:"Sin datos para este mes",nocost:"Sin datos de coste para este mes",
   ppl:"pers.",nattr:"Arriba — % de la plantilla media, debajo — personas",
-  nline:"Línea discontinua — plan. Los meses sin barra aún no han ocurrido.",lgfact:"En línea, real",lgplan:"Plan",lgleft:"Salidas del mes",lgavg:"Media del periodo",avgw:"media",planw:"plan",leadline:"Al cierre del mes en línea ",leadline2:" frente a un plan de ",leadattr:"De media sale ",leadattr2:" de la línea al mes",ncph:"Onboarding — llegó al onboarding. Contratación — se incorporó a la línea.",leadcost:"Este mes una contratación TCM cuesta ",leadcost2:", un tutor — ",
+  nline:"Línea discontinua — plan. Los meses sin barra aún no han ocurrido.",lgfact:"En línea, real",lgplan:"Plan",lgleft:"Salidas del mes",lgavg:"Media del periodo",avgw:"media",planw:"plan",leadline:"Al cierre del mes en línea ",leadline2:" frente a un plan de ",leadattr:"De media sale ",leadattr2:" de la línea al mes",ncph:"Onboarding — llegó al onboarding. Contratación — se incorporó a la línea.",leadcost:"Una contratación TCM cuesta ",leadcost2:", un tutor — ",
   ncost:"Fuente — pestaña Cost LatAm.",
   toplan:"vs plan",notePlan:"Plan al cierre del mes: ",
   live:"La línea es una cifra en vivo de hoy, se congela al cierre del mes.",
@@ -692,7 +692,7 @@ function applyChrome(){
   set('lg_tcm','TCM'); set('lg_tut','Tutors');
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v39 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v40 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -811,10 +811,16 @@ function render(){
   document.getElementById('k2').textContent = num(g(now,'probation').fact);
   document.getElementById('k3').textContent = num(g(now,'onboarding').fact);
   document.getElementById('k4').textContent = num(leftSum);
+  const costMonths = [...new Set(pick('cost', undefined)
+    .filter(r => r.key === 'hire' && isNum(r.fact)).map(r => r.month))].sort((a,b) => a-b);
+  const costM = isYear ? null
+    : (costMonths.includes(m) ? m : (costMonths.filter(x => x < m).pop() || null));
+  const costStale = !isYear && costM !== null && costM !== m;
   const cphOf = d => isYear
     ? (() => { const v = pick('cost', undefined, d).filter(r => r.key === 'hire' && isNum(r.fact));
                return v.length ? v.reduce((a,r) => a + r.fact, 0) / v.length : null; })()
-    : (pick('cost', m, d).find(r => r.key === 'hire') || {}).fact;
+    : (costM === null ? null : (pick('cost', costM, d).find(r => r.key === 'hire') || {}).fact);
+  document.getElementById('l_k5').textContent = t.k5 + (costStale ? ' · ' + t.months[costM-1] : '');
   document.getElementById('k5a').textContent = money(cphOf('Total'));
   document.getElementById('k5b').textContent = money(cphOf('TCM'));
   document.getElementById('k5c').textContent = money(cphOf('Tutors'));
@@ -971,12 +977,12 @@ function render(){
       }, t);
     }
     document.getElementById('n_cost').textContent = t.cphYear;
-    document.getElementById('ch_cph') && (document.getElementById('ch_cph').innerHTML = '');
+    document.getElementById('lead_cost').innerHTML = '';
   } else {
   costTable.className='';
   costTable.innerHTML = '<thead><tr><th>' + t.stream + '</th><th class="n">' + t.cpo +
     '</th><th class="n">' + t.cphh + '</th><th style="width:130px"></th></tr></thead><tbody></tbody>';
-  const cost = pick('cost', m).filter(r => isNum(r.fact));
+  const cost = costM === null ? [] : pick('cost', costM).filter(r => isNum(r.fact));
   const maxC = Math.max(...cost.filter(r => r.key === 'hire').map(r => r.fact), 0.0001);
   document.querySelector('#cost tbody').innerHTML = cost.length ?
     [...new Set(cost.map(r => r.dim))].map(d => {
@@ -993,15 +999,19 @@ function render(){
   if(cphMonths.length){
     chartPair(chEl, cphMonths.map(mo => ({
       m:mo, label:t.short[mo-1], a:hireOf('TCM', mo), b:hireOf('Tutors', mo)
-    })), isYear ? -1 : m, t);
-    const a = hireOf('TCM', m), b = hireOf('Tutors', m);
-    document.getElementById('lead_cost').innerHTML = isYear ? ''
-      : t.leadcost + '<b>' + money(a) + '</b>' + t.leadcost2 + '<b>' + money(b) + '</b>';
+    })), isYear ? -1 : costM, t);
+    const a = costM === null ? null : hireOf('TCM', costM);
+    const b = costM === null ? null : hireOf('Tutors', costM);
+    document.getElementById('lead_cost').innerHTML = (isYear || costM === null) ? ''
+      : (costStale ? t.staleFrom + '<b>' + t.months[costM-1] + '</b>. ' : '') +
+        t.leadcost + '<b>' + money(a) + '</b>' + t.leadcost2 + '<b>' + money(b) + '</b>';
   } else {
     chEl.innerHTML = '<div class="empty" style="align-self:center">' + t.nocost + '</div>';
     document.getElementById('lead_cost').innerHTML = '';
   }
-  document.getElementById('n_cost').textContent = t.ncost;
+  document.getElementById('n_cost').textContent = costStale
+    ? t.staleNote.replace('%1', t.months[m-1]).replace('%2', t.months[costM-1])
+    : t.ncost;
   }
 }
 
