@@ -235,7 +235,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V35</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V36</div>
 </div>
 </div>
 
@@ -363,7 +363,7 @@ const UI = {
   lined:"Линия на конец месяца",attr:"Текучесть линии",cph:"Стоимость найма, $",cost:"Стоимость найма по потокам",
   k1:"На линии",k2:"На испытательном",k3:"В онбординге",k4:"Ушло за месяц",k5:"Стоимость найма",
   role:"Роль",stage:"Этап",plan:"План",fact:"Факт",conv:"Конв.",fromcv:"От CV",done:"Выполнение",
-  stream:"Поток",spend:"Расход, $",hires:"Наняли",cphh:"За найм, $",
+  stream:"Поток",spend:"Расход, $",cpo:"За онборд, $",cpoShort:"онборд",hires:"Наняли",cphh:"За найм, $",
   noplan:"нет плана",hide:"Скрыть без плана",showall:"Показать все",hidden:" · скрыто ролей без плана: ",nodata:"Нет данных за месяц",nocost:"Нет данных о стоимости за этот месяц",
   ppl:"чел.",nattr:"Сверху — % от средней численности, под ним — сколько человек",
   nline:"Пунктир — план. Месяцы без столбика ещё не наступили.",lgfact:"Факт на линии",lgplan:"План",lgleft:"Ушло за месяц",lgavg:"Среднее за период",avgw:"среднее",planw:"план",leadline:"На конец месяца на линии ",leadline2:" при плане ",leadattr:"В среднем уходит ",leadattr2:" от численности линии в месяц",ncph:"Стоимость одного найма, все потоки",
@@ -381,7 +381,7 @@ const UI = {
   lined:"Line at month end",attr:"Line attrition",cph:"Cost per hire, $",cost:"Cost per hire by stream",
   k1:"On line",k2:"On probation",k3:"In onboarding",k4:"Left this month",k5:"Cost per hire",
   role:"Role",stage:"Stage",plan:"Plan",fact:"Fact",conv:"Conv.",fromcv:"From CV",done:"Achieved",
-  stream:"Stream",spend:"Spend, $",hires:"Hires",cphh:"Per hire, $",
+  stream:"Stream",spend:"Spend, $",cpo:"Per onboard, $",cpoShort:"onboard",hires:"Hires",cphh:"Per hire, $",
   noplan:"no plan",hide:"Hide no-plan",showall:"Show all",hidden:" · roles without a plan hidden: ",nodata:"No data for this month",nocost:"No cost data for this month",
   ppl:"ppl",nattr:"Top — % of average headcount, below — people",
   nline:"Dashed line — plan. Months without a bar have not happened yet.",lgfact:"On line, fact",lgplan:"Plan",lgleft:"Left during month",lgavg:"Period average",avgw:"avg",planw:"plan",leadline:"At month end on line ",leadline2:" against a plan of ",leadattr:"On average ",leadattr2:" of the line leaves per month",ncph:"Cost of one hire, all streams",
@@ -399,7 +399,7 @@ const UI = {
   lined:"Línea al cierre del mes",attr:"Rotación de la línea",cph:"Coste por contratación, $",cost:"Coste por contratación por flujo",
   k1:"En línea",k2:"En periodo de prueba",k3:"En onboarding",k4:"Salidas del mes",k5:"Coste por contratación",
   role:"Rol",stage:"Etapa",plan:"Plan",fact:"Real",conv:"Conv.",fromcv:"Desde CV",done:"Cumplimiento",
-  stream:"Flujo",spend:"Gasto, $",hires:"Contrataciones",cphh:"Por contrat., $",
+  stream:"Flujo",spend:"Gasto, $",cpo:"Por onboarding, $",cpoShort:"onboarding",hires:"Contrataciones",cphh:"Por contrat., $",
   noplan:"sin plan",hide:"Ocultar sin plan",showall:"Mostrar todo",hidden:" · roles sin plan ocultos: ",nodata:"Sin datos para este mes",nocost:"Sin datos de coste para este mes",
   ppl:"pers.",nattr:"Arriba — % de la plantilla media, debajo — personas",
   nline:"Línea discontinua — plan. Los meses sin barra aún no han ocurrido.",lgfact:"En línea, real",lgplan:"Plan",lgleft:"Salidas del mes",lgavg:"Media del periodo",avgw:"media",planw:"plan",leadline:"Al cierre del mes en línea ",leadline2:" frente a un plan de ",leadattr:"De media sale ",leadattr2:" de la línea al mes",ncph:"Coste de una contratación, todos los flujos",
@@ -648,7 +648,7 @@ function applyChrome(){
   set('n_attr',t.nattr);
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v35 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v36 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -759,11 +759,10 @@ function render(){
     ? ROWS.filter(r => r.block === 'line' && r.key === 'left_month' && isNum(r.fact))
           .reduce((a,r) => a + r.fact, 0)
     : g(line,'left_month').fact;
-  const costRows = rowsFor('cost', 'Total');
+  const cphAll = pick('cost', undefined, 'Total').filter(r => r.key === 'hire' && isNum(r.fact));
   const totalCost = isYear
-    ? (() => { const c = costRows[0] || {};
-               return {plan:c.plan, fact:c.fact, extra: (isNum(c.plan) && c.fact) ? c.plan/c.fact : null}; })()
-    : (pick('cost', m, 'Total')[0] || {});
+    ? { extra: cphAll.length ? cphAll.reduce((a,r) => a + r.fact, 0) / cphAll.length : null }
+    : { extra: (pick('cost', m, 'Total').find(r => r.key === 'hire') || {}).fact };
   document.getElementById('k1').textContent = num(onLine);
   document.getElementById('k2').textContent = num(g(now,'probation').fact);
   document.getElementById('k3').textContent = num(g(now,'onboarding').fact);
@@ -903,7 +902,8 @@ function render(){
     const mos = monthsWithData('cost');
     const streams = [...new Set(pick('cost', undefined).map(r => r.dim))];
     const cellsOf = d => { const o={}; pick('cost', undefined)
-      .filter(r => r.dim === d).forEach(r => o[r.month] = r); return o; };
+      .filter(r => r.dim === d).forEach(r => { o[r.month] = o[r.month] || {}; o[r.month][r.key] = r.fact; });
+      return o; };
     const rows = streams.map(d => ({label:d, cells:cellsOf(d)}));
     if(!mos.length){
       costTable.className=''; costTable.innerHTML =
@@ -911,31 +911,37 @@ function render(){
     } else {
       matrix(costTable, {head:t.stream, total:t.totalw, rows:rows}, mos, (row, mo) => {
         const c = row.cells[mo] || {};
-        if(!isNum(c.extra)) return '<td class="c"><span class="empty">—</span></td>';
-        return '<td class="c"><b>' + money(c.extra) + '</b><i>' +
-               (isNum(c.fact) ? c.fact + ' ' + t.ppl : '') + '</i></td>';
+        if(!isNum(c.hire) && !isNum(c.onboard)) return '<td class="c none">·</td>';
+        return '<td class="c"><b>' + money(c.hire) + '</b>' +
+               (isNum(c.onboard) ? '<i>' + t.cpoShort + ' ' + money(c.onboard) + '</i>' : '') + '</td>';
       }, row => {
-        let sp=0, hr=0;
-        mos.forEach(mo => { const c=row.cells[mo]||{};
-          if(isNum(c.plan)) sp += c.plan; if(isNum(c.fact)) hr += c.fact; });
-        return '<td class="c last"><b>' + (hr ? money(sp/hr) : '—') + '</b><i>' +
-               (hr ? hr + ' ' + t.ppl : '') + '</i></td>';
+        const v = mos.map(mo => (row.cells[mo]||{}).hire).filter(isNum);
+        return '<td class="c last"><b>' +
+               money(v.length ? v.reduce((a,b)=>a+b,0)/v.length : null) + '</b><i>' + t.avgw + '</i></td>';
       }, t);
     }
     document.getElementById('n_cost').textContent = t.cphYear;
     document.getElementById('ch_cph') && (document.getElementById('ch_cph').innerHTML = '');
   } else {
   costTable.className='';
-  costTable.innerHTML = '<thead><tr><th>' + t.stream + '</th><th class="n">' + t.spend +
-    '</th><th class="n">' + t.hires + '</th><th class="n">' + t.cphh +
-    '</th><th style="width:110px"></th></tr></thead><tbody></tbody>';
-  const cost = pick('cost', m).filter(r => isNum(r.plan) || isNum(r.fact) || isNum(r.extra));
-  const maxC = Math.max(...cost.map(r => isNum(r.extra) ? r.extra : 0), 0.0001);
-  document.querySelector('#cost tbody').innerHTML = cost.length ? cost.map(r =>
-    '<tr' + (r.dim === 'Total' ? ' class="total"' : '') + '><td>' + r.dim + '</td><td class="n">' +
-    money(r.plan) + '</td><td class="n">' + num(r.fact) + '</td><td class="n">' + money(r.extra) +
-    '</td><td>' + (isNum(r.extra) ? bar(r.extra/maxC*1.2, r.dim === 'Total') : '') + '</td></tr>'
-  ).join('') : '<tr><td colspan="5" class="empty">' + t.nocost + '</td></tr>';
+  costTable.innerHTML = '<thead><tr><th>' + t.stream + '</th><th class="n">' + t.cpo +
+    '</th><th class="n">' + t.cphh + '</th><th style="width:130px"></th></tr></thead><tbody></tbody>';
+  const cost = pick('cost', m).filter(r => isNum(r.fact));
+  const maxC = Math.max(...cost.filter(r => r.key === 'hire').map(r => r.fact), 0.0001);
+  document.querySelector('#cost tbody').innerHTML = cost.length ?
+    [...new Set(cost.map(r => r.dim))].map(d => {
+      const on = (cost.find(r => r.dim === d && r.key === 'onboard') || {}).fact;
+      const hi = (cost.find(r => r.dim === d && r.key === 'hire') || {}).fact;
+      return '<tr' + (d === 'Total' ? ' class="total"' : '') + '><td>' + d + '</td>' +
+        '<td class="n">' + money(on) + '</td><td class="n">' + money(hi) + '</td><td>' +
+        (isNum(hi) ? bar(hi/maxC*1.2, d === 'Total') : '') + '</td></tr>';
+    }).join('') : '<tr><td colspan="4" class="empty">' + t.nocost + '</td></tr>';
+  const cphSeries = pick('cost', undefined, 'Total').filter(r => r.key === 'hire' && isNum(r.fact));
+  const chEl = document.getElementById('ch_cph');
+  if(cphSeries.length) chart(chEl, cphSeries.map(r => ({
+    label:t.short[r.month-1], v:r.fact, dim:r.month !== m, top:money(r.fact)
+  })));
+  else chEl.innerHTML = '<div class="empty" style="align-self:center">' + t.nocost + '</div>';
   document.getElementById('n_cost').textContent = t.ncost;
   }
 }
