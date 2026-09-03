@@ -216,7 +216,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V25</div>
 </div>
 </div>
 
@@ -581,7 +581,7 @@ function applyChrome(){
   set('n_attr',t.nattr); set('n_line',t.nline);
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v24 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v25 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -852,7 +852,7 @@ async function enter(pw, silent){
   const err = document.getElementById('err');
   if(pw !== PASSWORD){ if(!silent) err.textContent = UI.en.wrong; sessionStorage.removeItem('dashpw'); return; }
   const btn = document.getElementById('go');
-  err.textContent = UI.en.loading;
+  err.textContent = UI.en.loading + ' (v25)';
   btn.disabled = true; btn.style.opacity = '.6';
   try { await load(); sessionStorage.setItem('dashpw', pw); boot(); }
   catch(e){ err.textContent = e.message; console.error(e); }
