@@ -174,69 +174,58 @@ const UI = {
   ru:{hint:"Введите пароль",ok:"Войти",wrong:"Неверный пароль",loading:"Загрузка…",
     upd:"Обновлено:",line:"Линия TCM",hiring:"План найма по ролям",tcm:"Воронка TCM",
     tut:"Воронка тьюторов",attr:"Текучесть линии по месяцам",fc:"Прогноз линии до конца года",
-    k1:"На линии на конец месяца",k2:"На испытательном сейчас",k3:"В онбординге сейчас",
+    k1:"На линии",k2:"На испытательном сейчас",k3:"В онбординге сейчас",
     k4:"Ушло с линии за месяц",role:"Роль",stage:"Этап",plan:"План",fact:"Факт",
     conv:"Конв.",fromcv:"От CV",done:"Выполнение",month:"Месяц",forecast:"Прогноз",
     noplan:"нет плана",nodata:"Нет данных за месяц",
     nattr:"Ушло за месяц / средняя численность линии",
-    notePlan:"План на конец месяца: ",noteNow:"Испытательный и онбординг — текущий срез, не история.",
+    notePlan:"План на конец месяца: ",live:"Линия — живая цифра на сегодня, фиксируется в конце месяца.",closed:"Линия — зафиксированный итог месяца.",noteNow:"Испытательный и онбординг — текущий срез.",
     foot:"Источник — вкладка DASH_export рабочей таблицы.",
     months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
     short:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"]},
   en:{hint:"Enter password",ok:"Log in",wrong:"Wrong password",loading:"Loading…",
     upd:"Updated:",line:"TCM line",hiring:"Hiring plan by role",tcm:"TCM funnel",
     tut:"Tutor funnel",attr:"Line attrition by month",fc:"Line forecast to year end",
-    k1:"On line at month end",k2:"On probation now",k3:"In onboarding now",
+    k1:"On line",k2:"On probation now",k3:"In onboarding now",
     k4:"Left the line this month",role:"Role",stage:"Stage",plan:"Plan",fact:"Fact",
     conv:"Conv.",fromcv:"From CV",done:"Achieved",month:"Month",forecast:"Forecast",
     noplan:"no plan",nodata:"No data for this month",
     nattr:"Left during month / average line headcount",
-    notePlan:"Plan for month end: ",noteNow:"Probation and onboarding are a current snapshot, not history.",
+    notePlan:"Plan for month end: ",live:"Line is a live figure as of today, frozen at month end.",closed:"Line is the frozen month-end figure.",noteNow:"Probation and onboarding are a current snapshot.",
     foot:"Source — DASH_export tab of the working spreadsheet.",
     months:["January","February","March","April","May","June","July","August","September","October","November","December"],
     short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
   es:{hint:"Introduce la contraseña",ok:"Entrar",wrong:"Contraseña incorrecta",loading:"Cargando…",
     upd:"Actualizado:",line:"Línea TCM",hiring:"Plan de contratación por rol",tcm:"Embudo TCM",
     tut:"Embudo de tutores",attr:"Rotación de la línea por mes",fc:"Previsión de la línea hasta fin de año",
-    k1:"En línea al cierre del mes",k2:"En periodo de prueba ahora",k3:"En onboarding ahora",
+    k1:"En línea",k2:"En periodo de prueba ahora",k3:"En onboarding ahora",
     k4:"Salidas de la línea en el mes",role:"Rol",stage:"Etapa",plan:"Plan",fact:"Real",
     conv:"Conv.",fromcv:"Desde CV",done:"Cumplimiento",month:"Mes",forecast:"Previsión",
     noplan:"sin plan",nodata:"Sin datos para este mes",
     nattr:"Salidas del mes / plantilla media de la línea",
-    notePlan:"Plan al cierre del mes: ",noteNow:"Periodo de prueba y onboarding son una foto actual, no historial.",
+    notePlan:"Plan al cierre del mes: ",live:"La línea es una cifra en vivo de hoy, se congela al cierre del mes.",closed:"La línea es la cifra congelada de cierre de mes.",noteNow:"Periodo de prueba y onboarding son una foto actual.",
     foot:"Fuente — pestaña DASH_export de la hoja de trabajo.",
     months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
     short:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]}
 };
 
 const TERMS = {
-  "CV in progress":            {ru:"Резюме в работе",           es:"CV en proceso"},
-  "HR interview scheduled":    {ru:"HR-интервью назначено",     es:"Entrevista RR.HH. agendada"},
-  "HR interview done":         {ru:"HR-интервью проведено",     es:"Entrevista RR.HH. realizada"},
-  "Role-play scheduled":       {ru:"Ролевая игра назначена",    es:"Role-play agendado"},
-  "Role-play done":            {ru:"Ролевая игра проведена",    es:"Role-play realizado"},
-  "Approved for onboarding":   {ru:"Допущен до онбординга",     es:"Aprobado para onboarding"},
-  "Probation started":         {ru:"Вышел на испытательный",    es:"Periodo de prueba iniciado"},
-  "Line started":              {ru:"Вышел на линию",            es:"Incorporado a la línea"},
-  "Test task assigned":        {ru:"Тестовое выдано",           es:"Prueba técnica asignada"},
-  "Test task passed":          {ru:"Тестовое пройдено",         es:"Prueba técnica aprobada"},
-  "Assigned to onboarding":    {ru:"Назначен на онбординг",     es:"Asignado a onboarding"},
-  "Onboarding completed":      {ru:"Онбординг завершён",        es:"Onboarding completado"},
-  "Final interview":           {ru:"Финальное интервью",        es:"Entrevista final"},
-  "Offer made":                {ru:"Оффер выдан",               es:"Oferta enviada"},
-  "TCM — line":                {ru:"TCM — линия",               es:"TCM — línea"},
-  "Online Tutor IT":           {ru:"Тьютор IT",                 es:"Tutor de IT"},
-  "Online Tutor Math":         {ru:"Тьютор математики",         es:"Tutor de Matemáticas"},
-  "Online Tutor Design":       {ru:"Тьютор дизайна",            es:"Tutor de Diseño"},
-  "Attendance Manager":        {ru:"Менеджер посещаемости",     es:"Gestor de Asistencia"},
-  "Booking Manager":           {ru:"Менеджер записи",           es:"Gestor de Reservas"},
-  "Finance Manager":           {ru:"Финансовый менеджер",       es:"Gestor Financiero"},
-  "QC":                        {ru:"Контроль качества",         es:"Control de Calidad"},
-  "Secondary Sales":           {ru:"Вторичные продажи",         es:"Ventas Secundarias"},
-  "Team Lead Secondary Sales": {ru:"Тимлид вторичных продаж",   es:"Líder de Ventas Secundarias"},
-  "Customer Support":          {ru:"Поддержка клиентов",        es:"Soporte al Cliente"},
-  "Tutor coordinator":         {ru:"Координатор тьюторов",      es:"Coordinador de Tutores"},
-  "All tutors":                {ru:"Все тьюторы",               es:"Todos los tutores"}
+  "CV in progress":            {ru:"Резюме в работе",        es:"CV en proceso"},
+  "HR interview scheduled":    {ru:"HR-интервью назначено",  es:"Entrevista RR.HH. agendada"},
+  "HR interview done":         {ru:"HR-интервью проведено",  es:"Entrevista RR.HH. realizada"},
+  "Role-play scheduled":       {ru:"Ролевая игра назначена", es:"Role-play agendado"},
+  "Role-play done":            {ru:"Ролевая игра проведена", es:"Role-play realizado"},
+  "Approved for onboarding":   {ru:"Допущен до онбординга",  es:"Aprobado para onboarding"},
+  "Probation started":         {ru:"Вышел на испытательный", es:"Periodo de prueba iniciado"},
+  "Line started":              {ru:"Вышел на линию",         es:"Incorporado a la línea"},
+  "Test task assigned":        {ru:"Тестовое выдано",        es:"Prueba técnica asignada"},
+  "Test task passed":          {ru:"Тестовое пройдено",      es:"Prueba técnica aprobada"},
+  "Assigned to onboarding":    {ru:"Назначен на онбординг",  es:"Asignado a onboarding"},
+  "Onboarding completed":      {ru:"Онбординг завершён",     es:"Onboarding completado"},
+  "Final interview":           {ru:"Финальное интервью",     es:"Entrevista final"},
+  "Offer made":                {ru:"Оффер выдан",            es:"Oferta enviada"},
+  "All tutors":                {ru:"Все тьюторы",            es:"Todos los tutores"}
+  // Названия должностей не переводятся — всегда как в таблице
 };
 
 let ROWS = [];
@@ -383,8 +372,10 @@ function render() {
   document.getElementById('k3').textContent = num(g(now,'onboarding').fact);
   document.getElementById('k4').textContent = num(g(line,'left_month').fact);
   const planLine = g(line,'in_line').plan;
+  const isClosed = g(line,'closed').fact === 1;
   document.getElementById('linenote').textContent =
-    (planLine ? t.notePlan + planLine + '. ' : '') + t.noteNow;
+    (planLine ? t.notePlan + planLine + '. ' : '') +
+    (isClosed ? t.closed : t.live) + ' ' + t.noteNow;
 
   const hp = pick('hiring', m);
   document.querySelector('#hp tbody').innerHTML = hp.length ? hp.map(r => {
