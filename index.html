@@ -7,35 +7,48 @@
 <style>
   :root{
     --lilac:#D8C8E8; --lilac-soft:#F1EAF7;
+    --bg:#FFFFFF; --fg:#000000; --mute:#6B6B72;
     --line:#D6D6DB; --line-soft:#EAEAEE;
-    --mute:#6B6B72; --ok:#2E7D4F; --bad:#B3261E;
+    --cap-bg:#D8C8E8; --cap-fg:#000000;
+    --th-bg:#F1EAF7; --kpi-bg:#F1EAF7;
+    --track:#F4F4F6; --fill:#D8C8E8;
+    --ok:#2E7D4F; --bad:#B3261E; --field:#FFFFFF;
+  }
+  body[data-theme="dark"]{
+    --bg:#151419; --fg:#EDEDF2; --mute:#9A9AA4;
+    --line:#3A3A44; --line-soft:#2A2A32;
+    --cap-bg:#2B2833; --cap-fg:#D8C8E8;
+    --th-bg:#232029; --kpi-bg:#201E27;
+    --track:#26252D; --fill:#8E79AE;
+    --ok:#6FCF97; --bad:#F08A84; --field:#1D1C23;
   }
   *{box-sizing:border-box}
   body{margin:0;padding:18px 20px 40px;font-family:Arial,Helvetica,sans-serif;
-    font-size:12px;color:#000;background:#fff}
+    font-size:12px;color:var(--fg);background:var(--bg)}
   h1{font-size:15px;font-weight:bold;margin:0 0 2px}
   .sub{font-size:11px;color:var(--mute)}
   #gate{max-width:300px;margin:14vh auto 0}
-  #gate input{width:100%;font-family:Arial;font-size:13px;padding:7px 9px;
-    border:1px solid var(--line);border-radius:2px;margin-bottom:8px}
-  #gate button{width:100%;font-family:Arial;font-size:13px;padding:7px;
-    border:1px solid #000;background:var(--lilac);cursor:pointer;border-radius:2px}
+  #gate input{width:100%;font-family:Arial;font-size:13px;padding:7px 9px;color:var(--fg);
+    background:var(--field);border:1px solid var(--line);border-radius:2px;margin-bottom:8px}
+  #gate button{width:100%;font-family:Arial;font-size:13px;padding:7px;color:#000;
+    border:1px solid var(--line);background:var(--lilac);cursor:pointer;border-radius:2px}
   #gate .err{color:var(--bad);font-size:11px;min-height:15px;margin-top:6px}
   header{display:flex;justify-content:space-between;align-items:flex-end;
-    border-bottom:2px solid var(--lilac);padding-bottom:8px;margin-bottom:14px;flex-wrap:wrap;gap:12px}
-  .controls{display:flex;gap:8px;align-items:center}
+    border-bottom:2px solid var(--cap-bg);padding-bottom:8px;margin-bottom:14px;flex-wrap:wrap;gap:12px}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   select,.btn{font-family:Arial;font-size:12px;padding:4px 10px;border:1px solid var(--line);
-    background:#fff;color:#000;border-radius:2px}
+    background:var(--field);color:var(--fg);border-radius:2px}
   .btn{cursor:pointer}
   select:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #7A5EA8;outline-offset:1px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;align-items:start}
   .wide{grid-column:1 / -1}
   section{border:1px solid var(--line-soft)}
-  .cap{font-size:11px;font-weight:bold;background:var(--lilac);padding:5px 8px;border-bottom:1px solid var(--line)}
+  .cap{font-size:11px;font-weight:bold;background:var(--cap-bg);color:var(--cap-fg);
+    padding:5px 8px;border-bottom:1px solid var(--line)}
   .body{padding:8px}
   table{width:100%;border-collapse:collapse;font-size:12px}
   th{font-size:11px;font-weight:bold;text-align:left;padding:3px 6px;
-    border-bottom:1px solid var(--line);background:var(--lilac-soft)}
+    border-bottom:1px solid var(--line);background:var(--th-bg);color:var(--fg)}
   td{padding:3px 6px;border-bottom:1px solid var(--line-soft)}
   td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
   tr:last-child td{border-bottom:none}
@@ -43,32 +56,29 @@
   .kpi{border:1px solid var(--line-soft);padding:8px 10px}
   .kpi b{display:block;font-size:26px;line-height:1.05}
   .kpi span{font-size:11px;color:var(--mute)}
-  .kpi.acc{background:var(--lilac-soft)}
-  .barwrap{background:#F4F4F6;height:9px;width:100%}
-  .bar{height:9px;background:var(--lilac);display:block}
+  .kpi.acc{background:var(--kpi-bg)}
+  .barwrap{background:var(--track);height:9px;width:100%}
+  .bar{height:9px;background:var(--fill);display:block}
   .good{color:var(--ok)} .warn{color:var(--bad)} .empty{color:var(--mute)}
-  .spark{display:flex;align-items:flex-end;gap:6px;height:70px;padding-top:14px}
-  .spark div{flex:1;background:var(--lilac);position:relative;min-height:2px}
+  .spark{display:flex;align-items:flex-end;gap:6px;height:70px;padding-top:16px}
+  .spark div{flex:1;background:var(--fill);position:relative;min-height:2px}
   .spark div i{position:absolute;top:-14px;left:0;right:0;text-align:center;font-style:normal;font-size:11px}
   .spark div u{position:absolute;bottom:-16px;left:0;right:0;text-align:center;
     text-decoration:none;font-size:11px;color:var(--mute)}
-  .sparkbox{padding-bottom:22px}
+  .sparkbox{padding-bottom:30px}
+  .sparkbox .note{margin-top:16px}
   .note{font-size:11px;color:var(--mute);margin-top:6px}
   footer{margin-top:16px;font-size:11px;color:var(--mute);border-top:1px solid var(--line-soft);padding-top:8px}
   @media(max-width:800px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
 </style>
 </head>
-<body>
-
-<!-- ===================================================================
-     ЗАПОЛНИТЬ ДВЕ СТРОКИ НИЖЕ (ищи "НАСТРОЙКИ" в коде страницы)
-     =================================================================== -->
+<body data-theme="light">
 
 <div id="gate">
   <h1>Recruitment LatAm</h1>
-  <div class="sub" style="margin-bottom:10px">Введите пароль</div>
+  <div class="sub" style="margin-bottom:10px" id="g_hint">Введите пароль</div>
   <input id="pw" type="password" autocomplete="current-password">
-  <button id="go">Войти</button>
+  <button id="go">OK</button>
   <div class="err" id="err"></div>
 </div>
 
@@ -76,75 +86,83 @@
   <header>
     <div>
       <h1>Recruitment LatAm</h1>
-      <div class="sub">Обновлено: <span id="upd">—</span></div>
+      <div class="sub"><span id="l_upd"></span> <span id="upd">—</span></div>
     </div>
     <div class="controls">
       <select id="month"></select>
       <select id="dir"></select>
-      <button class="btn" id="reload">Обновить</button>
+      <select id="lang">
+        <option value="ru">RU</option>
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+      </select>
+      <button class="btn" id="theme">◐</button>
+      <button class="btn" id="reload">↻</button>
     </div>
   </header>
 
   <div class="grid">
     <section class="wide">
-      <div class="cap">Линия TCM</div>
+      <div class="cap" id="c_line"></div>
       <div class="body">
         <div class="kpis">
-          <div class="kpi acc"><b id="k1">—</b><span>На линии на конец месяца</span></div>
-          <div class="kpi"><b id="k2">—</b><span>На испытательном сейчас</span></div>
-          <div class="kpi"><b id="k3">—</b><span>В онбординге сейчас</span></div>
-          <div class="kpi"><b id="k4">—</b><span>Ушло с линии за месяц</span></div>
+          <div class="kpi acc"><b id="k1">—</b><span id="l_k1"></span></div>
+          <div class="kpi"><b id="k2">—</b><span id="l_k2"></span></div>
+          <div class="kpi"><b id="k3">—</b><span id="l_k3"></span></div>
+          <div class="kpi"><b id="k4">—</b><span id="l_k4"></span></div>
         </div>
         <div class="note" id="linenote"></div>
       </div>
     </section>
 
     <section>
-      <div class="cap">План найма по ролям</div>
+      <div class="cap" id="c_hiring"></div>
       <div class="body"><table id="hp"><thead><tr>
-        <th>Роль</th><th class="n">План</th><th class="n">Факт</th><th style="width:90px">Выполнение</th>
+        <th id="h_role"></th><th class="n h_plan"></th><th class="n h_fact"></th>
+        <th style="width:90px" id="h_done"></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
 
     <section>
-      <div class="cap">Воронка TCM</div>
+      <div class="cap" id="c_tcm"></div>
       <div class="body"><table id="ftcm"><thead><tr>
-        <th>Этап</th><th class="n">План</th><th class="n">Факт</th><th class="n">Конв.</th><th style="width:70px">От CV</th>
+        <th class="h_stage"></th><th class="n h_plan"></th><th class="n h_fact"></th>
+        <th class="n h_conv"></th><th style="width:70px" class="h_fromcv"></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
 
     <section>
-      <div class="cap">Текучесть линии по месяцам</div>
+      <div class="cap" id="c_attr"></div>
       <div class="body sparkbox">
         <div class="spark" id="attr"></div>
-        <div class="note">Ушло за месяц / средняя численность линии</div>
+        <div class="note" id="n_attr"></div>
       </div>
     </section>
 
     <section>
-      <div class="cap">Воронка тьюторов</div>
+      <div class="cap" id="c_tut"></div>
       <div class="body"><table id="ftut"><thead><tr>
-        <th>Этап</th><th class="n">План</th><th class="n">Факт</th><th class="n">Конв.</th><th style="width:70px">От CV</th>
+        <th class="h_stage"></th><th class="n h_plan"></th><th class="n h_fact"></th>
+        <th class="n h_conv"></th><th style="width:70px" class="h_fromcv"></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
 
     <section class="wide">
-      <div class="cap">Прогноз линии до конца года</div>
+      <div class="cap" id="c_fc"></div>
       <div class="body"><table id="fc"><thead><tr>
-        <th>Месяц</th><th class="n">Прогноз</th><th class="n">План</th><th class="n">Выполнение</th><th style="width:200px"></th>
+        <th id="h_month"></th><th class="n" id="h_forecast"></th><th class="n h_plan"></th>
+        <th class="n" id="h_done2"></th><th style="width:200px"></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
   </div>
 
-  <footer>Источник — вкладка DASH_export рабочей таблицы.</footer>
+  <footer id="foot"></footer>
 </div>
 
 <script>
 /* ====================== НАСТРОЙКИ ======================
-   1) CSV_URL — ссылка из Google Sheets:
-      Файл → Опубликовать в интернете → вкладка DASH_export → формат CSV → Опубликовать.
-      Скопированную ссылку вставить между кавычками.
-   2) PASSWORD — пароль для входа. Меняется здесь же.
+   CSV_URL  — ссылка на опубликованную вкладку DASH_export
+   PASSWORD — пароль для входа
    ======================================================= */
 
 const CSV_URL  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3YaXHbL1oozm-mG8by4vCf4C5eyAE3kSsXPw67L4O8GhFJelMhGXJpyxq6iE4zLcYqrOZNuZ4uzdb/pub?gid=26648926&single=true&output=csv";
@@ -152,13 +170,85 @@ const PASSWORD = "latam2026";
 
 /* ============ дальше ничего менять не нужно ============ */
 
-const MONTHS = ["Январь","Февраль","Март","Апрель","Май","Июнь",
-                "Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
-let ROWS = [];
+const UI = {
+  ru:{hint:"Введите пароль",ok:"Войти",wrong:"Неверный пароль",loading:"Загрузка…",
+    upd:"Обновлено:",line:"Линия TCM",hiring:"План найма по ролям",tcm:"Воронка TCM",
+    tut:"Воронка тьюторов",attr:"Текучесть линии по месяцам",fc:"Прогноз линии до конца года",
+    k1:"На линии на конец месяца",k2:"На испытательном сейчас",k3:"В онбординге сейчас",
+    k4:"Ушло с линии за месяц",role:"Роль",stage:"Этап",plan:"План",fact:"Факт",
+    conv:"Конв.",fromcv:"От CV",done:"Выполнение",month:"Месяц",forecast:"Прогноз",
+    noplan:"нет плана",nodata:"Нет данных за месяц",
+    nattr:"Ушло за месяц / средняя численность линии",
+    notePlan:"План на конец месяца: ",noteNow:"Испытательный и онбординг — текущий срез, не история.",
+    foot:"Источник — вкладка DASH_export рабочей таблицы.",
+    months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+    short:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"]},
+  en:{hint:"Enter password",ok:"Log in",wrong:"Wrong password",loading:"Loading…",
+    upd:"Updated:",line:"TCM line",hiring:"Hiring plan by role",tcm:"TCM funnel",
+    tut:"Tutor funnel",attr:"Line attrition by month",fc:"Line forecast to year end",
+    k1:"On line at month end",k2:"On probation now",k3:"In onboarding now",
+    k4:"Left the line this month",role:"Role",stage:"Stage",plan:"Plan",fact:"Fact",
+    conv:"Conv.",fromcv:"From CV",done:"Achieved",month:"Month",forecast:"Forecast",
+    noplan:"no plan",nodata:"No data for this month",
+    nattr:"Left during month / average line headcount",
+    notePlan:"Plan for month end: ",noteNow:"Probation and onboarding are a current snapshot, not history.",
+    foot:"Source — DASH_export tab of the working spreadsheet.",
+    months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+    short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
+  es:{hint:"Introduce la contraseña",ok:"Entrar",wrong:"Contraseña incorrecta",loading:"Cargando…",
+    upd:"Actualizado:",line:"Línea TCM",hiring:"Plan de contratación por rol",tcm:"Embudo TCM",
+    tut:"Embudo de tutores",attr:"Rotación de la línea por mes",fc:"Previsión de la línea hasta fin de año",
+    k1:"En línea al cierre del mes",k2:"En periodo de prueba ahora",k3:"En onboarding ahora",
+    k4:"Salidas de la línea en el mes",role:"Rol",stage:"Etapa",plan:"Plan",fact:"Real",
+    conv:"Conv.",fromcv:"Desde CV",done:"Cumplimiento",month:"Mes",forecast:"Previsión",
+    noplan:"sin plan",nodata:"Sin datos para este mes",
+    nattr:"Salidas del mes / plantilla media de la línea",
+    notePlan:"Plan al cierre del mes: ",noteNow:"Periodo de prueba y onboarding son una foto actual, no historial.",
+    foot:"Fuente — pestaña DASH_export de la hoja de trabajo.",
+    months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
+    short:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]}
+};
 
+const TERMS = {
+  "CV in progress":            {ru:"Резюме в работе",           es:"CV en proceso"},
+  "HR interview scheduled":    {ru:"HR-интервью назначено",     es:"Entrevista RR.HH. agendada"},
+  "HR interview done":         {ru:"HR-интервью проведено",     es:"Entrevista RR.HH. realizada"},
+  "Role-play scheduled":       {ru:"Ролевая игра назначена",    es:"Role-play agendado"},
+  "Role-play done":            {ru:"Ролевая игра проведена",    es:"Role-play realizado"},
+  "Approved for onboarding":   {ru:"Допущен до онбординга",     es:"Aprobado para onboarding"},
+  "Probation started":         {ru:"Вышел на испытательный",    es:"Periodo de prueba iniciado"},
+  "Line started":              {ru:"Вышел на линию",            es:"Incorporado a la línea"},
+  "Test task assigned":        {ru:"Тестовое выдано",           es:"Prueba técnica asignada"},
+  "Test task passed":          {ru:"Тестовое пройдено",         es:"Prueba técnica aprobada"},
+  "Assigned to onboarding":    {ru:"Назначен на онбординг",     es:"Asignado a onboarding"},
+  "Onboarding completed":      {ru:"Онбординг завершён",        es:"Onboarding completado"},
+  "Final interview":           {ru:"Финальное интервью",        es:"Entrevista final"},
+  "Offer made":                {ru:"Оффер выдан",               es:"Oferta enviada"},
+  "TCM — line":                {ru:"TCM — линия",               es:"TCM — línea"},
+  "Online Tutor IT":           {ru:"Тьютор IT",                 es:"Tutor de IT"},
+  "Online Tutor Math":         {ru:"Тьютор математики",         es:"Tutor de Matemáticas"},
+  "Online Tutor Design":       {ru:"Тьютор дизайна",            es:"Tutor de Diseño"},
+  "Attendance Manager":        {ru:"Менеджер посещаемости",     es:"Gestor de Asistencia"},
+  "Booking Manager":           {ru:"Менеджер записи",           es:"Gestor de Reservas"},
+  "Finance Manager":           {ru:"Финансовый менеджер",       es:"Gestor Financiero"},
+  "QC":                        {ru:"Контроль качества",         es:"Control de Calidad"},
+  "Secondary Sales":           {ru:"Вторичные продажи",         es:"Ventas Secundarias"},
+  "Team Lead Secondary Sales": {ru:"Тимлид вторичных продаж",   es:"Líder de Ventas Secundarias"},
+  "Customer Support":          {ru:"Поддержка клиентов",        es:"Soporte al Cliente"},
+  "Tutor coordinator":         {ru:"Координатор тьюторов",      es:"Coordinador de Tutores"},
+  "All tutors":                {ru:"Все тьюторы",               es:"Todos los tutores"}
+};
+
+let ROWS = [];
+let lang = sessionStorage.getItem('dashlang') || 'ru';
+let theme = sessionStorage.getItem('dashtheme') || 'light';
+
+const L = () => UI[lang];
+const T = k => (lang === 'en' ? k : ((TERMS[k] || {})[lang] || k));
 const pct = v => (v === null || v === undefined || !isFinite(v)) ? "—" : Math.round(v*100) + "%";
 const num = v => (v === null || v === undefined || v === "") ? "—" : v;
-const bar = f => `<div class="barwrap"><span class="bar" style="width:${Math.max(0,Math.min(f,1.2))/1.2*100}%"></span></div>`;
+const bar = f => '<div class="barwrap"><span class="bar" style="width:' +
+  (Math.max(0, Math.min(f, 1.2)) / 1.2 * 100) + '%"></span></div>';
 const pick = (block, month, dim) => ROWS
   .filter(r => r.block === block && (month === undefined || r.month === month) && (dim === undefined || r.dim === dim))
   .sort((a,b) => (a.order||0) - (b.order||0));
@@ -182,11 +272,20 @@ function parseCSV(text) {
 
 async function load() {
   const res = await fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now());
-  if (!res.ok) throw new Error('Не удалось загрузить данные (' + res.status + ')');
+  if (!res.ok) throw new Error('HTTP ' + res.status);
   const table = parseCSV(await res.text());
-  const head = (table[0] || []).map(h => h.trim());
+  const head = (table[0] || []).map(h => h.replace(/^\uFEFF/, '').trim());
   const at = name => head.indexOf(name);
-  const n = v => (v === undefined || v === '' ? null : (isNaN(Number(v)) ? v : Number(v)));
+  const n = v => {
+    if (v === undefined || v === null || v === '') return null;
+    const s = String(v).trim();
+    if (/^-?[\d\s.,]+%$/.test(s)) {
+      const x = Number(s.replace('%','').replace(/\s/g,'').replace(',','.'));
+      return isNaN(x) ? s : x / 100;
+    }
+    const x = Number(s.replace(/\s/g,'').replace(',','.'));
+    return isNaN(x) ? s : x;
+  };
   ROWS = table.slice(1).filter(r => r[at('block')]).map(r => ({
     year: n(r[at('year')]), month: n(r[at('month')]),
     block: r[at('block')], key: r[at('key')] || '', dim: r[at('dim')] || '',
@@ -195,24 +294,61 @@ async function load() {
   }));
 }
 
+function applyChrome() {
+  document.body.setAttribute('data-theme', theme);
+  document.documentElement.lang = lang;
+  const t = L();
+  document.getElementById('g_hint').textContent = t.hint;
+  document.getElementById('go').textContent = t.ok;
+  document.getElementById('l_upd').textContent = t.upd;
+  document.getElementById('c_line').textContent = t.line;
+  document.getElementById('c_hiring').textContent = t.hiring;
+  document.getElementById('c_tcm').textContent = t.tcm;
+  document.getElementById('c_tut').textContent = t.tut;
+  document.getElementById('c_attr').textContent = t.attr;
+  document.getElementById('c_fc').textContent = t.fc;
+  document.getElementById('l_k1').textContent = t.k1;
+  document.getElementById('l_k2').textContent = t.k2;
+  document.getElementById('l_k3').textContent = t.k3;
+  document.getElementById('l_k4').textContent = t.k4;
+  document.getElementById('h_role').textContent = t.role;
+  document.getElementById('h_done').textContent = t.done;
+  document.getElementById('h_done2').textContent = t.done;
+  document.getElementById('h_month').textContent = t.month;
+  document.getElementById('h_forecast').textContent = t.forecast;
+  document.getElementById('n_attr').textContent = t.nattr;
+  document.getElementById('foot').textContent = t.foot;
+  document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
+  document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
+  document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
+  document.querySelectorAll('.h_conv').forEach(e => e.textContent = t.conv);
+  document.querySelectorAll('.h_fromcv').forEach(e => e.textContent = t.fromcv);
+  document.getElementById('lang').value = lang;
+}
+
 function boot() {
   document.getElementById('gate').hidden = true;
   document.getElementById('app').hidden = false;
+  applyChrome();
   document.getElementById('upd').textContent =
-    new Date().toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' });
+    new Date().toLocaleString(lang === 'ru' ? 'ru-RU' : (lang === 'es' ? 'es-ES' : 'en-GB'),
+      { dateStyle: 'short', timeStyle: 'short' });
 
   const months = [...new Set(ROWS.filter(r => r.month > 0).map(r => r.month))].sort((a,b) => a-b);
   const sel = document.getElementById('month');
   const cur = sel.value;
-  sel.innerHTML = months.map(m => `<option value="${m}">${MONTHS[m-1]}</option>`).join('');
+  sel.innerHTML = months.map(m => '<option value="' + m + '">' + L().months[m-1] + '</option>').join('');
   const nowM = new Date().getMonth() + 1;
   sel.value = cur || (months.includes(nowM) ? nowM : months[months.length-1]);
 
-  const dims = [...new Set(pick('funnel_tutor').map(r => r.dim))].filter(Boolean);
   const dsel = document.getElementById('dir');
-  const curD = dsel.value;
-  dsel.innerHTML = dims.map(d => `<option>${d}</option>`).join('');
-  if (curD) dsel.value = curD;
+  const dims = [...new Set(pick('funnel_tutor').map(r => r.dim))].filter(Boolean);
+  const curD = dsel.value ? dsel.selectedOptions[0].dataset.raw : null;
+  dsel.innerHTML = dims.map(d => '<option data-raw="' + d + '">' + T(d) + '</option>').join('');
+  if (curD) {
+    const i = dims.indexOf(curD);
+    if (i >= 0) dsel.selectedIndex = i;
+  }
 
   sel.onchange = render;
   dsel.onchange = render;
@@ -220,21 +356,25 @@ function boot() {
 }
 
 function funnel(id, rows) {
+  const t = L();
   const tb = document.querySelector('#' + id + ' tbody');
-  if (!rows.length) { tb.innerHTML = `<tr><td colspan="5" class="empty">Нет данных за месяц</td></tr>`; return; }
+  if (!rows.length) { tb.innerHTML = '<tr><td colspan="5" class="empty">' + t.nodata + '</td></tr>'; return; }
   const top = rows[0].fact;
   tb.innerHTML = rows.map((r,i) => {
     const prev = i > 0 ? rows[i-1].fact : null;
     const conv = i === 0 ? 1 : (r.fact !== null && prev) ? r.fact/prev : null;
     const cum  = (r.fact !== null && top) ? r.fact/top : null;
-    return `<tr><td>${r.key}</td><td class="n">${num(r.plan)}</td><td class="n">${num(r.fact)}</td>
-      <td class="n">${pct(conv)}</td><td>${cum === null ? '<span class="empty">—</span>' : bar(cum)}</td></tr>`;
+    return '<tr><td>' + T(r.key) + '</td><td class="n">' + num(r.plan) + '</td><td class="n">' + num(r.fact) +
+      '</td><td class="n">' + pct(conv) + '</td><td>' +
+      (cum === null ? '<span class="empty">—</span>' : bar(cum)) + '</td></tr>';
   }).join('');
 }
 
 function render() {
+  const t = L();
   const m = +document.getElementById('month').value;
-  const dir = document.getElementById('dir').value;
+  const dsel = document.getElementById('dir');
+  const dir = dsel.selectedOptions.length ? dsel.selectedOptions[0].dataset.raw : undefined;
   const g = (arr,k) => (arr.find(r => r.key === k) || {});
 
   const line = pick('line', m), now = pick('now', 0);
@@ -244,52 +384,62 @@ function render() {
   document.getElementById('k4').textContent = num(g(line,'left_month').fact);
   const planLine = g(line,'in_line').plan;
   document.getElementById('linenote').textContent =
-    (planLine ? `План на конец месяца: ${planLine}. ` : '') +
-    'Испытательный и онбординг — текущий срез, не история.';
+    (planLine ? t.notePlan + planLine + '. ' : '') + t.noteNow;
 
   const hp = pick('hiring', m);
   document.querySelector('#hp tbody').innerHTML = hp.length ? hp.map(r => {
     const v = r.plan ? r.fact/r.plan : null;
-    return `<tr><td>${r.key}</td><td class="n">${num(r.plan)}</td><td class="n">${num(r.fact)}</td>
-      <td>${v === null ? '<span class="empty">нет плана</span>'
-        : bar(v) + `<span class="note ${v>=1?'good':(v<0.5?'warn':'')}">${pct(v)}</span>`}</td></tr>`;
-  }).join('') : `<tr><td colspan="4" class="empty">Нет данных за месяц</td></tr>`;
+    const cell = (v === null)
+      ? '<span class="empty">' + t.noplan + '</span>'
+      : bar(v) + '<span class="note ' + (v>=1?'good':(v<0.5?'warn':'')) + '">' + pct(v) + '</span>';
+    return '<tr><td>' + T(r.key) + '</td><td class="n">' + num(r.plan) + '</td><td class="n">' +
+      num(r.fact) + '</td><td>' + cell + '</td></tr>';
+  }).join('') : '<tr><td colspan="4" class="empty">' + t.nodata + '</td></tr>';
 
   funnel('ftcm', pick('funnel_tcm', m));
   funnel('ftut', pick('funnel_tutor', m, dir));
 
-  const at = pick('attrition').filter(r => r.fact !== null);
+  const at = pick('attrition').filter(r => r.plan > 0);
   const max = Math.max(...at.map(r => r.extra || 0), 0.01);
   document.getElementById('attr').innerHTML = at.map(r =>
-    `<div style="height:${Math.max((r.extra||0)/max*100,2)}%"><i>${pct(r.extra)}</i><u>${MONTHS[r.month-1].slice(0,3)}</u></div>`
-  ).join('');
+    '<div style="height:' + Math.max((r.extra||0)/max*100, 2) + '%"><i>' + pct(r.extra) +
+    '</i><u>' + t.short[r.month-1] + '</u></div>').join('');
 
   const fc = pick('forecast').filter(r => r.fact !== null || r.plan !== null);
   document.querySelector('#fc tbody').innerHTML = fc.map(r => {
     const v = r.plan ? r.fact/r.plan : null;
-    return `<tr><td>${MONTHS[r.month-1]}</td><td class="n">${num(r.fact)}</td><td class="n">${num(r.plan)}</td>
-      <td class="n ${v!==null&&v>=1?'good':(v!==null&&v<0.9?'warn':'')}">${pct(v)}</td>
-      <td>${v === null ? '' : bar(v)}</td></tr>`;
+    return '<tr><td>' + t.months[r.month-1] + '</td><td class="n">' + num(r.fact) + '</td><td class="n">' +
+      num(r.plan) + '</td><td class="n ' + (v!==null&&v>=1?'good':(v!==null&&v<0.9?'warn':'')) + '">' +
+      pct(v) + '</td><td>' + (v === null ? '' : bar(v)) + '</td></tr>';
   }).join('');
 }
 
 async function enter(pw, silent) {
   const err = document.getElementById('err');
-  if (pw !== PASSWORD) { if (!silent) err.textContent = 'Неверный пароль'; sessionStorage.removeItem('dashpw'); return; }
-  err.textContent = 'Загрузка…';
-  try {
-    await load();
-    sessionStorage.setItem('dashpw', pw);
-    boot();
-  } catch (e) {
-    err.textContent = e.message;
-  }
+  if (pw !== PASSWORD) { if (!silent) err.textContent = L().wrong; sessionStorage.removeItem('dashpw'); return; }
+  err.textContent = L().loading;
+  try { await load(); sessionStorage.setItem('dashpw', pw); boot(); }
+  catch (e) { err.textContent = e.message; }
 }
 
+document.getElementById('lang').onchange = e => {
+  lang = e.target.value;
+  sessionStorage.setItem('dashlang', lang);
+  boot();
+};
+document.getElementById('theme').onclick = () => {
+  theme = theme === 'light' ? 'dark' : 'light';
+  sessionStorage.setItem('dashtheme', theme);
+  document.body.setAttribute('data-theme', theme);
+};
 document.getElementById('go').onclick = () => enter(document.getElementById('pw').value);
-document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('go').click(); });
+document.getElementById('pw').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('go').click();
+});
 document.getElementById('reload').onclick = async () => { await load(); boot(); };
 
+document.body.setAttribute('data-theme', theme);
+applyChrome();
 const saved = sessionStorage.getItem('dashpw');
 if (saved) enter(saved, true); else document.getElementById('pw').focus();
 </script>
