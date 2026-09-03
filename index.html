@@ -6,79 +6,83 @@
 <title>Recruitment LatAm</title>
 <style>
   :root{
-    --lilac:#D8C8E8; --lilac-soft:#F1EAF7;
-    --bg:#FFFFFF; --fg:#000000; --mute:#6B6B72;
-    --line:#D6D6DB; --line-soft:#EAEAEE;
-    --cap-bg:#D8C8E8; --cap-fg:#000000;
-    --th-bg:#F1EAF7; --kpi-bg:#F1EAF7;
-    --track:#F4F4F6; --fill:#D8C8E8;
-    --ok:#2E7D4F; --bad:#B3261E; --field:#FFFFFF;
+    --lilac:#D8C8E8; --bg:#FFFFFF; --panel:#FFFFFF; --fg:#111114; --mute:#6B6B72;
+    --line:#E3E3E8; --line-soft:#EFEFF3;
+    --cap-bg:#D8C8E8; --cap-fg:#141318; --th-bg:#F6F2FA; --kpi-bg:#F6F2FA;
+    --track:#F1F1F4; --fill:#C6B0DE; --fill-2:#E4D8F0;
+    --ok:#2E7D4F; --bad:#B3261E; --field:#FFFFFF; --zone:#8A8A93;
   }
   body[data-theme="dark"]{
-    --bg:#151419; --fg:#EDEDF2; --mute:#9A9AA4;
-    --line:#3A3A44; --line-soft:#2A2A32;
-    --cap-bg:#2B2833; --cap-fg:#D8C8E8;
-    --th-bg:#232029; --kpi-bg:#201E27;
-    --track:#26252D; --fill:#8E79AE;
-    --ok:#6FCF97; --bad:#F08A84; --field:#1D1C23;
+    --bg:#131217; --panel:#191821; --fg:#EDEDF2; --mute:#9A9AA4;
+    --line:#33323D; --line-soft:#26252E;
+    --cap-bg:#2C2937; --cap-fg:#D8C8E8; --th-bg:#221F2A; --kpi-bg:#201E28;
+    --track:#26252E; --fill:#8E79AE; --fill-2:#43395A;
+    --ok:#6FCF97; --bad:#F08A84; --field:#1C1B23; --zone:#7E7D89;
   }
   *{box-sizing:border-box}
-  body{margin:0;padding:18px 20px 40px;font-family:Arial,Helvetica,sans-serif;
+  body{margin:0;padding:16px 18px 36px;font-family:Arial,Helvetica,sans-serif;
     font-size:12px;color:var(--fg);background:var(--bg)}
-  h1{font-size:15px;font-weight:bold;margin:0 0 2px}
+  h1{font-size:16px;font-weight:bold;margin:0 0 2px;letter-spacing:-.2px}
   .sub{font-size:11px;color:var(--mute)}
-  #gate{max-width:300px;margin:14vh auto 0}
-  #gate input{width:100%;font-family:Arial;font-size:13px;padding:7px 9px;color:var(--fg);
-    background:var(--field);border:1px solid var(--line);border-radius:2px;margin-bottom:8px}
-  #gate button{width:100%;font-family:Arial;font-size:13px;padding:7px;color:#000;
-    border:1px solid var(--line);background:var(--lilac);cursor:pointer;border-radius:2px}
+  #gate{max-width:290px;margin:15vh auto 0}
+  #gate input{width:100%;font-family:Arial;font-size:13px;padding:8px 9px;color:var(--fg);
+    background:var(--field);border:1px solid var(--line);border-radius:3px;margin-bottom:8px}
+  #gate button{width:100%;font-family:Arial;font-size:13px;padding:8px;color:#141318;
+    border:none;background:var(--lilac);cursor:pointer;border-radius:3px;font-weight:bold}
   #gate .err{color:var(--bad);font-size:11px;min-height:15px;margin-top:6px}
   header{display:flex;justify-content:space-between;align-items:flex-end;
-    border-bottom:2px solid var(--cap-bg);padding-bottom:8px;margin-bottom:14px;flex-wrap:wrap;gap:12px}
-  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  select,.btn{font-family:Arial;font-size:12px;padding:4px 10px;border:1px solid var(--line);
-    background:var(--field);color:var(--fg);border-radius:2px}
-  .btn{cursor:pointer}
+    border-bottom:2px solid var(--cap-bg);padding-bottom:9px;margin-bottom:6px;flex-wrap:wrap;gap:12px}
+  .controls{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  select,.btn{font-family:Arial;font-size:12px;padding:5px 9px;border:1px solid var(--line);
+    background:var(--field);color:var(--fg);border-radius:3px}
+  .btn{cursor:pointer;min-width:32px}
   select:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #7A5EA8;outline-offset:1px}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;align-items:start}
-  .wide{grid-column:1 / -1}
-  section{border:1px solid var(--line-soft)}
-  .cap{font-size:11px;font-weight:bold;background:var(--cap-bg);color:var(--cap-fg);
-    padding:5px 8px;border-bottom:1px solid var(--line)}
-  .body{padding:8px}
+  .zone{font-size:10px;font-weight:bold;letter-spacing:.9px;text-transform:uppercase;
+    color:var(--zone);margin:18px 0 7px}
+  .grid{display:grid;gap:12px;align-items:start}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  section{border:1px solid var(--line);border-radius:4px;background:var(--panel);overflow:hidden}
+  .cap{font-size:11px;font-weight:bold;background:var(--cap-bg);color:var(--cap-fg);padding:6px 9px}
+  .body{padding:9px}
   table{width:100%;border-collapse:collapse;font-size:12px}
-  th{font-size:11px;font-weight:bold;text-align:left;padding:3px 6px;
-    border-bottom:1px solid var(--line);background:var(--th-bg);color:var(--fg)}
-  td{padding:3px 6px;border-bottom:1px solid var(--line-soft)}
+  th{font-size:11px;font-weight:bold;text-align:left;padding:4px 6px;
+    border-bottom:1px solid var(--line);background:var(--th-bg);color:var(--fg);white-space:nowrap}
+  td{padding:4px 6px;border-bottom:1px solid var(--line-soft)}
   td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
   tr:last-child td{border-bottom:none}
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  .kpi{border:1px solid var(--line-soft);padding:8px 10px}
-  .kpi b{display:block;font-size:26px;line-height:1.05}
-  .kpi span{font-size:11px;color:var(--mute)}
-  .kpi.acc{background:var(--kpi-bg)}
-  .barwrap{background:var(--track);height:9px;width:100%}
-  .bar{height:9px;background:var(--fill);display:block}
+  tr.total td{font-weight:bold;border-top:1px solid var(--line)}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .kpi{border:1px solid var(--line);border-radius:4px;padding:10px 11px;background:var(--kpi-bg)}
+  .kpi b{display:block;font-size:27px;line-height:1.05;letter-spacing:-.5px}
+  .kpi span{font-size:11px;color:var(--mute);display:block;margin-top:3px}
+  .kpi em{font-style:normal;font-size:11px;font-weight:bold}
+  .barwrap{background:var(--track);height:8px;width:100%;border-radius:2px;overflow:hidden}
+  .bar{height:8px;background:var(--fill);display:block}
+  .stage{display:flex;align-items:center;gap:7px}
+  .stage .barwrap{flex:1}
   .good{color:var(--ok)} .warn{color:var(--bad)} .empty{color:var(--mute)}
-  .spark{display:flex;align-items:flex-end;gap:6px;height:70px;padding-top:16px}
-  .spark div{flex:1;background:var(--fill);position:relative;min-height:2px}
-  .spark div i{position:absolute;top:-14px;left:0;right:0;text-align:center;font-style:normal;font-size:11px}
-  .spark div u{position:absolute;bottom:-16px;left:0;right:0;text-align:center;
-    text-decoration:none;font-size:11px;color:var(--mute)}
-  .sparkbox{padding-bottom:30px}
-  .sparkbox .note{margin-top:16px}
-  .note{font-size:11px;color:var(--mute);margin-top:6px}
-  footer{margin-top:16px;font-size:11px;color:var(--mute);border-top:1px solid var(--line-soft);padding-top:8px}
-  @media(max-width:800px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+  .chart{display:flex;align-items:flex-end;gap:5px;height:96px;padding-top:16px}
+  .chart .col{flex:1;position:relative;height:100%;display:flex;align-items:flex-end}
+  .chart .col span.v{position:absolute;top:-15px;left:0;right:0;text-align:center;font-size:10px;color:var(--mute)}
+  .chart .col span.b{width:100%;background:var(--fill);border-radius:2px 2px 0 0;min-height:2px}
+  .chart .col span.b.dim{background:var(--fill-2)}
+  .chart .col u{position:absolute;bottom:-17px;left:0;right:0;text-align:center;
+    text-decoration:none;font-size:10px;color:var(--mute)}
+  .chart .col i.plan{position:absolute;left:0;right:0;border-top:1px dashed var(--mute);font-style:normal}
+  .chartbox{padding-bottom:26px}
+  .note{font-size:11px;color:var(--mute);margin-top:8px;line-height:1.45}
+  footer{margin-top:20px;font-size:11px;color:var(--mute);border-top:1px solid var(--line-soft);padding-top:9px}
+  @media(max-width:900px){.g2,.g3{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body data-theme="light">
 
 <div id="gate">
   <h1>Recruitment LatAm</h1>
-  <div class="sub" style="margin-bottom:10px" id="g_hint">Введите пароль</div>
+  <div class="sub" style="margin-bottom:10px" id="g_hint"></div>
   <input id="pw" type="password" autocomplete="current-password">
-  <button id="go">OK</button>
+  <button id="go"></button>
   <div class="err" id="err"></div>
 </div>
 
@@ -92,69 +96,78 @@
       <select id="month"></select>
       <select id="dir"></select>
       <select id="lang">
-        <option value="ru">RU</option>
-        <option value="en">EN</option>
-        <option value="es">ES</option>
+        <option value="ru">RU</option><option value="en">EN</option><option value="es">ES</option>
       </select>
-      <button class="btn" id="theme">◐</button>
-      <button class="btn" id="reload">↻</button>
+      <button class="btn" id="theme">&#9686;</button>
+      <button class="btn" id="reload">&#8635;</button>
     </div>
   </header>
 
-  <div class="grid">
-    <section class="wide">
-      <div class="cap" id="c_line"></div>
-      <div class="body">
-        <div class="kpis">
-          <div class="kpi acc"><b id="k1">—</b><span id="l_k1"></span></div>
-          <div class="kpi"><b id="k2">—</b><span id="l_k2"></span></div>
-          <div class="kpi"><b id="k3">—</b><span id="l_k3"></span></div>
-          <div class="kpi"><b id="k4">—</b><span id="l_k4"></span></div>
-        </div>
-        <div class="note" id="linenote"></div>
-      </div>
-    </section>
+  <div class="zone" id="z1"></div>
+  <div class="kpis">
+    <div class="kpi"><b id="k1">—</b><span id="l_k1"></span><em id="d1"></em></div>
+    <div class="kpi"><b id="k2">—</b><span id="l_k2"></span></div>
+    <div class="kpi"><b id="k3">—</b><span id="l_k3"></span></div>
+    <div class="kpi"><b id="k4">—</b><span id="l_k4"></span></div>
+    <div class="kpi"><b id="k5">—</b><span id="l_k5"></span></div>
+  </div>
+  <div class="note" id="linenote"></div>
 
-    <section>
-      <div class="cap" id="c_hiring"></div>
-      <div class="body"><table id="hp"><thead><tr>
-        <th id="h_role"></th><th class="n h_plan"></th><th class="n h_fact"></th>
-        <th style="width:90px" id="h_done"></th>
-      </tr></thead><tbody></tbody></table></div>
-    </section>
-
+  <div class="zone" id="z2"></div>
+  <div class="grid g2">
     <section>
       <div class="cap" id="c_tcm"></div>
       <div class="body"><table id="ftcm"><thead><tr>
         <th class="h_stage"></th><th class="n h_plan"></th><th class="n h_fact"></th>
-        <th class="n h_conv"></th><th style="width:70px" class="h_fromcv"></th>
+        <th class="n h_conv"></th><th style="width:78px" class="h_fromcv"></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
-
-    <section>
-      <div class="cap" id="c_attr"></div>
-      <div class="body sparkbox">
-        <div class="spark" id="attr"></div>
-        <div class="note" id="n_attr"></div>
-      </div>
-    </section>
-
     <section>
       <div class="cap" id="c_tut"></div>
       <div class="body"><table id="ftut"><thead><tr>
         <th class="h_stage"></th><th class="n h_plan"></th><th class="n h_fact"></th>
-        <th class="n h_conv"></th><th style="width:70px" class="h_fromcv"></th>
-      </tr></thead><tbody></tbody></table></div>
-    </section>
-
-    <section class="wide">
-      <div class="cap" id="c_fc"></div>
-      <div class="body"><table id="fc"><thead><tr>
-        <th id="h_month"></th><th class="n" id="h_forecast"></th><th class="n h_plan"></th>
-        <th class="n" id="h_done2"></th><th style="width:200px"></th>
+        <th class="n h_conv"></th><th style="width:78px" class="h_fromcv"></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
   </div>
+
+  <div class="zone" id="z3"></div>
+  <section>
+    <div class="cap" id="c_hiring"></div>
+    <div class="body"><table id="hp"><thead><tr>
+      <th id="h_role"></th><th class="n h_plan"></th><th class="n h_fact"></th>
+      <th style="width:150px" id="h_done"></th>
+    </tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <div class="zone" id="z4"></div>
+  <div class="grid g3">
+    <section>
+      <div class="cap" id="c_lined"></div>
+      <div class="body chartbox"><div class="chart" id="ch_line"></div>
+        <div class="note" id="n_line"></div></div>
+    </section>
+    <section>
+      <div class="cap" id="c_attr"></div>
+      <div class="body chartbox"><div class="chart" id="ch_attr"></div>
+        <div class="note" id="n_attr"></div></div>
+    </section>
+    <section>
+      <div class="cap" id="c_cph"></div>
+      <div class="body chartbox"><div class="chart" id="ch_cph"></div>
+        <div class="note" id="n_cph"></div></div>
+    </section>
+  </div>
+
+  <div class="zone" id="z5"></div>
+  <section>
+    <div class="cap" id="c_cost"></div>
+    <div class="body"><table id="cost"><thead><tr>
+      <th id="h_stream"></th><th class="n" id="h_spend"></th><th class="n" id="h_hires"></th>
+      <th class="n" id="h_cph"></th><th style="width:150px"></th>
+    </tr></thead><tbody></tbody></table>
+      <div class="note" id="n_cost"></div></div>
+  </section>
 
   <footer id="foot"></footer>
 </div>
@@ -171,142 +184,175 @@ const PASSWORD = "latam2026";
 /* ============ дальше ничего менять не нужно ============ */
 
 const UI = {
-  ru:{hint:"Введите пароль",ok:"Войти",wrong:"Неверный пароль",loading:"Загрузка…",
-    upd:"Обновлено:",line:"Линия TCM",hiring:"План найма по ролям",tcm:"Воронка TCM",
-    tut:"Воронка тьюторов",attr:"Текучесть линии по месяцам",fc:"Прогноз линии до конца года",
-    k1:"На линии",k2:"На испытательном сейчас",k3:"В онбординге сейчас",
-    k4:"Ушло с линии за месяц",role:"Роль",stage:"Этап",plan:"План",fact:"Факт",
-    conv:"Конв.",fromcv:"От CV",done:"Выполнение",month:"Месяц",forecast:"Прогноз",
-    noplan:"нет плана",nodata:"Нет данных за месяц",
-    nattr:"Ушло за месяц / средняя численность линии",
-    notePlan:"План на конец месяца: ",live:"Линия — живая цифра на сегодня, фиксируется в конце месяца.",closed:"Линия — зафиксированный итог месяца.",noteNow:"Испытательный и онбординг — текущий срез.",
-    foot:"Источник — вкладка DASH_export рабочей таблицы.",
-    months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
-    short:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"]},
-  en:{hint:"Enter password",ok:"Log in",wrong:"Wrong password",loading:"Loading…",
-    upd:"Updated:",line:"TCM line",hiring:"Hiring plan by role",tcm:"TCM funnel",
-    tut:"Tutor funnel",attr:"Line attrition by month",fc:"Line forecast to year end",
-    k1:"On line",k2:"On probation now",k3:"In onboarding now",
-    k4:"Left the line this month",role:"Role",stage:"Stage",plan:"Plan",fact:"Fact",
-    conv:"Conv.",fromcv:"From CV",done:"Achieved",month:"Month",forecast:"Forecast",
-    noplan:"no plan",nodata:"No data for this month",
-    nattr:"Left during month / average line headcount",
-    notePlan:"Plan for month end: ",live:"Line is a live figure as of today, frozen at month end.",closed:"Line is the frozen month-end figure.",noteNow:"Probation and onboarding are a current snapshot.",
-    foot:"Source — DASH_export tab of the working spreadsheet.",
-    months:["January","February","March","April","May","June","July","August","September","October","November","December"],
-    short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
-  es:{hint:"Introduce la contraseña",ok:"Entrar",wrong:"Contraseña incorrecta",loading:"Cargando…",
-    upd:"Actualizado:",line:"Línea TCM",hiring:"Plan de contratación por rol",tcm:"Embudo TCM",
-    tut:"Embudo de tutores",attr:"Rotación de la línea por mes",fc:"Previsión de la línea hasta fin de año",
-    k1:"En línea",k2:"En periodo de prueba ahora",k3:"En onboarding ahora",
-    k4:"Salidas de la línea en el mes",role:"Rol",stage:"Etapa",plan:"Plan",fact:"Real",
-    conv:"Conv.",fromcv:"Desde CV",done:"Cumplimiento",month:"Mes",forecast:"Previsión",
-    noplan:"sin plan",nodata:"Sin datos para este mes",
-    nattr:"Salidas del mes / plantilla media de la línea",
-    notePlan:"Plan al cierre del mes: ",live:"La línea es una cifra en vivo de hoy, se congela al cierre del mes.",closed:"La línea es la cifra congelada de cierre de mes.",noteNow:"Periodo de prueba y onboarding son una foto actual.",
-    foot:"Fuente — pestaña DASH_export de la hoja de trabajo.",
-    months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
-    short:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]}
+ ru:{hint:"Введите пароль",ok:"Войти",wrong:"Неверный пароль",loading:"Загрузка…",upd:"Обновлено:",
+  z1:"Сводка за месяц",z2:"Воронки подбора",z3:"Наём по ролям",z4:"Динамика по месяцам",z5:"Стоимость найма",
+  tcm:"Воронка TCM",tut:"Воронка тьюторов",hiring:"План и факт по ролям",
+  lined:"Линия на конец месяца",attr:"Текучесть линии",cph:"Стоимость найма, $",cost:"Стоимость найма по потокам",
+  k1:"На линии",k2:"На испытательном",k3:"В онбординге",k4:"Ушло за месяц",k5:"Стоимость найма",
+  role:"Роль",stage:"Этап",plan:"План",fact:"Факт",conv:"Конв.",fromcv:"От CV",done:"Выполнение",
+  stream:"Поток",spend:"Расход, $",hires:"Наняли",cphh:"За найм, $",
+  noplan:"нет плана",nodata:"Нет данных за месяц",nocost:"Нет данных о стоимости за этот месяц",
+  nattr:"Ушло за месяц / средняя численность линии",
+  nline:"Пунктир — план на конец месяца",ncph:"Стоимость одного найма, все потоки",
+  ncost:"Источник — вкладка Cost LatAm.",
+  toplan:"к плану",notePlan:"План на конец месяца: ",
+  live:"Линия — живая цифра на сегодня, фиксируется в конце месяца.",
+  closed:"Линия — зафиксированный итог месяца.",
+  noteNow:"Испытательный и онбординг — текущий срез.",
+  foot:"Источник — вкладка DASH_export рабочей таблицы.",
+  months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+  short:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"]},
+ en:{hint:"Enter password",ok:"Log in",wrong:"Wrong password",loading:"Loading…",upd:"Updated:",
+  z1:"Month summary",z2:"Recruitment funnels",z3:"Hiring by role",z4:"Monthly trends",z5:"Cost per hire",
+  tcm:"TCM funnel",tut:"Tutor funnel",hiring:"Plan vs fact by role",
+  lined:"Line at month end",attr:"Line attrition",cph:"Cost per hire, $",cost:"Cost per hire by stream",
+  k1:"On line",k2:"On probation",k3:"In onboarding",k4:"Left this month",k5:"Cost per hire",
+  role:"Role",stage:"Stage",plan:"Plan",fact:"Fact",conv:"Conv.",fromcv:"From CV",done:"Achieved",
+  stream:"Stream",spend:"Spend, $",hires:"Hires",cphh:"Per hire, $",
+  noplan:"no plan",nodata:"No data for this month",nocost:"No cost data for this month",
+  nattr:"Left during month / average line headcount",
+  nline:"Dashed line — plan at month end",ncph:"Cost of one hire, all streams",
+  ncost:"Source — Cost LatAm tab.",
+  toplan:"vs plan",notePlan:"Plan for month end: ",
+  live:"Line is a live figure as of today, frozen at month end.",
+  closed:"Line is the frozen month-end figure.",
+  noteNow:"Probation and onboarding are a current snapshot.",
+  foot:"Source — DASH_export tab of the working spreadsheet.",
+  months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
+ es:{hint:"Introduce la contraseña",ok:"Entrar",wrong:"Contraseña incorrecta",loading:"Cargando…",upd:"Actualizado:",
+  z1:"Resumen del mes",z2:"Embudos de selección",z3:"Contratación por rol",z4:"Tendencias mensuales",z5:"Coste por contratación",
+  tcm:"Embudo TCM",tut:"Embudo de tutores",hiring:"Plan y real por rol",
+  lined:"Línea al cierre del mes",attr:"Rotación de la línea",cph:"Coste por contratación, $",cost:"Coste por contratación por flujo",
+  k1:"En línea",k2:"En periodo de prueba",k3:"En onboarding",k4:"Salidas del mes",k5:"Coste por contratación",
+  role:"Rol",stage:"Etapa",plan:"Plan",fact:"Real",conv:"Conv.",fromcv:"Desde CV",done:"Cumplimiento",
+  stream:"Flujo",spend:"Gasto, $",hires:"Contrataciones",cphh:"Por contrat., $",
+  noplan:"sin plan",nodata:"Sin datos para este mes",nocost:"Sin datos de coste para este mes",
+  nattr:"Salidas del mes / plantilla media de la línea",
+  nline:"Línea discontinua — plan al cierre del mes",ncph:"Coste de una contratación, todos los flujos",
+  ncost:"Fuente — pestaña Cost LatAm.",
+  toplan:"vs plan",notePlan:"Plan al cierre del mes: ",
+  live:"La línea es una cifra en vivo de hoy, se congela al cierre del mes.",
+  closed:"La línea es la cifra congelada de cierre de mes.",
+  noteNow:"Periodo de prueba y onboarding son una foto actual.",
+  foot:"Fuente — pestaña DASH_export de la hoja de trabajo.",
+  months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
+  short:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]}
 };
 
 const TERMS = {
-  "CV in progress":            {ru:"Резюме в работе",        es:"CV en proceso"},
-  "HR interview scheduled":    {ru:"HR-интервью назначено",  es:"Entrevista RR.HH. agendada"},
-  "HR interview done":         {ru:"HR-интервью проведено",  es:"Entrevista RR.HH. realizada"},
-  "Role-play scheduled":       {ru:"Ролевая игра назначена", es:"Role-play agendado"},
-  "Role-play done":            {ru:"Ролевая игра проведена", es:"Role-play realizado"},
-  "Approved for onboarding":   {ru:"Допущен до онбординга",  es:"Aprobado para onboarding"},
-  "Probation started":         {ru:"Вышел на испытательный", es:"Periodo de prueba iniciado"},
-  "Line started":              {ru:"Вышел на линию",         es:"Incorporado a la línea"},
-  "Test task assigned":        {ru:"Тестовое выдано",        es:"Prueba técnica asignada"},
-  "Test task passed":          {ru:"Тестовое пройдено",      es:"Prueba técnica aprobada"},
-  "Assigned to onboarding":    {ru:"Назначен на онбординг",  es:"Asignado a onboarding"},
-  "Onboarding completed":      {ru:"Онбординг завершён",     es:"Onboarding completado"},
-  "Final interview":           {ru:"Финальное интервью",     es:"Entrevista final"},
-  "Offer made":                {ru:"Оффер выдан",            es:"Oferta enviada"},
-  "All tutors":                {ru:"Все тьюторы",            es:"Todos los tutores"}
-  // Названия должностей не переводятся — всегда как в таблице
+  "CV in progress":          {ru:"Резюме в работе",        es:"CV en proceso"},
+  "HR interview scheduled":  {ru:"HR-интервью назначено",  es:"Entrevista RR.HH. agendada"},
+  "HR interview done":       {ru:"HR-интервью проведено",  es:"Entrevista RR.HH. realizada"},
+  "Role-play scheduled":     {ru:"Ролевая игра назначена", es:"Role-play agendado"},
+  "Role-play done":          {ru:"Ролевая игра проведена", es:"Role-play realizado"},
+  "Approved for onboarding": {ru:"Допущен до онбординга",  es:"Aprobado para onboarding"},
+  "Probation started":       {ru:"Вышел на испытательный", es:"Periodo de prueba iniciado"},
+  "Line started":            {ru:"Вышел на линию",         es:"Incorporado a la línea"},
+  "Test task assigned":      {ru:"Тестовое выдано",        es:"Prueba técnica asignada"},
+  "Test task passed":        {ru:"Тестовое пройдено",      es:"Prueba técnica aprobada"},
+  "Assigned to onboarding":  {ru:"Назначен на онбординг",  es:"Asignado a onboarding"},
+  "Onboarding completed":    {ru:"Онбординг завершён",     es:"Onboarding completado"},
+  "Final interview":         {ru:"Финальное интервью",     es:"Entrevista final"},
+  "Offer made":              {ru:"Оффер выдан",            es:"Oferta enviada"},
+  "All tutors":              {ru:"Все тьюторы",            es:"Todos los tutores"}
+  // Названия должностей и потоков не переводятся — всегда как в таблице
 };
 
 let ROWS = [];
-let lang = sessionStorage.getItem('dashlang') || 'ru';
+let lang  = sessionStorage.getItem('dashlang')  || 'ru';
 let theme = sessionStorage.getItem('dashtheme') || 'light';
 
 const L = () => UI[lang];
 const T = k => (lang === 'en' ? k : ((TERMS[k] || {})[lang] || k));
-const pct = v => (v === null || v === undefined || !isFinite(v)) ? "—" : Math.round(v*100) + "%";
-const num = v => (v === null || v === undefined || v === "") ? "—" : v;
-const bar = f => '<div class="barwrap"><span class="bar" style="width:' +
-  (Math.max(0, Math.min(f, 1.2)) / 1.2 * 100) + '%"></span></div>';
+const isNum = v => typeof v === 'number' && isFinite(v);
+const pct = v => isNum(v) ? Math.round(v*100) + '%' : '—';
+const num = v => isNum(v) ? v : '—';
+const money = v => isNum(v) ? '$' + Math.round(v).toLocaleString('en-US') : '—';
+const bar = (f, dim) => '<div class="barwrap"><span class="bar' + (dim ? ' dim' : '') +
+  '" style="width:' + (Math.max(0, Math.min(f, 1.2)) / 1.2 * 100) + '%"></span></div>';
 const pick = (block, month, dim) => ROWS
   .filter(r => r.block === block && (month === undefined || r.month === month) && (dim === undefined || r.dim === dim))
   .sort((a,b) => (a.order||0) - (b.order||0));
 
-function parseCSV(text) {
-  const rows = []; let row = [], cell = '', q = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
-    if (q) {
-      if (c === '"' && text[i+1] === '"') { cell += '"'; i++; }
-      else if (c === '"') q = false;
-      else cell += c;
-    } else if (c === '"') q = true;
-    else if (c === ',') { row.push(cell); cell = ''; }
-    else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
-    else if (c !== '\r') cell += c;
-  }
-  if (cell.length || row.length) { row.push(cell); rows.push(row); }
+function parseCSV(text){
+  const rows=[]; let row=[], cell='', q=false;
+  for(let i=0;i<text.length;i++){ const c=text[i];
+    if(q){ if(c==='"'&&text[i+1]==='"'){cell+='"';i++;} else if(c==='"'){q=false;} else cell+=c; }
+    else if(c==='"') q=true;
+    else if(c===',') { row.push(cell); cell=''; }
+    else if(c==='\n'){ row.push(cell); rows.push(row); row=[]; cell=''; }
+    else if(c!=='\r') cell+=c; }
+  if(cell.length||row.length){ row.push(cell); rows.push(row); }
   return rows;
 }
 
-async function load() {
+async function load(){
   const res = await fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now());
-  if (!res.ok) throw new Error('HTTP ' + res.status);
+  if(!res.ok) throw new Error('HTTP ' + res.status);
   const table = parseCSV(await res.text());
-  const head = (table[0] || []).map(h => h.replace(/^\uFEFF/, '').trim());
+  const head = (table[0]||[]).map(h => h.replace(/^\uFEFF/,'').trim());
   const at = name => head.indexOf(name);
   const n = v => {
-    if (v === undefined || v === null || v === '') return null;
+    if(v === undefined || v === null || v === '') return null;
     const s = String(v).trim();
-    if (/^-?[\d\s.,]+%$/.test(s)) {
+    if(/^-?[\d\s.,]+%$/.test(s)){
       const x = Number(s.replace('%','').replace(/\s/g,'').replace(',','.'));
-      return isNaN(x) ? s : x / 100;
+      return isNaN(x) ? null : x/100;
     }
-    const x = Number(s.replace(/\s/g,'').replace(',','.'));
-    return isNaN(x) ? s : x;
+    const x = Number(s.replace(/[\s$]/g,'').replace(',','.'));
+    return isNaN(x) ? null : x;
   };
   ROWS = table.slice(1).filter(r => r[at('block')]).map(r => ({
-    year: n(r[at('year')]), month: n(r[at('month')]),
-    block: r[at('block')], key: r[at('key')] || '', dim: r[at('dim')] || '',
-    plan: n(r[at('plan')]), fact: n(r[at('fact')]),
-    extra: n(r[at('extra')]), order: n(r[at('order')])
+    year:n(r[at('year')]), month:n(r[at('month')]),
+    block:r[at('block')], key:r[at('key')]||'', dim:r[at('dim')]||'',
+    plan:n(r[at('plan')]), fact:n(r[at('fact')]), extra:n(r[at('extra')]), order:n(r[at('order')])
   }));
 }
 
-function applyChrome() {
+function chart(el, items, fmt, planKey){
+  const vals = items.map(i => isNum(i.v) ? i.v : 0);
+  const plans = items.map(i => isNum(i.p) ? i.p : 0);
+  const max = Math.max(...vals, ...plans, 0.0001);
+  el.innerHTML = items.map(i => {
+    const h = isNum(i.v) ? Math.max(i.v/max*100, 2) : 0;
+    const ph = isNum(i.p) ? Math.min(i.p/max*100, 100) : null;
+    return '<div class="col">' +
+      (ph !== null ? '<i class="plan" style="bottom:' + ph + '%"></i>' : '') +
+      '<span class="v">' + (isNum(i.v) ? fmt(i.v) : '') + '</span>' +
+      '<span class="b' + (i.dim ? ' dim' : '') + '" style="height:' + h + '%"></span>' +
+      '<u>' + i.label + '</u></div>';
+  }).join('');
+}
+
+function funnel(id, rows){
+  const t = L();
+  const tb = document.querySelector('#' + id + ' tbody');
+  if(!rows.length){ tb.innerHTML = '<tr><td colspan="5" class="empty">' + t.nodata + '</td></tr>'; return; }
+  const top = rows[0].fact;
+  tb.innerHTML = rows.map((r,i) => {
+    const prev = i > 0 ? rows[i-1].fact : null;
+    const conv = i === 0 ? 1 : (isNum(r.fact) && prev) ? r.fact/prev : null;
+    const cum  = (isNum(r.fact) && top) ? r.fact/top : null;
+    return '<tr><td>' + T(r.key) + '</td><td class="n">' + num(r.plan) + '</td><td class="n">' + num(r.fact) +
+      '</td><td class="n">' + pct(conv) + '</td><td>' +
+      (cum === null ? '<span class="empty">—</span>' : bar(cum)) + '</td></tr>';
+  }).join('');
+}
+
+function applyChrome(){
   document.body.setAttribute('data-theme', theme);
   document.documentElement.lang = lang;
-  const t = L();
-  document.getElementById('g_hint').textContent = t.hint;
-  document.getElementById('go').textContent = t.ok;
-  document.getElementById('l_upd').textContent = t.upd;
-  document.getElementById('c_line').textContent = t.line;
-  document.getElementById('c_hiring').textContent = t.hiring;
-  document.getElementById('c_tcm').textContent = t.tcm;
-  document.getElementById('c_tut').textContent = t.tut;
-  document.getElementById('c_attr').textContent = t.attr;
-  document.getElementById('c_fc').textContent = t.fc;
-  document.getElementById('l_k1').textContent = t.k1;
-  document.getElementById('l_k2').textContent = t.k2;
-  document.getElementById('l_k3').textContent = t.k3;
-  document.getElementById('l_k4').textContent = t.k4;
-  document.getElementById('h_role').textContent = t.role;
-  document.getElementById('h_done').textContent = t.done;
-  document.getElementById('h_done2').textContent = t.done;
-  document.getElementById('h_month').textContent = t.month;
-  document.getElementById('h_forecast').textContent = t.forecast;
-  document.getElementById('n_attr').textContent = t.nattr;
-  document.getElementById('foot').textContent = t.foot;
+  const t = L(), set = (id,v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+  set('g_hint',t.hint); set('go',t.ok); set('l_upd',t.upd);
+  set('z1',t.z1); set('z2',t.z2); set('z3',t.z3); set('z4',t.z4); set('z5',t.z5);
+  set('c_tcm',t.tcm); set('c_tut',t.tut); set('c_hiring',t.hiring);
+  set('c_lined',t.lined); set('c_attr',t.attr); set('c_cph',t.cph); set('c_cost',t.cost);
+  set('l_k1',t.k1); set('l_k2',t.k2); set('l_k3',t.k3); set('l_k4',t.k4); set('l_k5',t.k5);
+  set('h_role',t.role); set('h_done',t.done); set('h_stream',t.stream);
+  set('h_spend',t.spend); set('h_hires',t.hires); set('h_cph',t.cphh);
+  set('n_attr',t.nattr); set('n_line',t.nline); set('n_cph',t.ncph); set('n_cost',t.ncost);
+  set('foot',t.foot);
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -315,108 +361,109 @@ function applyChrome() {
   document.getElementById('lang').value = lang;
 }
 
-function boot() {
+function boot(){
   document.getElementById('gate').hidden = true;
   document.getElementById('app').hidden = false;
   applyChrome();
-  document.getElementById('upd').textContent =
-    new Date().toLocaleString(lang === 'ru' ? 'ru-RU' : (lang === 'es' ? 'es-ES' : 'en-GB'),
-      { dateStyle: 'short', timeStyle: 'short' });
+  document.getElementById('upd').textContent = new Date().toLocaleString(
+    lang === 'ru' ? 'ru-RU' : (lang === 'es' ? 'es-ES' : 'en-GB'), {dateStyle:'short', timeStyle:'short'});
 
   const months = [...new Set(ROWS.filter(r => r.month > 0).map(r => r.month))].sort((a,b) => a-b);
-  const sel = document.getElementById('month');
-  const cur = sel.value;
+  const sel = document.getElementById('month'), cur = sel.value;
   sel.innerHTML = months.map(m => '<option value="' + m + '">' + L().months[m-1] + '</option>').join('');
   const nowM = new Date().getMonth() + 1;
   sel.value = cur || (months.includes(nowM) ? nowM : months[months.length-1]);
 
   const dsel = document.getElementById('dir');
   const dims = [...new Set(pick('funnel_tutor').map(r => r.dim))].filter(Boolean);
-  const curD = dsel.value ? dsel.selectedOptions[0].dataset.raw : null;
+  const curD = dsel.selectedOptions.length ? dsel.selectedOptions[0].dataset.raw : null;
   dsel.innerHTML = dims.map(d => '<option data-raw="' + d + '">' + T(d) + '</option>').join('');
-  if (curD) {
-    const i = dims.indexOf(curD);
-    if (i >= 0) dsel.selectedIndex = i;
-  }
+  const di = dims.indexOf(curD); if(di >= 0) dsel.selectedIndex = di;
 
-  sel.onchange = render;
-  dsel.onchange = render;
+  sel.onchange = render; dsel.onchange = render;
   render();
 }
 
-function funnel(id, rows) {
-  const t = L();
-  const tb = document.querySelector('#' + id + ' tbody');
-  if (!rows.length) { tb.innerHTML = '<tr><td colspan="5" class="empty">' + t.nodata + '</td></tr>'; return; }
-  const top = rows[0].fact;
-  tb.innerHTML = rows.map((r,i) => {
-    const prev = i > 0 ? rows[i-1].fact : null;
-    const conv = i === 0 ? 1 : (r.fact !== null && prev) ? r.fact/prev : null;
-    const cum  = (r.fact !== null && top) ? r.fact/top : null;
-    return '<tr><td>' + T(r.key) + '</td><td class="n">' + num(r.plan) + '</td><td class="n">' + num(r.fact) +
-      '</td><td class="n">' + pct(conv) + '</td><td>' +
-      (cum === null ? '<span class="empty">—</span>' : bar(cum)) + '</td></tr>';
-  }).join('');
-}
-
-function render() {
+function render(){
   const t = L();
   const m = +document.getElementById('month').value;
   const dsel = document.getElementById('dir');
   const dir = dsel.selectedOptions.length ? dsel.selectedOptions[0].dataset.raw : undefined;
   const g = (arr,k) => (arr.find(r => r.key === k) || {});
 
+  /* --- зона 1: сводка --- */
   const line = pick('line', m), now = pick('now', 0);
-  document.getElementById('k1').textContent = num(g(line,'in_line').fact);
+  const onLine = g(line,'in_line').fact, planLine = g(line,'in_line').plan;
+  const attrRow = pick('attrition', m)[0] || {};
+  const totalCost = pick('cost', m, 'Total')[0] || {};
+  document.getElementById('k1').textContent = num(onLine);
   document.getElementById('k2').textContent = num(g(now,'probation').fact);
   document.getElementById('k3').textContent = num(g(now,'onboarding').fact);
   document.getElementById('k4').textContent = num(g(line,'left_month').fact);
-  const planLine = g(line,'in_line').plan;
+  document.getElementById('k5').textContent = money(totalCost.extra);
+  const d1 = document.getElementById('d1');
+  if(isNum(onLine) && isNum(planLine) && planLine){
+    const v = onLine/planLine;
+    d1.className = v >= 1 ? 'good' : (v < 0.9 ? 'warn' : '');
+    d1.textContent = pct(v) + ' ' + t.toplan;
+  } else { d1.textContent = ''; d1.className = ''; }
   const isClosed = g(line,'closed').fact === 1;
   document.getElementById('linenote').textContent =
-    (planLine ? t.notePlan + planLine + '. ' : '') +
+    (isNum(planLine) ? t.notePlan + planLine + '. ' : '') +
     (isClosed ? t.closed : t.live) + ' ' + t.noteNow;
 
+  /* --- зона 2: воронки --- */
+  funnel('ftcm', pick('funnel_tcm', m));
+  funnel('ftut', pick('funnel_tutor', m, dir));
+
+  /* --- зона 3: наём по ролям --- */
   const hp = pick('hiring', m);
   document.querySelector('#hp tbody').innerHTML = hp.length ? hp.map(r => {
     const v = r.plan ? r.fact/r.plan : null;
-    const cell = (v === null)
-      ? '<span class="empty">' + t.noplan + '</span>'
-      : bar(v) + '<span class="note ' + (v>=1?'good':(v<0.5?'warn':'')) + '">' + pct(v) + '</span>';
+    const cell = (v === null) ? '<span class="empty">' + t.noplan + '</span>'
+      : '<div class="stage">' + bar(v) + '<span class="' + (v>=1?'good':(v<0.5?'warn':'')) +
+        '" style="width:34px;text-align:right">' + pct(v) + '</span></div>';
     return '<tr><td>' + T(r.key) + '</td><td class="n">' + num(r.plan) + '</td><td class="n">' +
       num(r.fact) + '</td><td>' + cell + '</td></tr>';
   }).join('') : '<tr><td colspan="4" class="empty">' + t.nodata + '</td></tr>';
 
-  funnel('ftcm', pick('funnel_tcm', m));
-  funnel('ftut', pick('funnel_tutor', m, dir));
+  /* --- зона 4: динамика --- */
+  const lineMonths = pick('line').filter(r => r.key === 'in_line' && (isNum(r.fact) || isNum(r.plan)));
+  chart(document.getElementById('ch_line'),
+    lineMonths.map(r => ({label:t.short[r.month-1], v:r.fact, p:r.plan, dim:r.month === m ? false : true})),
+    v => Math.round(v));
 
-  const at = pick('attrition').filter(r => r.plan > 0);
-  const max = Math.max(...at.map(r => r.extra || 0), 0.01);
-  document.getElementById('attr').innerHTML = at.map(r =>
-    '<div style="height:' + Math.max((r.extra||0)/max*100, 2) + '%"><i>' + pct(r.extra) +
-    '</i><u>' + t.short[r.month-1] + '</u></div>').join('');
+  const attr = pick('attrition').filter(r => isNum(r.plan) && r.plan > 0);
+  chart(document.getElementById('ch_attr'),
+    attr.map(r => ({label:t.short[r.month-1], v:r.extra, dim:r.month === m ? false : true})),
+    v => Math.round(v*100) + '%');
 
-  const fc = pick('forecast').filter(r => r.fact !== null || r.plan !== null);
-  document.querySelector('#fc tbody').innerHTML = fc.map(r => {
-    const v = r.plan ? r.fact/r.plan : null;
-    return '<tr><td>' + t.months[r.month-1] + '</td><td class="n">' + num(r.fact) + '</td><td class="n">' +
-      num(r.plan) + '</td><td class="n ' + (v!==null&&v>=1?'good':(v!==null&&v<0.9?'warn':'')) + '">' +
-      pct(v) + '</td><td>' + (v === null ? '' : bar(v)) + '</td></tr>';
-  }).join('');
+  const cph = pick('cost', undefined, 'Total').filter(r => isNum(r.extra));
+  const chEl = document.getElementById('ch_cph');
+  if(cph.length) chart(chEl, cph.map(r => ({label:t.short[r.month-1], v:r.extra, dim:r.month === m ? false : true})),
+    v => Math.round(v));
+  else chEl.innerHTML = '<div class="empty" style="align-self:center">' + t.nocost + '</div>';
+
+  /* --- зона 5: стоимость по потокам --- */
+  const cost = pick('cost', m).filter(r => isNum(r.plan) || isNum(r.fact) || isNum(r.extra));
+  const maxC = Math.max(...cost.map(r => isNum(r.extra) ? r.extra : 0), 0.0001);
+  document.querySelector('#cost tbody').innerHTML = cost.length ? cost.map(r =>
+    '<tr' + (r.dim === 'Total' ? ' class="total"' : '') + '><td>' + r.dim + '</td><td class="n">' +
+    money(r.plan) + '</td><td class="n">' + num(r.fact) + '</td><td class="n">' + money(r.extra) +
+    '</td><td>' + (isNum(r.extra) ? bar(r.extra/maxC*1.2, r.dim === 'Total') : '') + '</td></tr>'
+  ).join('') : '<tr><td colspan="5" class="empty">' + t.nocost + '</td></tr>';
 }
 
-async function enter(pw, silent) {
+async function enter(pw, silent){
   const err = document.getElementById('err');
-  if (pw !== PASSWORD) { if (!silent) err.textContent = L().wrong; sessionStorage.removeItem('dashpw'); return; }
+  if(pw !== PASSWORD){ if(!silent) err.textContent = L().wrong; sessionStorage.removeItem('dashpw'); return; }
   err.textContent = L().loading;
   try { await load(); sessionStorage.setItem('dashpw', pw); boot(); }
-  catch (e) { err.textContent = e.message; }
+  catch(e){ err.textContent = e.message; }
 }
 
 document.getElementById('lang').onchange = e => {
-  lang = e.target.value;
-  sessionStorage.setItem('dashlang', lang);
-  boot();
+  lang = e.target.value; sessionStorage.setItem('dashlang', lang); boot();
 };
 document.getElementById('theme').onclick = () => {
   theme = theme === 'light' ? 'dark' : 'light';
@@ -425,14 +472,14 @@ document.getElementById('theme').onclick = () => {
 };
 document.getElementById('go').onclick = () => enter(document.getElementById('pw').value);
 document.getElementById('pw').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('go').click();
+  if(e.key === 'Enter') document.getElementById('go').click();
 });
 document.getElementById('reload').onclick = async () => { await load(); boot(); };
 
 document.body.setAttribute('data-theme', theme);
 applyChrome();
 const saved = sessionStorage.getItem('dashpw');
-if (saved) enter(saved, true); else document.getElementById('pw').focus();
+if(saved) enter(saved, true); else document.getElementById('pw').focus();
 </script>
 </body>
 </html>
