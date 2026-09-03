@@ -439,10 +439,31 @@ function parseCSV(text){
   return rows;
 }
 
+async function fetchCsv(timeoutMs){
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), timeoutMs);
+  try {
+    const res = await fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now(),
+                            {signal: ctl.signal, cache: 'no-store'});
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.text();
+  } finally { clearTimeout(timer); }
+}
+
 async function load(){
-  const res = await fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now());
-  if(!res.ok) throw new Error('HTTP ' + res.status);
-  const table = parseCSV(await res.text());
+  let text;
+  try { text = await fetchCsv(15000); }
+  catch(e){
+    // одна повторная попытка: Google иногда отвечает не с первого раза
+    try { text = await fetchCsv(20000); }
+    catch(e2){
+      const why = (e2.name === 'AbortError')
+        ? 'Таблица не ответила за 20 секунд'
+        : ('Не удалось получить данные: ' + (e2.message || e2.name));
+      throw new Error(why + '. Проверьте, что вкладка DASH_export опубликована в CSV.');
+    }
+  }
+  const table = parseCSV(text);
   const head = (table[0]||[]).map(h => h.replace(/^\uFEFF/,'').trim());
   const at = name => head.indexOf(name);
   const n = v => {
@@ -455,11 +476,13 @@ async function load(){
     const x = Number(s.replace(/[\s$]/g,'').replace(',','.'));
     return isNaN(x) ? null : x;
   };
+  if(at('block') < 0) throw new Error('В выгрузке нет колонки block — проверьте вкладку DASH_export');
   ROWS = table.slice(1).filter(r => r[at('block')]).map(r => ({
     year:n(r[at('year')]), month:n(r[at('month')]),
     block:r[at('block')], key:r[at('key')]||'', dim:r[at('dim')]||'',
     plan:n(r[at('plan')]), fact:n(r[at('fact')]), extra:n(r[at('extra')]), order:n(r[at('order')])
   }));
+  if(!ROWS.length) throw new Error('Выгрузка пустая — в DASH_export нет строк данных');
 }
 
 function lineChart(el, pts, sel){
@@ -558,7 +581,7 @@ function applyChrome(){
   set('n_attr',t.nattr); set('n_line',t.nline);
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v22 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v24 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -828,9 +851,12 @@ function render(){
 async function enter(pw, silent){
   const err = document.getElementById('err');
   if(pw !== PASSWORD){ if(!silent) err.textContent = UI.en.wrong; sessionStorage.removeItem('dashpw'); return; }
+  const btn = document.getElementById('go');
   err.textContent = UI.en.loading;
+  btn.disabled = true; btn.style.opacity = '.6';
   try { await load(); sessionStorage.setItem('dashpw', pw); boot(); }
-  catch(e){ err.textContent = e.message; }
+  catch(e){ err.textContent = e.message; console.error(e); }
+  finally { btn.disabled = false; btn.style.opacity = ''; }
 }
 
 document.getElementById('lang').onchange = e => {
