@@ -216,7 +216,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V25</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V27</div>
 </div>
 </div>
 
@@ -329,6 +329,8 @@
    PASSWORD — пароль для входа
    ======================================================= */
 
+const SHEET_ID = "1gp8zaHuu_ctZeJnSpehLDaoYpDzzY5MvvmPdp9sp3Mk";
+const SHEET_TAB = "DASH_export";
 const CSV_URL  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3YaXHbL1oozm-mG8by4vCf4C5eyAE3kSsXPw67L4O8GhFJelMhGXJpyxq6iE4zLcYqrOZNuZ4uzdb/pub?gid=26648926&single=true&output=csv";
 const PASSWORD = "latam2026";
 
@@ -439,50 +441,102 @@ function parseCSV(text){
   return rows;
 }
 
-async function fetchCsv(timeoutMs){
-  const ctl = new AbortController();
-  const timer = setTimeout(() => ctl.abort(), timeoutMs);
-  try {
-    const res = await fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now(),
-                            {signal: ctl.signal, cache: 'no-store'});
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.text();
-  } finally { clearTimeout(timer); }
+function status(msg){
+  const e = document.getElementById('err');
+  if(e) e.textContent = msg;
+  try { console.log('[dash] ' + msg); } catch(_){}
+}
+function stopClock(){}
+
+// через тег script: CORS не применяется, запрос идёт под гугл-сессией пользователя
+function loadGviz(timeoutMs){
+  return new Promise((resolve, reject) => {
+    const cb = '__dash_cb_' + Math.random().toString(36).slice(2);
+    const el = document.createElement('script');
+    let done = false;
+    const finish = (fn, arg) => {
+      if(done) return; done = true;
+      clearTimeout(tm);
+      try { delete window[cb]; } catch(_){ window[cb] = undefined; }
+      if(el.parentNode) el.parentNode.removeChild(el);
+      fn(arg);
+    };
+    const tm = setTimeout(() => finish(reject, new Error('TIMEOUT')), timeoutMs);
+    window[cb] = data => finish(resolve, data);
+    el.onerror = () => finish(reject, new Error('NO_ACCESS'));
+    el.src = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+             '/gviz/tq?tqx=out:json;responseHandler:' + cb +
+             '&sheet=' + encodeURIComponent(SHEET_TAB) + '&headers=1&t=' + Date.now();
+    document.head.appendChild(el);
+  });
+}
+
+function numOf(v){
+  if(v === undefined || v === null || v === '') return null;
+  if(typeof v === 'number') return isFinite(v) ? v : null;
+  const s = String(v).trim();
+  if(/^-?[\d\s.,]+%$/.test(s)){
+    const x = Number(s.replace('%','').replace(/\s/g,'').replace(',','.'));
+    return isNaN(x) ? null : x/100;
+  }
+  const x = Number(s.replace(/[\s$]/g,'').replace(',','.'));
+  return isNaN(x) ? null : x;
+}
+
+function rowsFromGviz(data){
+  const cols = (data.table.cols || []).map(c => String(c.label || c.id || '').trim());
+  const at = name => cols.indexOf(name);
+  if(at('block') < 0) throw new Error('Во вкладке ' + SHEET_TAB + ' нет колонки block');
+  const cell = (r, i) => (i < 0 || !r.c || !r.c[i]) ? null : r.c[i].v;
+  return (data.table.rows || [])
+    .filter(r => cell(r, at('block')))
+    .map(r => ({
+      year:  numOf(cell(r, at('year'))),
+      month: numOf(cell(r, at('month'))),
+      block: String(cell(r, at('block'))),
+      key:   cell(r, at('key')) === null ? '' : String(cell(r, at('key'))),
+      dim:   cell(r, at('dim')) === null ? '' : String(cell(r, at('dim'))),
+      plan:  numOf(cell(r, at('plan'))),
+      fact:  numOf(cell(r, at('fact'))),
+      extra: numOf(cell(r, at('extra'))),
+      order: numOf(cell(r, at('order')))
+    }));
+}
+
+function rowsFromCsv(text){
+  const table = parseCSV(text);
+  const head = (table[0] || []).map(h => h.replace(/^\uFEFF/, '').trim());
+  const at = name => head.indexOf(name);
+  if(at('block') < 0) throw new Error('В выгрузке нет колонки block');
+  return table.slice(1).filter(r => r[at('block')]).map(r => ({
+    year:numOf(r[at('year')]), month:numOf(r[at('month')]),
+    block:r[at('block')], key:r[at('key')]||'', dim:r[at('dim')]||'',
+    plan:numOf(r[at('plan')]), fact:numOf(r[at('fact')]),
+    extra:numOf(r[at('extra')]), order:numOf(r[at('order')])
+  }));
 }
 
 async function load(){
-  let text;
-  try { text = await fetchCsv(15000); }
+  let rows = null, why = '';
+  try { rows = rowsFromGviz(await loadGviz(12000)); }
   catch(e){
-    // одна повторная попытка: Google иногда отвечает не с первого раза
-    try { text = await fetchCsv(20000); }
-    catch(e2){
-      const why = (e2.name === 'AbortError')
-        ? 'Таблица не ответила за 20 секунд'
-        : ('Не удалось получить данные: ' + (e2.message || e2.name));
-      throw new Error(why + '. Проверьте, что вкладка DASH_export опубликована в CSV.');
-    }
+    why = e.message;
+    try {
+      const res = await fetch(CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now(),
+                              {cache:'no-store'});
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      rows = rowsFromCsv(await res.text());
+    } catch(e2){ why += ' / ' + e2.message; }
   }
-  const table = parseCSV(text);
-  const head = (table[0]||[]).map(h => h.replace(/^\uFEFF/,'').trim());
-  const at = name => head.indexOf(name);
-  const n = v => {
-    if(v === undefined || v === null || v === '') return null;
-    const s = String(v).trim();
-    if(/^-?[\d\s.,]+%$/.test(s)){
-      const x = Number(s.replace('%','').replace(/\s/g,'').replace(',','.'));
-      return isNaN(x) ? null : x/100;
-    }
-    const x = Number(s.replace(/[\s$]/g,'').replace(',','.'));
-    return isNaN(x) ? null : x;
-  };
-  if(at('block') < 0) throw new Error('В выгрузке нет колонки block — проверьте вкладку DASH_export');
-  ROWS = table.slice(1).filter(r => r[at('block')]).map(r => ({
-    year:n(r[at('year')]), month:n(r[at('month')]),
-    block:r[at('block')], key:r[at('key')]||'', dim:r[at('dim')]||'',
-    plan:n(r[at('plan')]), fact:n(r[at('fact')]), extra:n(r[at('extra')]), order:n(r[at('order')])
-  }));
-  if(!ROWS.length) throw new Error('Выгрузка пустая — в DASH_export нет строк данных');
+  if(!rows){
+    if(/NO_ACCESS/.test(why))
+      throw new Error('Нет доступа к таблице. Войдите в гугл-аккаунт, у которого есть доступ к ней');
+    if(/TIMEOUT/.test(why))
+      throw new Error('Таблица не ответила за 12 секунд. Проверьте соединение и попробуйте ещё раз');
+    throw new Error('Данные не получены: ' + why);
+  }
+  if(!rows.length) throw new Error('Во вкладке ' + SHEET_TAB + ' нет строк данных');
+  ROWS = rows;
 }
 
 function lineChart(el, pts, sel){
@@ -581,7 +635,7 @@ function applyChrome(){
   set('n_attr',t.nattr); set('n_line',t.nline);
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v25 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v27 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -852,10 +906,10 @@ async function enter(pw, silent){
   const err = document.getElementById('err');
   if(pw !== PASSWORD){ if(!silent) err.textContent = UI.en.wrong; sessionStorage.removeItem('dashpw'); return; }
   const btn = document.getElementById('go');
-  err.textContent = UI.en.loading + ' (v25)';
+  err.textContent = UI.en.loading;
   btn.disabled = true; btn.style.opacity = '.6';
-  try { await load(); sessionStorage.setItem('dashpw', pw); boot(); }
-  catch(e){ err.textContent = e.message; console.error(e); }
+  try { await load(); stopClock(); sessionStorage.setItem('dashpw', pw); boot(); }
+  catch(e){ stopClock(); err.textContent = e.message; console.error(e); }
   finally { btn.disabled = false; btn.style.opacity = ''; }
 }
 
