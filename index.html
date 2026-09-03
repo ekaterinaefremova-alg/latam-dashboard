@@ -380,7 +380,7 @@ function applyChrome(){
   set('h_role',t.role); set('h_done',t.done); set('h_stream',t.stream);
   set('h_spend',t.spend); set('h_hires',t.hires); set('h_cph',t.cphh);
   set('n_attr',t.nattr); set('n_line',t.nline); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot',t.foot);
+  set('foot', t.foot + '   ·   build v4 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
