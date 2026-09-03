@@ -83,6 +83,9 @@
   select,.btn{font-family:inherit;font-size:13px;font-weight:500;padding:8px 12px;
     border:1px solid var(--line);background:var(--field);color:var(--fg);border-radius:8px}
   .btn{cursor:pointer;min-width:38px;font-size:14px}
+  .btn.seg{font-size:13px;font-weight:600;min-width:auto;padding:8px 14px}
+  .btn.seg.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.seg.on:hover{color:#fff;filter:brightness(1.08)}
   select:hover,.btn:hover{border-color:var(--accent);color:var(--accent)}
   select:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
@@ -142,8 +145,8 @@
   table.mx td.c b{display:block;font-weight:700;font-size:12.5px}
   table.mx td.c i{font-style:normal;display:block;font-size:9.5px;color:var(--mute);margin-top:2px}
   table.mx td.c b.hit{color:var(--accent)}
-  .mxb{display:block;height:3px;border-radius:2px;background:var(--track);margin:4px auto 0;width:76%;overflow:hidden}
-  .mxb i{display:block;height:3px;border-radius:2px;margin:0;
+  .mxb{display:block;height:5px;border-radius:3px;background:var(--track);margin:5px auto 1px;width:88%;overflow:hidden}
+  .mxb i{display:block;height:5px;border-radius:3px;margin:0;
     background:linear-gradient(90deg,var(--fill) 0%,var(--accent) 100%)}
   .mxb.full i{background:linear-gradient(90deg,var(--accent) 0%,var(--accent-2) 100%)}
   table.mx td.c.none{color:var(--mute);opacity:.45}
@@ -154,12 +157,13 @@
   .mxlegend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
   table.mx col.sum{background:var(--cap-bg)}
   table.mx td.tot{font-weight:700;color:var(--fg)}
-  .barwrap{background:var(--track);height:6px;width:100%;border-radius:3px;overflow:hidden}
-  .bar{height:6px;display:block;border-radius:3px;
+  .barwrap{background:var(--track);height:9px;width:100%;border-radius:5px;overflow:hidden}
+  .bar{height:9px;display:block;border-radius:5px;
     background:linear-gradient(90deg,var(--accent) 0%,var(--accent-2) 100%)}
   .bar.dim{background:linear-gradient(90deg,var(--fill) 0%,var(--fill-2) 100%);opacity:.75}
   .stage{display:flex;align-items:center;gap:10px}
   .stage .barwrap{flex:1}
+  .stage span{white-space:nowrap}
   .good{color:var(--ok)} .warn{color:var(--bad)} .ok70{color:var(--amber)} .empty{color:var(--mute);font-weight:400}
 
   /* ---- графики ---- */
@@ -231,7 +235,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V34</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V35</div>
 </div>
 </div>
 
@@ -245,6 +249,7 @@
       </div>
     </div>
     <div class="controls">
+      <button class="btn seg" id="yearbtn"></button>
       <select id="month"></select>
       <select id="dir"></select>
       <button class="btn" id="hidezero" style="min-width:auto"></button>
@@ -417,6 +422,7 @@ let ROWS = [];
 let lang  = sessionStorage.getItem('dashlang')  || 'ru';
 let theme = sessionStorage.getItem('dashtheme') || 'light';
 let hideZero = sessionStorage.getItem('dashhide') === '1';
+let yearMode = sessionStorage.getItem('dashyear') === '1';
 
 const L = () => UI[lang];
 const T = k => (lang === 'en' ? k : ((TERMS[k] || {})[lang] || k));
@@ -642,13 +648,15 @@ function applyChrome(){
   set('n_attr',t.nattr);
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v34 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v35 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
   document.querySelectorAll('.h_conv').forEach(e => e.textContent = t.conv);
   document.querySelectorAll('.h_fromcv').forEach(e => e.textContent = t.fromcv);
   document.getElementById('hidezero').textContent = hideZero ? t.showall : t.hide;
+  const yb = document.getElementById('yearbtn');
+  yb.textContent = t.year; yb.className = 'btn seg' + (yearMode ? ' on' : '');
   document.getElementById('lang').value = lang;
 }
 
@@ -662,10 +670,10 @@ function boot(){
 
   const months = [...new Set(ROWS.filter(r => r.month > 0).map(r => r.month))].sort((a,b) => a-b);
   const sel = document.getElementById('month'), cur = sel.value;
-  sel.innerHTML = '<option value="0">' + L().year + '</option>' +
-    months.map(m => '<option value="' + m + '">' + L().months[m-1] + '</option>').join('');
+  sel.innerHTML = months.map(m => '<option value="' + m + '">' + L().months[m-1] + '</option>').join('');
   const nowM = new Date().getMonth() + 1;
   sel.value = cur || (months.includes(nowM) ? nowM : months[months.length-1]);
+  sel.disabled = yearMode; sel.style.opacity = yearMode ? '.45' : '';
 
   const dsel = document.getElementById('dir');
   const dims = [...new Set(pick('funnel_tutor').map(r => r.dim))].filter(Boolean);
@@ -734,7 +742,7 @@ function agg(block, dim){
 function render(){
   const t = L();
   const m = +document.getElementById('month').value;
-  const isYear = m === 0;
+  const isYear = yearMode;
   const rowsFor = (block, dim) => isYear ? agg(block, dim) : pick(block, m, dim);
   const dsel = document.getElementById('dir');
   const dir = dsel.selectedOptions.length ? dsel.selectedOptions[0].dataset.raw : undefined;
@@ -950,6 +958,11 @@ document.getElementById('hidezero').onclick = () => {
   hideZero = !hideZero;
   sessionStorage.setItem('dashhide', hideZero ? '1' : '0');
   applyChrome(); render();
+};
+document.getElementById('yearbtn').onclick = () => {
+  yearMode = !yearMode;
+  sessionStorage.setItem('dashyear', yearMode ? '1' : '0');
+  applyChrome(); boot();
 };
 document.getElementById('theme').onclick = () => {
   theme = theme === 'light' ? 'dark' : 'light';
