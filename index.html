@@ -107,24 +107,60 @@
   .chartbox{padding-top:16px}
 
   /* ---- KPI ---- */
-  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
-  .kpi{border:1px solid var(--line);border-radius:14px;padding:17px 18px 16px;
+  .kpis{display:grid;gap:14px;
+    grid-template-columns:1.45fr 1fr 1fr 1.35fr;grid-template-rows:auto auto}
+  .kpi{border:1px solid var(--line);border-radius:14px;padding:16px 18px;
     background:var(--panel);box-shadow:var(--shadow);position:relative;overflow:hidden;
-    transition:transform .18s ease}
+    transition:transform .18s ease;display:flex;flex-direction:column;justify-content:center}
   .kpi:hover{transform:translateY(-1px)}
+  .kpi b{display:block;font-size:26px;font-weight:700;line-height:1;letter-spacing:-.8px;
+    font-variant-numeric:tabular-nums}
+  .kpi span{display:block;font-size:12px;font-weight:500;color:var(--mute);margin-top:7px}
+  .kpi em{font-style:normal;font-size:12px;font-weight:600;display:block;margin-top:6px}
+  .kpi .spark{margin-top:14px;height:34px}
+  .kpi .spark svg{width:100%;height:34px;display:block;overflow:visible}
+  .kpi .spark .sl{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+  .kpi .spark .sa{fill:url(#spGrad);stroke:none}
+  .kpi .spark .sd{fill:var(--accent)}
+  .dlt{display:inline-flex;align-items:center;gap:4px}
+  .dlt.flat{color:var(--mute)}
+  @keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .kpi,section{animation:riseIn .32s ease both}
+  .kpi:nth-child(2){animation-delay:.03s} .kpi:nth-child(3){animation-delay:.06s}
+  .kpi:nth-child(4){animation-delay:.09s} .kpi:nth-child(5){animation-delay:.12s}
+  @keyframes growUp{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  .chart .col span.b,.pb{transform-origin:bottom;animation:growUp .42s cubic-bezier(.22,1,.36,1) both}
+  .bar,.mxb i{animation:growW .45s cubic-bezier(.22,1,.36,1) both}
+  @keyframes growW{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .bar,.mxb i{transform-origin:left}
+  @media(prefers-reduced-motion:reduce){*{animation:none !important}}
+
+  /* линия — главная плитка */
+  .kpi:first-child{grid-row:1 / 3;background:linear-gradient(160deg,var(--accent-soft) 0%,var(--panel) 62%)}
   .kpi:first-child::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;
     background:linear-gradient(180deg,var(--accent),var(--accent-2))}
-  .kpi:first-child{background:linear-gradient(180deg,var(--accent-soft) 0%,var(--panel) 65%)}
-  .kpi b{display:block;font-size:29px;font-weight:700;line-height:1;letter-spacing:-1px;
-    font-variant-numeric:tabular-nums}
-  .kpi span{display:block;font-size:12px;font-weight:500;color:var(--mute);margin-top:8px}
-  .kpi em{font-style:normal;font-size:12px;font-weight:600;display:block;margin-top:4px}
-  .kpi3 span{margin-top:0;margin-bottom:10px}
-  .kpi3 .trio{display:flex;gap:14px;align-items:flex-end}
-  .kpi3 .trio > div{flex:1;min-width:0}
-  .kpi3 .trio b{font-size:20px;letter-spacing:-.5px;line-height:1}
-  .kpi3 .trio em{font-style:normal;font-size:10.5px;font-weight:500;color:var(--mute);
-    display:block;margin-top:5px;white-space:nowrap}
+  .kpi:first-child b{font-size:52px;letter-spacing:-2px}
+  .kpi:first-child span{font-size:13px;margin-top:10px}
+
+  /* ушло за месяц — на две средние колонки */
+  .kpi:nth-child(4){grid-column:2 / 4}
+
+  /* стоимость — высокая плитка справа, три цифры столбиком */
+  .kpi3{grid-row:1 / 3;justify-content:flex-start}
+  .kpi3 > span{margin:0 0 12px;font-size:12px;color:var(--mute)}
+  .kpi3 .trio{display:flex;flex-direction:column;gap:11px}
+  .kpi3 .trio > div{display:flex;align-items:baseline;gap:9px}
+  .kpi3 .trio b{font-size:23px;letter-spacing:-.6px;min-width:66px}
+  .kpi3 .trio em{font-style:normal;font-size:11px;font-weight:500;color:var(--mute);margin:0}
+
+  @media(max-width:1100px){
+    .kpis{grid-template-columns:1fr 1fr}
+    .kpi:first-child,.kpi3{grid-row:auto}
+    .kpi:nth-child(4){grid-column:auto}
+    .kpi:first-child b{font-size:40px}
+    .kpi3 .trio{flex-direction:row}
+    .kpi3 .trio > div{flex-direction:column;gap:4px;align-items:flex-start}
+  }
 
   /* ---- таблицы ---- */
   table{width:100%;border-collapse:collapse;font-size:13px}
@@ -135,6 +171,9 @@
   td{padding:9px 8px;border-bottom:1px solid var(--line-soft);color:var(--fg-2);
     font-variant-numeric:tabular-nums}
   td:first-child{color:var(--fg);font-weight:500}
+  #hp td:first-child,#ftcm td:first-child,#ftut td:first-child,#cost td:first-child{width:42%}
+  #hp th:nth-child(2),#hp th:nth-child(3),#ftcm th:nth-child(n+2),#ftut th:nth-child(n+2){width:11%}
+  #fc td:first-child{width:26%}
   td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
   tbody tr:last-child td{border-bottom:none}
   tr.wk td{color:var(--mute)}
@@ -237,7 +276,7 @@
   .chart .col span.v .mut{font-weight:500;color:var(--mute)}
   .note{font-size:12px;color:var(--mute);margin-top:12px;line-height:1.5}
   footer{margin-top:34px;font-size:12px;color:var(--mute);border-top:1px solid var(--line);padding-top:14px}
-  @media(max-width:960px){.g2{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}
+  @media(max-width:960px){.g2{grid-template-columns:1fr}
     body{padding:18px 16px 36px}}
 </style>
 </head>
@@ -258,7 +297,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V40</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V44</div>
 </div>
 </div>
 
@@ -286,10 +325,11 @@
 
   <div class="zone" id="z1"></div>
   <div class="kpis">
-    <div class="kpi"><b id="k1">—</b><span id="l_k1"></span><em id="d1"></em></div>
+    <div class="kpi"><b id="k1">—</b><span id="l_k1"></span><em id="d1"></em>
+      <div class="spark" id="sp1"></div></div>
     <div class="kpi"><b id="k2">—</b><span id="l_k2"></span></div>
     <div class="kpi"><b id="k3">—</b><span id="l_k3"></span></div>
-    <div class="kpi"><b id="k4">—</b><span id="l_k4"></span></div>
+    <div class="kpi"><b id="k4">—</b><span id="l_k4"></span><em id="d4"></em></div>
     <div class="kpi kpi3"><span id="l_k5"></span>
       <div class="trio">
         <div><b id="k5a">—</b><em id="l_k5a"></em></div>
@@ -399,7 +439,7 @@ const UI = {
   ppl:"чел.",nattr:"Сверху — % от средней численности, под ним — сколько человек",
   nline:"Пунктир — план. Месяцы без столбика ещё не наступили.",lgfact:"Факт на линии",lgplan:"План",lgleft:"Ушло за месяц",lgavg:"Среднее за период",avgw:"среднее",planw:"план",leadline:"На конец месяца на линии ",leadline2:" при плане ",leadattr:"В среднем уходит ",leadattr2:" от численности линии в месяц",ncph:"Онборд — доведённый до онбординга. Найм — вышедший на линию.",leadcost:"Найм TCM стоит ",leadcost2:", тьютора — ",
   ncost:"Источник — вкладка Cost LatAm.",
-  toplan:"к плану",notePlan:"План на конец месяца: ",
+  toplan:"к плану",toprev:"к прошлому месяцу",notePlan:"План на конец месяца: ",
   live:"Линия — живая цифра на сегодня, фиксируется в конце месяца.",
   closed:"Линия — зафиксированный итог месяца.",
   noteNow:"Испытательный и онбординг — текущий срез.",
@@ -417,7 +457,7 @@ const UI = {
   ppl:"ppl",nattr:"Top — % of average headcount, below — people",
   nline:"Dashed line — plan. Months without a bar have not happened yet.",lgfact:"On line, fact",lgplan:"Plan",lgleft:"Left during month",lgavg:"Period average",avgw:"avg",planw:"plan",leadline:"At month end on line ",leadline2:" against a plan of ",leadattr:"On average ",leadattr2:" of the line leaves per month",ncph:"Onboard — reached onboarding. Hire — started on the line.",leadcost:"A TCM hire costs ",leadcost2:", a tutor — ",
   ncost:"Source — Cost LatAm tab.",
-  toplan:"vs plan",notePlan:"Plan for month end: ",
+  toplan:"vs plan",toprev:"vs last month",toprev:"vs last month",notePlan:"Plan for month end: ",
   live:"Line is a live figure as of today, frozen at month end.",
   closed:"Line is the frozen month-end figure.",
   noteNow:"Probation and onboarding are a current snapshot.",
@@ -435,7 +475,7 @@ const UI = {
   ppl:"pers.",nattr:"Arriba — % de la plantilla media, debajo — personas",
   nline:"Línea discontinua — plan. Los meses sin barra aún no han ocurrido.",lgfact:"En línea, real",lgplan:"Plan",lgleft:"Salidas del mes",lgavg:"Media del periodo",avgw:"media",planw:"plan",leadline:"Al cierre del mes en línea ",leadline2:" frente a un plan de ",leadattr:"De media sale ",leadattr2:" de la línea al mes",ncph:"Onboarding — llegó al onboarding. Contratación — se incorporó a la línea.",leadcost:"Una contratación TCM cuesta ",leadcost2:", un tutor — ",
   ncost:"Fuente — pestaña Cost LatAm.",
-  toplan:"vs plan",notePlan:"Plan al cierre del mes: ",
+  toplan:"vs plan",toprev:"vs mes anterior",notePlan:"Plan al cierre del mes: ",
   live:"La línea es una cifra en vivo de hoy, se congela al cierre del mes.",
   closed:"La línea es la cifra congelada de cierre de mes.",
   noteNow:"Periodo de prueba y onboarding son una foto actual.",
@@ -692,7 +732,7 @@ function applyChrome(){
   set('lg_tcm','TCM'); set('lg_tut','Tutors');
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v40 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v44 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -830,6 +870,37 @@ function render(){
     d1.className = v >= 1 ? 'good' : (v < 0.9 ? 'warn' : '');
     d1.textContent = (v >= 1 ? '\u2191 ' : '\u2193 ') + pct(v) + ' ' + t.toplan;
   } else { d1.textContent = ''; d1.className = ''; }
+  // спарклайн численности линии по закрытым месяцам
+  const lineHist = ROWS.filter(r => r.block === 'line' && r.key === 'in_line' && isNum(r.fact))
+    .sort((a,b) => a.month - b.month);
+  const spEl = document.getElementById('sp1');
+  if(lineHist.length > 1){
+    const W = 160, H = 34, vals = lineHist.map(r => r.fact);
+    const mn = Math.min(...vals), mx = Math.max(...vals), rng = (mx - mn) || 1;
+    const px = i => i * W / (vals.length - 1);
+    const py = v => H - 3 - (v - mn) / rng * (H - 8);
+    const pts = vals.map((v,i) => px(i) + ',' + py(v)).join(' ');
+    const last = vals.length - 1;
+    spEl.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">' +
+      '<defs><linearGradient id="spGrad" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="var(--accent)" stop-opacity=".30"/>' +
+      '<stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>' +
+      '<path class="sa" d="M0,' + H + ' L' + pts.split(' ').join(' L') + ' L' + W + ',' + H + ' Z"/>' +
+      '<polyline class="sl" points="' + pts + '"/>' +
+      '<circle class="sd" cx="' + px(last) + '" cy="' + py(vals[last]) + '" r="2.6"/></svg>';
+  } else spEl.innerHTML = '';
+
+  // изменение к прошлому месяцу
+  const prevLeft = (pick('line', m-1).find(r => r.key === 'left_month') || {}).fact;
+  const d4 = document.getElementById('d4');
+  const monthClosed = (pick('line', m).find(r => r.key === 'closed') || {}).fact === 1;
+  if(!isYear && monthClosed && isNum(leftSum) && isNum(prevLeft) && prevLeft > 0){
+    const diff = leftSum - prevLeft;
+    const pctDiff = Math.round(diff / prevLeft * 100);
+    d4.className = 'dlt ' + (diff > 0 ? 'warn' : (diff < 0 ? 'good' : 'flat'));
+    d4.textContent = (diff > 0 ? '\u2191 +' : (diff < 0 ? '\u2193 ' : '')) + pctDiff + '% ' + t.toprev;
+  } else { d4.textContent = ''; d4.className = 'dlt'; }
+
   const isClosed = g(line,'closed').fact === 1;
   document.getElementById('linenote').textContent = isYear
     ? t.yearNote
