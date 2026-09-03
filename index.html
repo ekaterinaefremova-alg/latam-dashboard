@@ -101,7 +101,20 @@
     text-decoration:none;font-size:11px;font-weight:500;color:var(--mute)}
   .chart .col i.plan{position:absolute;left:-1px;right:-1px;border-top:1px dashed var(--mute);
     opacity:.65;font-style:normal}
-  .chartbox{padding-bottom:2px;padding-top:16px}
+  .chartbox{padding-bottom:2px;padding-top:14px}
+  .lead{font-size:13px;font-weight:600;color:var(--fg);margin:0 0 2px}
+  .lead b{color:var(--accent)}
+  .legend{display:flex;gap:16px;align-items:center;margin:10px 0 0;font-size:11px;color:var(--mute)}
+  .legend i{font-style:normal;display:inline-flex;align-items:center;gap:6px}
+  .legend i::before{content:"";width:11px;height:9px;border-radius:2px;background:var(--fill)}
+  .legend i.pale::before{background:var(--fill-2)}
+  .legend i.dash::before{height:0;border-top:1px dashed var(--mute);border-radius:0;width:15px}
+  .chart{position:relative}
+  .chart .avg{position:absolute;left:0;right:0;border-top:1px dashed var(--accent);opacity:.55;
+    font-style:normal;pointer-events:none}
+  .chart .avg span{position:absolute;right:0;top:-15px;font-size:10px;font-weight:600;
+    color:var(--accent);background:var(--panel);padding:0 4px}
+  .chart .col span.v em{display:block;font-style:normal;font-size:10px;font-weight:500;color:var(--mute)}
   .note{font-size:12px;color:var(--mute);margin-top:12px;line-height:1.5}
   footer{margin-top:34px;font-size:12px;color:var(--mute);border-top:1px solid var(--line);padding-top:14px}
   @media(max-width:960px){.g2{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}
@@ -177,15 +190,34 @@
   <div class="grid g2">
     <section>
       <div class="cap" id="c_lined"></div>
-      <div class="body chartbox"><div class="chart" id="ch_line"></div>
+      <div class="body chartbox"><p class="lead" id="lead_line"></p>
+        <div class="chart" id="ch_line"></div>
+        <div class="legend"><i id="lg_fact"></i><i class="dash" id="lg_plan"></i></div>
         <div class="note" id="n_line"></div></div>
     </section>
     <section>
       <div class="cap" id="c_attr"></div>
-      <div class="body chartbox"><div class="chart" id="ch_attr"></div>
+      <div class="body chartbox"><p class="lead" id="lead_attr"></p>
+        <div class="chart" id="ch_attr"></div>
+        <div class="legend"><i id="lg_left"></i><i class="dash" id="lg_avg"></i></div>
         <div class="note" id="n_attr"></div></div>
     </section>
   </div>
+
+  <div class="zone" id="z6"></div>
+  <section>
+    <div class="cap" id="c_fc"></div>
+    <div class="body">
+      <p class="lead" id="lead_fc"></p>
+      <div class="chart" id="ch_fc"></div>
+      <div class="legend"><i id="lg_fc"></i><i class="dash" id="lg_fcplan"></i></div>
+      <table id="fc"><thead><tr>
+        <th id="h_month"></th><th class="n" id="h_forecast"></th><th class="n h_plan"></th>
+        <th class="n" id="h_done2"></th><th style="width:150px"></th>
+      </tr></thead><tbody></tbody></table>
+      <div class="note" id="n_fc"></div>
+    </div>
+  </section>
 
   <div class="zone" id="z5"></div>
   <section>
@@ -219,7 +251,7 @@ const PASSWORD = "latam2026";
 
 const UI = {
  ru:{hint:"Введите пароль",ok:"Войти",wrong:"Неверный пароль",loading:"Загрузка…",upd:"Обновлено:",
-  z1:"Сводка за месяц",z2:"Воронки подбора",z3:"Наём по ролям",z4:"Динамика по месяцам",z5:"Стоимость найма",
+  z1:"Сводка за месяц",z2:"Воронки подбора",z3:"Наём по ролям",z4:"Динамика по месяцам",z5:"Стоимость найма",z6:"Прогноз линии",fc:"Прогноз линии до конца года",lgfc:"Прогноз",lgfcplan:"План",leadfc:"К концу года прогноз ",leadfc2:" при плане ",nfc:"Прогноз строится по недельной модели набора и оттока. Закрытые месяцы показывают факт.",
   tcm:"Воронка TCM",tut:"Воронка тьюторов",hiring:"План и факт по ролям",
   lined:"Линия на конец месяца",attr:"Текучесть линии",cph:"Стоимость найма, $",cost:"Стоимость найма по потокам",
   k1:"На линии",k2:"На испытательном",k3:"В онбординге",k4:"Ушло за месяц",k5:"Стоимость найма",
@@ -227,7 +259,7 @@ const UI = {
   stream:"Поток",spend:"Расход, $",hires:"Наняли",cphh:"За найм, $",
   noplan:"нет плана",hide:"Скрыть без плана",showall:"Показать все",hidden:" · скрыто ролей без плана: ",nodata:"Нет данных за месяц",nocost:"Нет данных о стоимости за этот месяц",
   ppl:"чел.",nattr:"Верхняя цифра — сколько ушло, ниже — доля от средней численности линии.",
-  nline:"Пунктир — план на конец месяца",ncph:"Стоимость одного найма, все потоки",
+  nline:"Пунктир — план. Месяцы без столбика ещё не наступили.",lgfact:"Факт на линии",lgplan:"План",lgleft:"Ушло за месяц",lgavg:"Среднее за период",avgw:"среднее",planw:"план",leadline:"На конец месяца на линии ",leadline2:" при плане ",leadattr:"В среднем уходит ",leadattr2:" от численности линии в месяц",ncph:"Стоимость одного найма, все потоки",
   ncost:"Источник — вкладка Cost LatAm.",
   toplan:"к плану",notePlan:"План на конец месяца: ",
   live:"Линия — живая цифра на сегодня, фиксируется в конце месяца.",
@@ -237,7 +269,7 @@ const UI = {
   months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
   short:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"]},
  en:{hint:"Enter password",ok:"Log in",wrong:"Wrong password",loading:"Loading…",upd:"Updated:",
-  z1:"Month summary",z2:"Recruitment funnels",z3:"Hiring by role",z4:"Monthly trends",z5:"Cost per hire",
+  z1:"Month summary",z2:"Recruitment funnels",z3:"Hiring by role",z4:"Monthly trends",z5:"Cost per hire",z6:"Line forecast",fc:"Line forecast to year end",lgfc:"Forecast",lgfcplan:"Plan",leadfc:"By year end the forecast is ",leadfc2:" against a plan of ",nfc:"The forecast uses the weekly intake and attrition model. Closed months show fact.",
   tcm:"TCM funnel",tut:"Tutor funnel",hiring:"Plan vs fact by role",
   lined:"Line at month end",attr:"Line attrition",cph:"Cost per hire, $",cost:"Cost per hire by stream",
   k1:"On line",k2:"On probation",k3:"In onboarding",k4:"Left this month",k5:"Cost per hire",
@@ -245,7 +277,7 @@ const UI = {
   stream:"Stream",spend:"Spend, $",hires:"Hires",cphh:"Per hire, $",
   noplan:"no plan",hide:"Hide no-plan",showall:"Show all",hidden:" · roles without a plan hidden: ",nodata:"No data for this month",nocost:"No cost data for this month",
   ppl:"ppl",nattr:"Top number — people who left, below — share of average line headcount.",
-  nline:"Dashed line — plan at month end",ncph:"Cost of one hire, all streams",
+  nline:"Dashed line — plan. Months without a bar have not happened yet.",lgfact:"On line, fact",lgplan:"Plan",lgleft:"Left during month",lgavg:"Period average",avgw:"avg",planw:"plan",leadline:"At month end on line ",leadline2:" against a plan of ",leadattr:"On average ",leadattr2:" of the line leaves per month",ncph:"Cost of one hire, all streams",
   ncost:"Source — Cost LatAm tab.",
   toplan:"vs plan",notePlan:"Plan for month end: ",
   live:"Line is a live figure as of today, frozen at month end.",
@@ -255,7 +287,7 @@ const UI = {
   months:["January","February","March","April","May","June","July","August","September","October","November","December"],
   short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
  es:{hint:"Introduce la contraseña",ok:"Entrar",wrong:"Contraseña incorrecta",loading:"Cargando…",upd:"Actualizado:",
-  z1:"Resumen del mes",z2:"Embudos de selección",z3:"Contratación por rol",z4:"Tendencias mensuales",z5:"Coste por contratación",
+  z1:"Resumen del mes",z2:"Embudos de selección",z3:"Contratación por rol",z4:"Tendencias mensuales",z5:"Coste por contratación",z6:"Previsión de la línea",fc:"Previsión de la línea hasta fin de año",lgfc:"Previsión",lgfcplan:"Plan",leadfc:"A cierre de año la previsión es ",leadfc2:" frente a un plan de ",nfc:"La previsión usa el modelo semanal de incorporaciones y salidas. Los meses cerrados muestran el real.",
   tcm:"Embudo TCM",tut:"Embudo de tutores",hiring:"Plan y real por rol",
   lined:"Línea al cierre del mes",attr:"Rotación de la línea",cph:"Coste por contratación, $",cost:"Coste por contratación por flujo",
   k1:"En línea",k2:"En periodo de prueba",k3:"En onboarding",k4:"Salidas del mes",k5:"Coste por contratación",
@@ -263,7 +295,7 @@ const UI = {
   stream:"Flujo",spend:"Gasto, $",hires:"Contrataciones",cphh:"Por contrat., $",
   noplan:"sin plan",hide:"Ocultar sin plan",showall:"Mostrar todo",hidden:" · roles sin plan ocultos: ",nodata:"Sin datos para este mes",nocost:"Sin datos de coste para este mes",
   ppl:"pers.",nattr:"Cifra superior — personas que salieron, debajo — cuota de la plantilla media.",
-  nline:"Línea discontinua — plan al cierre del mes",ncph:"Coste de una contratación, todos los flujos",
+  nline:"Línea discontinua — plan. Los meses sin barra aún no han ocurrido.",lgfact:"En línea, real",lgplan:"Plan",lgleft:"Salidas del mes",lgavg:"Media del periodo",avgw:"media",planw:"plan",leadline:"Al cierre del mes en línea ",leadline2:" frente a un plan de ",leadattr:"De media sale ",leadattr2:" de la línea al mes",ncph:"Coste de una contratación, todos los flujos",
   ncost:"Fuente — pestaña Cost LatAm.",
   toplan:"vs plan",notePlan:"Plan al cierre del mes: ",
   live:"La línea es una cifra en vivo de hoy, se congela al cierre del mes.",
@@ -345,16 +377,19 @@ async function load(){
   }));
 }
 
-function chart(el, items){
+function chart(el, items, avg){
   const vals  = items.map(i => isNum(i.v) ? i.v : 0);
   const plans = items.map(i => isNum(i.p) ? i.p : 0);
   const max = Math.max(...vals, ...plans, 0.0001);
-  el.innerHTML = items.map(i => {
+  const avgLine = (avg && isNum(avg.v))
+    ? '<i class="avg" style="bottom:' + Math.min(avg.v/max*100, 100) + '%"><span>' + avg.label + '</span></i>'
+    : '';
+  el.innerHTML = avgLine + items.map(i => {
     const h  = isNum(i.v) ? Math.max(i.v/max*100, 2) : 0;
     const ph = isNum(i.p) ? Math.min(i.p/max*100, 100) : null;
     return '<div class="col">' +
       (ph !== null ? '<i class="plan" style="bottom:' + ph + '%"></i>' : '') +
-      '<span class="v">' + (i.top || '') + '</span>' +
+      '<span class="v">' + (i.top || '') + (i.sub ? '<em>' + i.sub + '</em>' : '') + '</span>' +
       '<span class="b' + (i.dim ? '' : ' on') + '" style="height:' + h + '%"></span>' +
       '<u>' + i.label + '</u></div>';
   }).join('');
@@ -386,8 +421,10 @@ function applyChrome(){
   set('l_k1',t.k1); set('l_k2',t.k2); set('l_k3',t.k3); set('l_k4',t.k4); set('l_k5',t.k5);
   set('h_role',t.role); set('h_done',t.done); set('h_stream',t.stream);
   set('h_spend',t.spend); set('h_hires',t.hires); set('h_cph',t.cphh);
-  set('n_attr',t.nattr); set('n_line',t.nline); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', t.foot + '   ·   build v7 · 03.09.2026');
+  set('n_attr',t.nattr); set('n_line',t.nline);
+  set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
+  set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('lg_fcplan',t.lgfcplan); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
+  set('foot', t.foot + '   ·   build v11 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -472,14 +509,44 @@ function render(){
   const lineMonths = pick('line').filter(r => r.key === 'in_line' && (isNum(r.fact) || isNum(r.plan)));
   chart(document.getElementById('ch_line'), lineMonths.map(r => ({
     label:t.short[r.month-1], v:r.fact, p:r.plan, dim:r.month !== m,
-    top: isNum(r.fact) ? String(Math.round(r.fact)) : ''
+    top: isNum(r.fact) ? String(Math.round(r.fact)) : '',
+    sub: isNum(r.plan) ? t.planw + ' ' + Math.round(r.plan) : ''
   })));
+  const leadL = document.getElementById('lead_line');
+  leadL.innerHTML = (isNum(onLine) && isNum(planLine))
+    ? t.leadline + '<b>' + onLine + '</b>' + t.leadline2 + '<b>' + planLine + '</b>'
+    : '';
 
   const attr = pick('attrition').filter(r => isNum(r.plan) && r.plan > 0);
+  const attrAvg = attr.length
+    ? attr.reduce((a,r) => a + (isNum(r.extra) ? r.extra : 0), 0) / attr.length : null;
   chart(document.getElementById('ch_attr'), attr.map(r => ({
     label:t.short[r.month-1], v:r.extra, dim:r.month !== m,
-    top: (isNum(r.fact) ? r.fact + ' ' + t.ppl : '') + (isNum(r.extra) ? '<br>' + pct(r.extra) : '')
+    top: isNum(r.extra) ? pct(r.extra) : '',
+    sub: isNum(r.fact) ? r.fact + ' ' + t.ppl : ''
+  })), isNum(attrAvg) ? {v:attrAvg, label:t.avgw + ' ' + pct(attrAvg)} : null);
+  const leadA = document.getElementById('lead_attr');
+  leadA.innerHTML = isNum(attrAvg)
+    ? t.leadattr + '<b>' + pct(attrAvg) + '</b>' + t.leadattr2 : '';
+
+  /* --- прогноз линии --- */
+  const fc = pick('forecast').filter(r => isNum(r.fact) || isNum(r.plan));
+  chart(document.getElementById('ch_fc'), fc.map(r => ({
+    label:t.short[r.month-1], v:r.fact, p:r.plan, dim:r.month !== m,
+    top: isNum(r.fact) ? String(Math.round(r.fact)) : '',
+    sub: isNum(r.plan) ? t.planw + ' ' + Math.round(r.plan) : ''
   })));
+  const lastFc = fc.filter(r => isNum(r.fact)).slice(-1)[0];
+  document.getElementById('lead_fc').innerHTML = lastFc
+    ? t.leadfc + '<b>' + Math.round(lastFc.fact) + '</b>' +
+      (isNum(lastFc.plan) && lastFc.plan > 0 ? t.leadfc2 + '<b>' + Math.round(lastFc.plan) + '</b>' : '')
+    : '';
+  document.querySelector('#fc tbody').innerHTML = fc.length ? fc.map(r => {
+    const v = r.plan ? r.fact/r.plan : null;
+    return '<tr><td>' + t.months[r.month-1] + '</td><td class="n">' + num(r.fact) + '</td><td class="n">' +
+      (isNum(r.plan) && r.plan > 0 ? r.plan : '—') + '</td><td class="n ' + (v!==null&&v>=1?'good':(v!==null&&v<0.9?'warn':'')) + '">' +
+      pct(v) + '</td><td>' + (v === null ? '' : bar(v, r.month !== m)) + '</td></tr>';
+  }).join('') : '<tr><td colspan="5" class="empty">' + t.nodata + '</td></tr>';
 
   /* --- зона 5: стоимость по потокам --- */
   const cost = pick('cost', m).filter(r => isNum(r.plan) || isNum(r.fact) || isNum(r.extra));
