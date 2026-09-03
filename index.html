@@ -53,6 +53,7 @@
   body[data-theme="dark"] .logo::after{border-left-color:#7C4DEE}
   .logo.sm{font-size:12px;padding:2px 8px 3px}
   .logo.sm::after{left:8px;bottom:-5px;border-left-width:6px;border-bottom-width:6px}
+  #gate[hidden]{display:none !important}
   #gate{position:fixed;inset:0;z-index:50;margin:0;padding:28px;background:#12172A;
     display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
   #gate .deco{position:absolute;inset:0;pointer-events:none;opacity:.5}
@@ -68,6 +69,7 @@
   #gate button:hover{background:#6D33E8}
   #gate .err{color:#F58C86;font-size:12px;min-height:16px;margin-top:10px}
   #gate .foot{position:absolute;bottom:24px;color:#4E566E;font-size:11px;letter-spacing:.4px}
+  #app[hidden]{display:none !important}
   .brand{display:flex;align-items:center;gap:11px}
   #gate-old{max-width:320px;margin:16vh auto 0}
 
@@ -216,7 +218,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V29</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V30</div>
 </div>
 </div>
 
@@ -641,7 +643,7 @@ function applyChrome(){
   set('n_attr',t.nattr); set('n_line',t.nline);
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v29 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v30 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -652,8 +654,9 @@ function applyChrome(){
 }
 
 function boot(){
-  document.getElementById('gate').hidden = true;
-  document.getElementById('app').hidden = false;
+  const gate = document.getElementById('gate'), app = document.getElementById('app');
+  gate.hidden = true;  gate.style.display = 'none';
+  app.hidden = false;  app.style.display = '';
   applyChrome();
   document.getElementById('upd').textContent = new Date().toLocaleString(
     lang === 'ru' ? 'ru-RU' : (lang === 'es' ? 'es-ES' : 'en-GB'), {dateStyle:'short', timeStyle:'short'});
