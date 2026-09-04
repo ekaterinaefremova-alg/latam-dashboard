@@ -183,6 +183,25 @@
   tbody tr:last-child td{border-bottom:none}
   .src{display:inline-block;font-size:9.5px;font-weight:600;letter-spacing:.3px;
     text-transform:uppercase;color:var(--mute);margin-left:9px;vertical-align:1px}
+  .wkstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;
+    margin:14px 0 18px}
+  .wk-card{position:relative;border:1px solid var(--line);border-radius:11px;
+    padding:11px 13px 14px;background:var(--panel);overflow:hidden;box-shadow:var(--shadow);
+    transition:transform .18s ease}
+  .wk-card:hover{transform:translateY(-1px)}
+  .wk-card::before{content:"";position:absolute;inset:0 auto 0 0;width:3px}
+
+  .wk-card.ok{background:linear-gradient(155deg,var(--accent-soft) 0%,var(--panel) 58%)}
+  .wk-card.ok::before{background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+  .wk-card.near::before{background:linear-gradient(180deg,var(--fill-2),var(--mute))}
+  .wk-card.low::before{background:linear-gradient(180deg,var(--bad),var(--fill-2))}
+  .wk-card .wd{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--mute)}
+  .wk-card .wv{display:block;font-size:24px;font-weight:700;letter-spacing:-.7px;line-height:1.05;
+    margin-top:7px;font-variant-numeric:tabular-nums}
+  .wk-card .wp{display:block;font-size:11px;font-weight:600;margin-top:5px}
+  .wk-card .barwrap{margin-top:9px}
+  .wk-card .wp.up{color:var(--ok)} .wk-card .wp.down{color:var(--bad)} .wk-card .wp.flat{color:var(--mute)}
+  .wk-card .wn{display:block;font-size:10px;color:var(--mute);margin-top:2px}
   .chip{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;
     margin-left:8px;vertical-align:1px;white-space:nowrap}
   .chip.ok{background:var(--accent-soft);color:var(--accent)}
@@ -311,7 +330,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V50</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V54</div>
 </div>
 </div>
 
@@ -397,6 +416,7 @@
     <div class="cap" id="c_fc"></div>
     <div class="body">
       <p class="lead" id="lead_fc"></p>
+      <div class="wkstrip" id="wkstrip"></div>
       <div id="ch_line"></div>
       <div class="legend"><i class="solid" id="lg_fact"></i><i class="fcast" id="lg_fc"></i><i class="dash" id="lg_plan"></i></div>
       <table id="fc"><thead><tr>
@@ -451,14 +471,14 @@ const UI = {
   stream:"Поток",spend:"Расход, $",cpo:"За онборд, $",cpoShort:"онборд",hires:"Наняли",cphh:"За найм, $",
   noplan:"нет плана",hide:"Скрыть без плана",showall:"Показать все",hidden:" · скрыто ролей без плана: ",nodata:"Нет данных за месяц",nocost:"Нет данных о стоимости за этот месяц",
   ppl:"чел.",nattr:"Сверху — % от средней численности, под ним — сколько человек",
-  nline:"Пунктир — план. Месяцы без столбика ещё не наступили.",lgfact:"Факт на линии",lgplan:"План",lgleft:"Ушло за месяц",lgavg:"Среднее за период",avgw:"среднее",planw:"план",leadline:"На конец месяца на линии ",leadline2:" при плане ",leadattr:"В среднем уходит ",leadattr2:" от численности линии в месяц",ncph:"Онборд — доведённый до онбординга. Найм — вышедший на линию.",leadcost:"Найм TCM стоит ",leadcost2:", тьютора — ",
+  nline:"Пунктир — план. Месяцы без столбика ещё не наступили.",lgfact:"Факт на линии",lgplan:"План",lgleft:"Ушло за месяц",lgavg:"Среднее за период",avgw:"среднее",planw:"план",toplanShort:"к плану",leadline:"На конец месяца на линии ",leadline2:" при плане ",leadattr:"В среднем уходит ",leadattr2:" от численности линии в месяц",ncph:"Онборд — доведённый до онбординга. Найм — вышедший на линию.",leadcost:"Найм TCM стоит ",leadcost2:", тьютора — ",
   ncost:"Источник — вкладка Cost LatAm.",
   toplan:"к плану",toprev:"к прошлому месяцу",notePlan:"План на конец месяца: ",
   live:"Линия — живая цифра на сегодня, фиксируется в конце месяца.",
   closed:"Линия — зафиксированный итог месяца.",
   noteNow:"Испытательный и онбординг — текущий срез.",
   foot:"Источник — вкладка DASH_export рабочей таблицы.",
-  year:"Весь год",totalw:"Год",mxnote:"В ячейке: выполнение плана, под ним факт из плана",outof:"из",onplan:"в плане",srcFact:"факт",srcFc:"прогноз",nearplan:"почти",behind:"отстаём",lgfull:"план выполнен",lgpart:"длина полосы — выполнение",snap:"· на конец последнего закрытого месяца",yearNote:"Итоги года: план и факт просуммированы по закрытым месяцам. Линия — последний зафиксированный месяц.",cphYear:"Стоимость найма за год = расход за год / наймы за год.",months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+  year:"Весь год",totalw:"Год",mxnote:"В ячейке: выполнение плана, под ним факт из плана",outof:"из",onplan:"В плане",srcFact:"факт",srcFc:"прогноз",nearplan:"Риск",behind:"Дефицит",lgfull:"план выполнен",lgpart:"длина полосы — выполнение",snap:"· на конец последнего закрытого месяца",yearNote:"Итоги года: план и факт просуммированы по закрытым месяцам. Линия — последний зафиксированный месяц.",cphYear:"Стоимость найма за год = расход за год / наймы за год.",months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
   short:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"]},
  en:{hint:"Enter password",ok:"Log in",wrong:"Wrong password",loading:"Loading…",upd:"Updated:",
   z1:"Month summary",z2:"Recruitment funnels",z3:"Hiring by role",z4:"Line attrition",z5:"Cost per hire",z6:"Line forecast",fc:"Line forecast to year end",lgfc:"Forecast",lgfcplan:"Plan",leadfc:"By year end the forecast is ",leadfc2:" against a plan of ",nfc:"Past weeks are fact, future ones come from the weekly intake and attrition model. The tag shows whether we meet the plan.",
@@ -469,14 +489,14 @@ const UI = {
   stream:"Stream",spend:"Spend, $",cpo:"Per onboard, $",cpoShort:"onboard",hires:"Hires",cphh:"Per hire, $",
   noplan:"no plan",hide:"Hide no-plan",showall:"Show all",hidden:" · roles without a plan hidden: ",nodata:"No data for this month",nocost:"No cost data for this month",
   ppl:"ppl",nattr:"Top — % of average headcount, below — people",
-  nline:"Dashed line — plan. Months without a bar have not happened yet.",lgfact:"On line, fact",lgplan:"Plan",lgleft:"Left during month",lgavg:"Period average",avgw:"avg",planw:"plan",leadline:"At month end on line ",leadline2:" against a plan of ",leadattr:"On average ",leadattr2:" of the line leaves per month",ncph:"Onboard — reached onboarding. Hire — started on the line.",leadcost:"A TCM hire costs ",leadcost2:", a tutor — ",
+  nline:"Dashed line — plan. Months without a bar have not happened yet.",lgfact:"On line, fact",lgplan:"Plan",lgleft:"Left during month",lgavg:"Period average",avgw:"avg",planw:"plan",toplanShort:"vs plan",toplanShort:"vs plan",leadline:"At month end on line ",leadline2:" against a plan of ",leadattr:"On average ",leadattr2:" of the line leaves per month",ncph:"Onboard — reached onboarding. Hire — started on the line.",leadcost:"A TCM hire costs ",leadcost2:", a tutor — ",
   ncost:"Source — Cost LatAm tab.",
   toplan:"vs plan",toprev:"vs last month",toprev:"vs last month",notePlan:"Plan for month end: ",
   live:"Line is a live figure as of today, frozen at month end.",
   closed:"Line is the frozen month-end figure.",
   noteNow:"Probation and onboarding are a current snapshot.",
   foot:"Source — DASH_export tab of the working spreadsheet.",
-  year:"Full year",totalw:"Year",mxnote:"In each cell: plan achievement, below fact of plan",outof:"of",onplan:"on plan",srcFact:"fact",srcFc:"forecast",nearplan:"close",behind:"behind",lgfull:"plan met",lgpart:"bar length — achievement",snap:"· at the end of the last closed month",yearNote:"Year to date: plan and fact summed over closed months. Line is the last frozen month.",cphYear:"Cost per hire for the year = year spend / year hires.",months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  year:"Full year",totalw:"Year",mxnote:"In each cell: plan achievement, below fact of plan",outof:"of",onplan:"On plan",srcFact:"fact",srcFc:"forecast",nearplan:"At risk",behind:"Behind",lgfull:"plan met",lgpart:"bar length — achievement",snap:"· at the end of the last closed month",yearNote:"Year to date: plan and fact summed over closed months. Line is the last frozen month.",cphYear:"Cost per hire for the year = year spend / year hires.",months:["January","February","March","April","May","June","July","August","September","October","November","December"],
   short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
  es:{hint:"Introduce la contraseña",ok:"Entrar",wrong:"Contraseña incorrecta",loading:"Cargando…",upd:"Actualizado:",
   z1:"Resumen del mes",z2:"Embudos de selección",z3:"Contratación por rol",z4:"Rotación de la línea",z5:"Coste por contratación",z6:"Previsión de la línea",fc:"Previsión de la línea hasta fin de año",lgfc:"Previsión",lgfcplan:"Plan",leadfc:"A cierre de año la previsión es ",leadfc2:" frente a un plan de ",nfc:"Las semanas pasadas son reales, las futuras vienen del modelo semanal. La etiqueta indica si llegamos al plan.",
@@ -487,14 +507,14 @@ const UI = {
   stream:"Flujo",spend:"Gasto, $",cpo:"Por onboarding, $",cpoShort:"onboarding",hires:"Contrataciones",cphh:"Por contrat., $",
   noplan:"sin plan",hide:"Ocultar sin plan",showall:"Mostrar todo",hidden:" · roles sin plan ocultos: ",nodata:"Sin datos para este mes",nocost:"Sin datos de coste para este mes",
   ppl:"pers.",nattr:"Arriba — % de la plantilla media, debajo — personas",
-  nline:"Línea discontinua — plan. Los meses sin barra aún no han ocurrido.",lgfact:"En línea, real",lgplan:"Plan",lgleft:"Salidas del mes",lgavg:"Media del periodo",avgw:"media",planw:"plan",leadline:"Al cierre del mes en línea ",leadline2:" frente a un plan de ",leadattr:"De media sale ",leadattr2:" de la línea al mes",ncph:"Onboarding — llegó al onboarding. Contratación — se incorporó a la línea.",leadcost:"Una contratación TCM cuesta ",leadcost2:", un tutor — ",
+  nline:"Línea discontinua — plan. Los meses sin barra aún no han ocurrido.",lgfact:"En línea, real",lgplan:"Plan",lgleft:"Salidas del mes",lgavg:"Media del periodo",avgw:"media",planw:"plan",toplanShort:"vs plan",leadline:"Al cierre del mes en línea ",leadline2:" frente a un plan de ",leadattr:"De media sale ",leadattr2:" de la línea al mes",ncph:"Onboarding — llegó al onboarding. Contratación — se incorporó a la línea.",leadcost:"Una contratación TCM cuesta ",leadcost2:", un tutor — ",
   ncost:"Fuente — pestaña Cost LatAm.",
   toplan:"vs plan",toprev:"vs mes anterior",notePlan:"Plan al cierre del mes: ",
   live:"La línea es una cifra en vivo de hoy, se congela al cierre del mes.",
   closed:"La línea es la cifra congelada de cierre de mes.",
   noteNow:"Periodo de prueba y onboarding son una foto actual.",
   foot:"Fuente — pestaña DASH_export de la hoja de trabajo.",
-  year:"Año completo",totalw:"Año",mxnote:"En cada celda: cumplimiento, debajo real de plan",outof:"de",onplan:"en plan",srcFact:"real",srcFc:"previsión",nearplan:"cerca",behind:"por debajo",lgfull:"plan cumplido",lgpart:"longitud de la barra — cumplimiento",snap:"· al cierre del último mes cerrado",yearNote:"Resumen del año: plan y real sumados por meses cerrados. La línea es el último mes congelado.",cphYear:"Coste por contratación del año = gasto anual / contrataciones anuales.",months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
+  year:"Año completo",totalw:"Año",mxnote:"En cada celda: cumplimiento, debajo real de plan",outof:"de",onplan:"En plan",srcFact:"real",srcFc:"previsión",nearplan:"En riesgo",behind:"Por debajo",lgfull:"plan cumplido",lgpart:"longitud de la barra — cumplimiento",snap:"· al cierre del último mes cerrado",yearNote:"Resumen del año: plan y real sumados por meses cerrados. La línea es el último mes congelado.",cphYear:"Coste por contratación del año = gasto anual / contrataciones anuales.",months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
   short:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]}
 };
 
@@ -746,7 +766,7 @@ function applyChrome(){
   set('lg_tcm','TCM'); set('lg_tut','Tutors');
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v50 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v54 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -1020,11 +1040,27 @@ function render(){
       linePts[i-1].fc = linePts[i-1].fact;
   lineChart(document.getElementById('ch_line'), linePts, isYear ? -1 : m);
 
+  const closedOf = mo => (pick('line', mo).find(r => r.key === 'closed') || {}).fact === 1;
   const weeks = isYear ? [] : ROWS.filter(r => r.block === 'forecast_week' && r.month === m && isNum(r.fact))
       .sort((a,b) => (a.order||0) - (b.order||0))
       .map(r => ({month:m, label:r.extra, plan:r.plan, fact:r.fact, week:true, src:r.dim}));
-  const fc = weeks.concat(
-    pick('forecast').filter(r => (isYear || r.month > m) && (isNum(r.fact) || (isNum(r.plan) && r.plan > 0))));
+  const strip = document.getElementById('wkstrip');
+  strip.innerHTML = (isYear || !weeks.length) ? '' : weeks.map(w => {
+    const v = w.plan ? w.fact/w.plan : null;
+    const d = isNum(w.plan) ? w.fact - w.plan : null;
+    const cls = v === null ? 'near' : (v >= 1 ? 'ok' : (v >= 0.9 ? 'near' : 'low'));
+    const dcls = d === null ? 'flat' : (d > 0 ? 'up' : (d < 0 ? 'down' : 'flat'));
+    const dtxt = d === null ? t.noplan
+      : (d > 0 ? '+' + d : String(d)) + ' ' + t.toplanShort;
+    return '<div class="wk-card ' + cls + '">' +
+      '<span class="wd">' + w.label + ' · ' + (w.src === 'fact' ? t.srcFact : t.srcFc) + '</span>' +
+      '<b class="wv">' + num(w.fact) + '</b>' +
+      '<span class="wp ' + dcls + '">' + dtxt + '</span>' +
+      (v === null ? '' : bar(v)) +
+      '<span class="wn">' + (isNum(w.plan) ? t.planw + ' ' + w.plan : '') + '</span></div>';
+  }).join('');
+
+  const fc = pick('forecast').filter(r => (isYear || r.month > m) && isNum(r.fact));
   const lastFc = fc.filter(r => isNum(r.fact)).slice(-1)[0];
   document.getElementById('lead_fc').innerHTML = lastFc
     ? t.leadfc + '<b>' + Math.round(lastFc.fact) + '</b>' +
@@ -1035,8 +1071,8 @@ function render(){
     const chip = v === null ? ''
       : '<span class="chip ' + (v >= 1 ? 'ok' : (v >= 0.9 ? 'near' : 'low')) + '">' +
         (v >= 1 ? t.onplan : (v >= 0.9 ? t.nearplan : t.behind)) + '</span>';
-    const srcTag = r.week && r.src
-      ? '<span class="src">' + (r.src === 'fact' ? t.srcFact : t.srcFc) + '</span>' : '';
+    const isFact = r.week ? (r.src === 'fact') : closedOf(r.month);
+    const srcTag = '<span class="src">' + (isFact ? t.srcFact : t.srcFc) + '</span>';
     return '<tr' + (r.week ? ' class="wk"' : '') + '><td>' +
       (r.label || t.months[r.month-1]) + srcTag + chip + '</td><td class="n">' +
       (isNum(r.plan) && r.plan > 0 ? r.plan : '—') + '</td><td class="n">' + num(r.fact) + '</td><td class="n ' + (v!==null&&v>=1?'good':(v!==null&&v<0.9?'warn':'')) + '">' +
