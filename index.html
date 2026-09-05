@@ -267,11 +267,9 @@
   .chart .col{flex:1;position:relative;height:100%;display:flex;align-items:flex-end}
   .chart .col span.v{position:absolute;top:-27px;left:0;right:0;text-align:center;
     font-size:11px;font-weight:600;line-height:1.3;color:var(--fg-2);white-space:nowrap}
-  .chart .col span.b{width:100%;border-radius:5px 5px 0 0;min-height:3px;
-    background:linear-gradient(180deg,var(--fill) 0%,var(--fill-2) 100%)}
-  .chart .col span.b{background:linear-gradient(180deg,var(--accent-2) 0%,var(--accent) 100%);opacity:.5}
-  .chart .col span.b.on{background:linear-gradient(180deg,var(--accent-2) 0%,var(--accent) 100%);opacity:1}
-  .chart .col span.b.on{background:linear-gradient(180deg,var(--accent) 0%,var(--accent-2) 100%)}
+  .chart .col span.b{width:100%;border-radius:5px 5px 0 0;min-height:3px;opacity:.45;
+    background:linear-gradient(90deg,var(--accent) 0%,var(--accent-2) 100%)}
+  .chart .col span.b.on{opacity:1}
   .chart .col u{position:absolute;bottom:-22px;left:0;right:0;text-align:center;
     text-decoration:none;font-size:11px;font-weight:500;color:var(--mute)}
   .chart .col i.plan{position:absolute;left:-1px;right:-1px;border-top:1px dashed var(--mute);
@@ -333,7 +331,7 @@
     <button id="go"></button>
     <div class="err" id="err"></div>
   </div>
-  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V55</div>
+  <div class="foot">ALGONOVA · INTERNAL ANALYTICS · BUILD V57</div>
 </div>
 </div>
 
@@ -481,7 +479,7 @@ const UI = {
   closed:"Линия — зафиксированный итог месяца.",
   noteNow:"Испытательный и онбординг — текущий срез.",
   foot:"Источник — вкладка DASH_export рабочей таблицы.",
-  year:"Весь год",totalw:"Год",mxnote:"В ячейке: выполнение плана, под ним факт из плана",outof:"из",factw:"факт",onplan:"В плане",srcFact:"факт",srcFc:"прогноз",nearplan:"Риск",behind:"Дефицит",lgfull:"план выполнен",lgpart:"длина полосы — выполнение",snap:"· на конец последнего закрытого месяца",yearNote:"Итоги года: план и факт просуммированы по закрытым месяцам. Линия — последний зафиксированный месяц.",cphYear:"Стоимость найма за год = расход за год / наймы за год.",months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+  year:"Весь год",totalw:"Год",mxnote:"В ячейке: выполнение плана, под полосой — факт из плана",outof:"из",factw:"факт",onplan:"В плане",srcFact:"факт",srcFc:"прогноз",nearplan:"Риск",behind:"Дефицит",lgfull:"план выполнен",lgpart:"длина полосы — выполнение",snap:"· на конец последнего закрытого месяца",yearNote:"Итоги года: план и факт просуммированы по закрытым месяцам. Линия — последний зафиксированный месяц.",cphYear:"Стоимость найма за год = расход за год / наймы за год.",months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
   short:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"]},
  en:{hint:"Enter password",ok:"Log in",wrong:"Wrong password",loading:"Loading…",upd:"Updated:",
   z1:"Month summary",z2:"Recruitment funnels",z3:"Hiring by role",z4:"Line attrition",z5:"Cost per hire",z6:"Line forecast",fc:"Line forecast to year end",lgfc:"Forecast",lgfcplan:"Plan",leadfc:"By year end the forecast is ",leadfc2:" against a plan of ",nfc:"Past weeks are fact, future ones come from the weekly intake and attrition model. The tag shows whether we meet the plan.",
@@ -499,7 +497,7 @@ const UI = {
   closed:"Line is the frozen month-end figure.",
   noteNow:"Probation and onboarding are a current snapshot.",
   foot:"Source — DASH_export tab of the working spreadsheet.",
-  year:"Full year",totalw:"Year",mxnote:"In each cell: plan achievement, below fact of plan",outof:"of",factw:"fact",onplan:"On plan",srcFact:"fact",srcFc:"forecast",nearplan:"At risk",behind:"Behind",lgfull:"plan met",lgpart:"bar length — achievement",snap:"· at the end of the last closed month",yearNote:"Year to date: plan and fact summed over closed months. Line is the last frozen month.",cphYear:"Cost per hire for the year = year spend / year hires.",months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  year:"Full year",totalw:"Year",mxnote:"In each cell: plan achievement, below the bar — fact of plan",outof:"of",factw:"fact",onplan:"On plan",srcFact:"fact",srcFc:"forecast",nearplan:"At risk",behind:"Behind",lgfull:"plan met",lgpart:"bar length — achievement",snap:"· at the end of the last closed month",yearNote:"Year to date: plan and fact summed over closed months. Line is the last frozen month.",cphYear:"Cost per hire for the year = year spend / year hires.",months:["January","February","March","April","May","June","July","August","September","October","November","December"],
   short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
  es:{hint:"Introduce la contraseña",ok:"Entrar",wrong:"Contraseña incorrecta",loading:"Cargando…",upd:"Actualizado:",
   z1:"Resumen del mes",z2:"Embudos de selección",z3:"Contratación por rol",z4:"Rotación de la línea",z5:"Coste por contratación",z6:"Previsión de la línea",fc:"Previsión de la línea hasta fin de año",lgfc:"Previsión",lgfcplan:"Plan",leadfc:"A cierre de año la previsión es ",leadfc2:" frente a un plan de ",nfc:"Las semanas pasadas son reales, las futuras vienen del modelo semanal. La etiqueta indica si llegamos al plan.",
@@ -517,7 +515,7 @@ const UI = {
   closed:"La línea es la cifra congelada de cierre de mes.",
   noteNow:"Periodo de prueba y onboarding son una foto actual.",
   foot:"Fuente — pestaña DASH_export de la hoja de trabajo.",
-  year:"Año completo",totalw:"Año",mxnote:"En cada celda: cumplimiento, debajo real de plan",outof:"de",factw:"real",onplan:"En plan",srcFact:"real",srcFc:"previsión",nearplan:"En riesgo",behind:"Por debajo",lgfull:"plan cumplido",lgpart:"longitud de la barra — cumplimiento",snap:"· al cierre del último mes cerrado",yearNote:"Resumen del año: plan y real sumados por meses cerrados. La línea es el último mes congelado.",cphYear:"Coste por contratación del año = gasto anual / contrataciones anuales.",months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
+  year:"Año completo",totalw:"Año",mxnote:"En cada celda: cumplimiento, bajo la barra — real de plan",outof:"de",factw:"real",onplan:"En plan",srcFact:"real",srcFc:"previsión",nearplan:"En riesgo",behind:"Por debajo",lgfull:"plan cumplido",lgpart:"longitud de la barra — cumplimiento",snap:"· al cierre del último mes cerrado",yearNote:"Resumen del año: plan y real sumados por meses cerrados. La línea es el último mes congelado.",cphYear:"Coste por contratación del año = gasto anual / contrataciones anuales.",months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
   short:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]}
 };
 
@@ -769,7 +767,7 @@ function applyChrome(){
   set('lg_tcm','TCM'); set('lg_tut','Tutors');
   set('lg_fact',t.lgfact); set('lg_plan',t.lgplan); set('lg_left',t.lgleft); set('lg_avg',t.lgavg);
   set('z6',t.z6); set('c_fc',t.fc); set('lg_fc',t.lgfc); set('n_fc',t.nfc); set('n_cph',t.ncph); set('n_cost',t.ncost);
-  set('foot', 'Algonova · ' + t.foot + '   ·   build v55 · 03.09.2026');
+  set('foot', 'Algonova · ' + t.foot + '   ·   build v57 · 03.09.2026');
   document.querySelectorAll('.h_plan').forEach(e => e.textContent = t.plan);
   document.querySelectorAll('.h_fact').forEach(e => e.textContent = t.fact);
   document.querySelectorAll('.h_stage').forEach(e => e.textContent = t.stage);
@@ -970,8 +968,7 @@ function render(){
       const headline = hasPlan ? pct(v) : (isNum(c.fact) ? c.fact : '—');
       return '<td class="c"><b' + (v !== null && v >= 1 ? ' class="hit"' : '') + '>' + headline + '</b>' +
              (hasPlan ? mxbar(v) : '') +
-             '<i>' + t.planw + ' ' + (hasPlan ? c.plan : '—') + ' · ' + t.factw + ' ' +
-             (isNum(c.fact) ? c.fact : '—') + '</i></td>';
+             '<i>' + (isNum(c.fact) ? c.fact : '—') + ' ' + t.outof + ' ' + (hasPlan ? c.plan : '—') + '</i></td>';
     }, row => {
       let p=0, f=0;
       if(row.snap){ const last = mos.filter(mo => isNum((row.cells[mo]||{}).fact)).slice(-1)[0];
@@ -982,7 +979,7 @@ function render(){
       const headline = p ? pct(v) : (f || '—');
       return '<td class="c last"><b' + (v !== null && v >= 1 ? ' class="hit"' : '') + '>' + headline + '</b>' +
              (p ? mxbar(v) : '') +
-             '<i>' + t.planw + ' ' + (p||'—') + ' · ' + t.factw + ' ' + f + '</i></td>';
+             '<i>' + f + ' ' + t.outof + ' ' + (p||'—') + '</i></td>';
     }, t);
     hpNote.innerHTML = '<span class="mxlegend">' +
       '<span>' + t.mxnote + '</span>' +
